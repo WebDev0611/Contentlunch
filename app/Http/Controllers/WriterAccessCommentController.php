@@ -28,6 +28,7 @@ class WriterAccessCommentController extends Controller {
 
     public function fetch ()
     {
+        // TODO Change
         $orders = $this->getUsersOrders();
 
         foreach ($orders as $order) {
@@ -50,11 +51,17 @@ class WriterAccessCommentController extends Controller {
 
     public function getOrderComments ($orderId)
     {
-        if (!collect($this->getUsersOrders())->pluck('order')->contains('id', $orderId)) {
+        $order = Auth::user()->writerAccessOrders()->whereOrderId($orderId)->first();
+
+        if (!$order) {
             return response()->json(['data' => 'You don\'t have sufficient permissions to do this.'], 403);
         }
 
-        return WriterAccessComment::whereOrderId($orderId)->orderBy('timestamp', 'asc')->get();
+        return $order->comments()
+            ->with('user')
+            ->with('order.writer')
+            ->with('order.editor')
+            ->orderBy('timestamp', 'asc')->get();
     }
 
     public function postOrderComment (Request $request, $orderId)
@@ -66,7 +73,7 @@ class WriterAccessCommentController extends Controller {
             return response()->json($content, 500);
         }
 
-        $this->order = $this->getUsersOrders([$orderId])[0];
+        $this->order = $this->getUsersOrders([$orderId])[0]; // TODO Change
         $this->fetchNewComments($orderId);
 
         return response()->json(['message' => 'Comment successfully posted.']);
@@ -83,34 +90,6 @@ class WriterAccessCommentController extends Controller {
                 $this->createNewComment($comment);
             }
         });
-    }
-
-    private function getUsersOrders ($ids = [])
-    {
-        if (!empty($ids)) {
-            $tmpOrders = [];
-            foreach ($ids as $id) {
-                $tmpOrders[] = json_decode(utf8_encode($this->WAController->getOrders($id)->getContent()))->orders;
-            }
-            $allOrders = collect($tmpOrders)->flatten();
-        }
-        else {
-            $allOrders = collect(json_decode(utf8_encode($this->WAController->getOrders()->getContent()))->orders);
-        }
-
-        // Get only orders that belong to one of our users' projects
-        $orders = [];
-        foreach ($allOrders as $singleOrder) {
-            $user = $this->users->where('writer_access_Project_id', (string)$singleOrder->project->id)->first();
-            if ($user) {
-                $orders[] = [
-                    'user_id' => $user->id,
-                    'order'   => $singleOrder
-                ];
-            }
-        }
-
-        return $orders;
     }
 
     private function createNewComment ($comment)

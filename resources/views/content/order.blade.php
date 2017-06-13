@@ -147,38 +147,67 @@
                     </ul>
                 </div>
 
-                <div class="panel-footer">
-                    <div class="input-group">
-                        <input id="commentInput" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary btn-sm" id="commentButton">
-                                Post
-                            </button>
-                        </span>
-                    </div>
-                </div>
-{{--
-                @if(count($comments) > 0)
+                <content-order-comment-list order-id="{{$order->order_id}}"></content-order-comment-list>
+
+                <!--
                 <div class="panel-body">
                     <ul class="comment">
-                        @foreach ($comments as $comment)
-                            @if(isset($comment->writer))
-                                @include("content.partials.dashboard.comment-writer")
-                            @elseif(isset($comment->editor))
-                                @include("content.partials.dashboard.comment-editor")
-                            @elseif(isset($comment->client))
-                                @include("content.partials.dashboard.comment-client")
-                            @endif
-                        @endforeach
+
+                        <li class="right clearfix">
+                            <span class="comment-img pull-right">
+                                <img src="{{$order->writer->photo}}" alt="User Avatar" class="img-circle"/>
+                            </span>
+                            <div class="comment-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">{{ $order->writer->name }}</strong>
+                                    <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span> 4 mins ago
+                                    </small>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sagittis vitae nisl non laoreet. Aliquam non nisi at leo sollicitudin efficitur. Mauris vel eros ornare, vestibulum turpis in
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="left clearfix">
+                            <span class="comment-img pull-left">
+                                <img src="{{ \Auth::user()->present()->profile_image }}" alt="User Avatar" class="img-circle"/>
+                            </span>
+                            <div class="comment-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">{{ \Auth::user()->present()->name }}</strong>
+                                    <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span> 2 hours ago
+                                    </small>
+                                </div>
+                                <p>
+                                    Lasdaslkjdosal
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="right clearfix">
+                            <span class="comment-img pull-right">
+                                <img src="/images/cl-avatar2.png" alt="User Avatar" class="img-circle"/>
+                            </span>
+                            <div class="comment-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">{{ $order->writer->name }}</strong>
+                                    <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span> 4 days ago
+                                    </small>
+                                </div>
+                                <p>
+                                    LAsldlasdasd
+                                </p>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
-                @else
-                    <div class="alert alert-info alert-forms margin-20">
-                        <p><strong>No comments have been posted for this order.</strong>
-                        </p>
-                    </div>
-                @endif
-                --}}
+-->
+
             </aside> <!-- End Side Pane -->
 
         </div>
@@ -193,7 +222,7 @@
         }
 
         #writer-img{
-            width: 60px;
+            width: 66px;
         }
 
         .rating-star{
@@ -233,10 +262,6 @@
         {
             margin: 0;
             color: #777777;
-        }
-
-        .img-circle{
-            width: 66px;
         }
 
         .alert.margin-20{
