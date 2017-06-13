@@ -40,13 +40,6 @@ class WriterAccessOrdersController extends Controller {
                 'flash_message_important' => true,
             ]);
         }
-        elseif ($order->status != 'Pending Approval' && $order->status != 'Approved') {
-            return redirect()->route('content_orders.index')->with([
-                'flash_message'           => 'This order is not yet available for preview.',
-                'flash_message_type'      => 'danger',
-                'flash_message_important' => true,
-            ]);
-        }
 
         $connections = Account::selectedAccount()
             ->connections()

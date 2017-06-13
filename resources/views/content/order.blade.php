@@ -22,7 +22,7 @@
                             <div class="col-md-6 text-right">
                                 <div class="head-actions">
                                     <a
-                                        @if($order->status === "Approved") disabled @endif
+                                        @if($order->status !== "Pending Approval") disabled @endif
                                         class="button button-outline-secondary button-small delimited approve"
                                         name="action"
                                         value="written_content"
@@ -106,7 +106,7 @@
                                     @if($order->status === "Approved")
                                         <b>APPROVED</b> ({{ Carbon\Carbon::parse($order->approved)->diffForHumans() }})
                                     @else
-                                        <b>Pending Approval</b>
+                                        <b>{{$order->status}}</b>
                                     @endif
                                     {{--<input class="input-calendar input form-control" type="text" readonly value="{{ $order-> }}">--}}
                                 </div>

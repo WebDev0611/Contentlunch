@@ -23,12 +23,19 @@
             </div>
 
             <div class="create-panel-table-cell text-right">
-                <a v-if="order.status === 'Approved' || order.status === 'Pending Approval'"
-                   :href="'/content/orders/' + order.order_id">
+                <span v-if="order.status === 'In Progress'" class="label label-primary">Order in progress</span>
+                <span v-else-if="order.status === 'Open'" class="label label-info">Order Open</span>
+                <span v-else-if="order.status === 'Pending Approval'" class="label label-warning">Order Pending Approval</span>
+                <span v-else-if="order.status === 'Approved'" class="label label-success">Order Approved</span>
+            </div>
+
+            <div class="create-panel-table-cell text-right title-cell">
+                <a v-if="order.status === 'Approved' || order.status === 'Pending Approval' || order.status === 'In Progress'"
+                   :href="'/content/orders/' + order.order_id" class="order-link">
                     <i class="icon-edit large"></i>
                 </a>
-                <span v-else class="red small">Order in progress</span>
             </div>
+
 
             <!--<div class="create-panel-table-cell text-right">
                 <span class="dashboard-performing-text small">
@@ -57,3 +64,11 @@
         }
     }
 </script>
+
+<style scoped>
+    .order-link {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+</style>
