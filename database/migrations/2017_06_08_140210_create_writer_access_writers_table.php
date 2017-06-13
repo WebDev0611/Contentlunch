@@ -21,8 +21,8 @@ class CreateWriterAccessWritersTable extends Migration
             $table->string('photo')->nullable();
             $table->string('quote')->nullable();
             $table->string('educationlevel')->nullable();
-            $table->string('summary')->nullable();
-            $table->string('specialties')->nullable();
+            $table->text('summary')->nullable();
+            $table->text('specialties')->nullable();
             $table->timestamps();
         });
     }

@@ -80,6 +80,20 @@
                                             @for($i=0; $i<$order->writer->rating; $i++)
                                                 <img class="rating-star" src="/images/icons/star.svg" alt="">
                                             @endfor
+
+                                            <div class="clearfix"></div>
+
+                                            @php
+                                                $writerInfo = '<b>Education</b>: ' . $order->writer->educationlevel . '<br>' .
+                                                              '<b>Quote</b>: ' . $order->writer->quote . '<br>' .
+                                                              '<b>Specialties</b>: ' . $order->writer->specialties . '<br>' .
+                                                              '<b>Summary</b>: ' . $order->writer->summary;
+                                            @endphp
+
+                                            <button type="button" data-toggle="popover" data-trigger="focus" title="{{ $order->writer->name }}" class="btn btn-sm btn-default writer-more"
+                                                    data-content="{{ $writerInfo }}">
+                                                More about writer
+                                            </button>
                                         </div>
                                     </div>
 
@@ -89,7 +103,11 @@
                             <div class="col-sm-6">
                                 <div class="input-form-group">
                                     <label for="dueDate">STATUS</label>
-                                    @if($order->status === "Approved") APPROVED ({{ Carbon\Carbon::parse($order->approved)->diffForHumans() }}) @else Pending Approval @endif
+                                    @if($order->status === "Approved")
+                                        <b>APPROVED</b> ({{ Carbon\Carbon::parse($order->approved)->diffForHumans() }})
+                                    @else
+                                        <b>Pending Approval</b>
+                                    @endif
                                     {{--<input class="input-calendar input form-control" type="text" readonly value="{{ $order-> }}">--}}
                                 </div>
                             </div>
@@ -111,7 +129,6 @@
                             @endphp
 
                             {!! @isset($order->preview_text) ? $order->preview_text : '<div class="alert alert-info alert-forms" role="alert"><p>Content has not been submitted for this order yet..</p></div>' !!}
-
                         </div>
 
                     </div>  <!-- End Panel Container -->
@@ -219,74 +236,34 @@
         }
 
         .img-circle{
-            width: 50px;
+            width: 66px;
         }
 
         .alert.margin-20{
             margin: 20px;
         }
 
+        div.popover{
+            width: 300px;
+        }
 
+        .popover-content {
+            line-height: 23px;
+        }
+
+        .btn.writer-more {
+            margin-top: 10px;
+        }
     </style>
 @stop
 
 
 @section('scripts')
-
-
-<script type='text/javascript'>
-    (function() {
-
-        var exampleResponse = {
-            "orders": [ {
-                "id": 7865, "comments": [
-                    {
-                        "timestamp": "2011-04-06T08:20:01",
-                        "writer": {
-                            "id": 1310,
-                            "name": "Tim G",
-                            "note": "A note from a Writer"
-                        }
-                    },
-                    {
-                        "timestamp": "2011-04-06T08:20:01",
-                        "editor": {
-                            "id": 2653,
-                            "name": "Caitlin W",
-                            "note": "A note from an Editor"
-                        }
-                    },
-                    {
-                        "timestamp": "2011-04-09T11:15:09",
-                        "client": {
-                            "note": "A note from the client"
-                        }
-                    }
-                ]
-            }
-        ]};
-
-
-        $("#commentButton").on("click", function(e){
-            var comment = $("#commentInput").val(),
-                orderId = $('[data-order-id]').data("order-id");
-            $.ajax({
-                url: "/get_content_written/comment/"+orderId,
-                method: "POST",
-                data: {comment: comment},
-                success: function(data){
-                    console.log(data);
-                    if(data.fault){
-                        $("#commentError").remove();
-                        $(".order").before('<div id="commentError" class="alert alert-danger alert-forms alert-dismissible fade in" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>' +data.fault+ '</div>');
-                    }else{
-                        window.location.reload();
-                    }
-                }
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover({
+                'html': true
             });
-        })
-
-    })();
-</script>
-<script src="/js/content.js"></script>
+        });
+    </script>
 @stop
