@@ -64,7 +64,7 @@ class ExportController extends Controller {
 
         switch ($extension) {
             case 'docx' :
-                $pathToFile = Export::orderToWordDocument($order, str_slug($order->title, '-'));
+                $pathToFile = Export::orderToWordDocument($order, str_slug($order->preview_title, '-'));
                 break;
             default:
                 return $this->danger('content_orders.index', "Unsupported extension.");

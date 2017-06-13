@@ -108,9 +108,28 @@ class Export extends Model {
         return $pathToFile;
     }
 
-    public static function orderToWordDocument ($content, $documentName = null)
+    public static function orderToWordDocument ($order, $documentName = null)
     {
-        // TODO
+        $phpWord = self::addStylesToWordDocument(new PhpWord());
+        $section = $phpWord->addSection();
+
+        // Content title
+        $section->addText($order->preview_title, 'mainTitleStyle', ['alignment' => Jc::CENTER]);
+        $section->addTextBreak(2);
+
+        // Body (html)
+        Html::addHtml($section, html_entity_decode($order->preview_text));
+        $section->addTextBreak(1);
+
+        // Footer
+        $section->addFooter()->addText('Generated on ' . date('m-d-Y') . ' at ' . date('h:i A') . ' with ContentLaunch', null, ['alignment' => Jc::RIGHT]);
+
+        // Save it
+        $pathToFile = self::exportPath() . ($documentName == null ? 'document_' . time() . '_' . str_random(16) : $documentName) . '.docx';
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($pathToFile);
+
+        return $pathToFile;
     }
 
 }

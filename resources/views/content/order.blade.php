@@ -128,9 +128,16 @@
                         </div>
 
                         <div class="input-form-group">
-                            <label for="title">TITLE</label>
-                            <p>{{$order->title}}</p>
+                            <label for="title">ORIGINAL TITLE</label>
+                            <p>{{ $order->title }}</p>
                         </div>
+
+                        @if(isset($order->preview_title))
+                            <div class="input-form-group">
+                                <label for="title">TITLE</label>
+                                <p>{{ $order->preview_title }}</p>
+                            </div>
+                        @endif
 
                         <div class="editor" style="min-height: 530px; margin-bottom: 25px;">
                             <label>CONTENT BODY</label>
