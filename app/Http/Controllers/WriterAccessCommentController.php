@@ -29,9 +29,11 @@ class WriterAccessCommentController extends Controller {
 
     public function fetch ()
     {
-        foreach (Auth::user()->writerAccessOrders as $order) {
+        foreach (WriterAccessOrder::all() as $order) {
             $this->order = $order;
-            $this->fetchNewComments($order->order_id);
+            if($order->status !== 'Open') {
+                $this->fetchNewComments($order->order_id);
+            }
         }
 
         $this->sendNotificationEmails();

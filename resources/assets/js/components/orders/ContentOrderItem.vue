@@ -31,7 +31,7 @@
 
             <div class="create-panel-table-cell text-right title-cell">
                 <a v-if="order.status === 'Approved' || order.status === 'Pending Approval' || order.status === 'In Progress'"
-                   :href="'/content/orders/' + order.order_id" class="order-link">
+                   :href="'/content/orders/' + order.order_id" class="order-link" title="View Order">
                     <i class="icon-edit large"></i>
                 </a>
             </div>

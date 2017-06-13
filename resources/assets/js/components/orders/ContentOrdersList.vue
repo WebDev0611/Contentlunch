@@ -15,11 +15,11 @@
                                 :should-show="shouldShow(order)"
             ></content-order-item>
 
-            <div v-if="!orders.length" class="alert alert-info alert-forms" role="alert">
+            <div v-if="loaded && !orders.length" class="alert alert-info alert-forms" role="alert">
                 <p>No orders at this moment.</p>
             </div>
 
-            <div v-if="orders.length && itemsPassingFilter === 0"
+            <div v-if="loaded && orders.length && itemsPassingFilter === 0"
                  class="alert alert-info alert-forms"
                  role="alert">
                 <p> There are no orders for the current filter setting.</p>

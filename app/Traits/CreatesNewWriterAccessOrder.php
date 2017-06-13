@@ -35,7 +35,7 @@ trait CreatesNewWriterAccessOrder {
 
         if (isset($data->fault)) {
             $message = 'Error when trying to get Writer Access order . ' . $orderId.' . Fault: ' . $data->fault;
-            Log::error($message);
+            Log::warning($message);
             return ['error' => true, 'message' => $message];
         }
 
