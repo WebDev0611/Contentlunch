@@ -5,31 +5,44 @@ namespace App\Traits;
 
 use App\Http\Controllers\WriterAccessController;
 use App\WriterAccessOrder;
+use Illuminate\Support\Facades\Log;
 
 trait CreatesNewWriterAccessOrder {
 
-    public function createWriterAccessOrder ($orderId)
+    public function createWriterAccessOrder ($orderId, $full = false)
     {
-        $request = request();
-        $writerAccess = new WriterAccessController($request);
-        $order = new WriterAccessOrder($request);
+        $order = new WriterAccessOrder();
 
-        $data = json_decode(utf8_encode($writerAccess->getOrders($orderId)->getContent()));
+        $apiOrder = $this->getApiOrder($orderId, $full);
 
-        if (isset($data->fault)) {
-            return redirect()->route('content_orders.index')->with([
-                'flash_message'           => $data->fault,
-                'flash_message_type'      => 'danger',
-                'flash_message_important' => true,
-            ]);
+        if(is_array($apiOrder) && isset($apiOrder['error'])) {
+            return $apiOrder;
         }
 
-        $order->fillOrder($data->orders[0]);
+        $order->fillOrder($apiOrder);
 
         try {
             return $order->save();
         } catch (\Illuminate\Database\QueryException $e) {
             return ['error' => true, 'message' => $e->errorInfo[2]];
         }
+    }
+
+    public function getApiOrder ($orderId, $full = false)
+    {
+        $writerAccess = new WriterAccessController(request());
+        $data = json_decode(utf8_encode($writerAccess->getOrders($orderId, $full)->getContent()));
+
+        if (isset($data->fault)) {
+            $message = 'Error when trying to get Writer Access order . ' . $orderId.' . Fault: ' . $data->fault;
+            Log::error($message);
+            return ['error' => true, 'message' => $message];
+        }
+
+        if (isset($data->preview)) {
+            $data->order->preview = $data->preview;
+        }
+
+        return !$full ? $data->orders[0] : $data->order;
     }
 }

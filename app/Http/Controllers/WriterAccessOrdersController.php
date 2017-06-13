@@ -64,11 +64,11 @@ class WriterAccessOrdersController extends Controller {
             $localOrder = WriterAccessOrder::whereOrderId($apiOrder->id)->first();
             if (!$localOrder) {
                 // order somehow doesn't exist in our DB so let's create it
-                $this->createWriterAccessOrder($apiOrder->id);
+                $this->createWriterAccessOrder($apiOrder->id, $this->isFull($apiOrder));
             }
-            elseif ($apiOrder->status !== $localOrder->status && $localOrder->status !== 'Deleted') {
+            else if ($apiOrder->status !== $localOrder->status && $localOrder->status !== 'Deleted') {
                 // order status has changed so let's update it
-                $fullApiOrder = $this->getFullApiOrder($apiOrder);
+                $fullApiOrder = $this->getApiOrder($apiOrder->id, $this->isFull($apiOrder));
 
                 $this->sendEmailStatusNotification([
                     'oldStatus' => $localOrder->status,
@@ -121,23 +121,6 @@ class WriterAccessOrdersController extends Controller {
         return collect($orders);
     }
 
-    private function getFullApiOrder ($apiOrder)
-    {
-        if ($apiOrder->status == 'Pending Approval' || $apiOrder->status == 'Approved') {
-            $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id, true)->getContent()));
-            if (isset($data->preview)) {
-                $data->order->preview = $data->preview;
-            }
-
-            return $data->order;
-        }
-        else {
-            $data = json_decode(utf8_encode($this->WAController->getOrders($apiOrder->id)->getContent()));
-
-            return $data->orders[0];
-        }
-    }
-
     private function sendEmailStatusNotification ($emailData)
     {
         Mail::send('emails.writeraccess_order_status_update', $emailData, function ($message) use ($emailData) {
@@ -145,5 +128,10 @@ class WriterAccessOrdersController extends Controller {
                 ->to($emailData['userEmail'])
                 ->subject('Content Order Status Change');
         });
+    }
+
+    private function isFull ($apiOrder)
+    {
+        return $apiOrder->status == 'Pending Approval' || $apiOrder->status == 'Approved';
     }
 }

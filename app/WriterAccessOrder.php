@@ -72,7 +72,7 @@ class WriterAccessOrder extends Model {
     public function fillOrder ($order)
     {
         foreach ($this->fillable as $param) {
-            $this->$param = $order->$param;
+            $this->$param = isset($order->$param) ? $order->$param : null;
         }
 
         $this->order_id = $order->id;
