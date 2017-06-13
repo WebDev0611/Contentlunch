@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendWriterAccessCommentNotification;
 use App\User;
 use App\WriterAccessComment;
+use App\WriterAccessOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,12 +29,9 @@ class WriterAccessCommentController extends Controller {
 
     public function fetch ()
     {
-        // TODO Change
-        $orders = $this->getUsersOrders();
-
-        foreach ($orders as $order) {
+        foreach (Auth::user()->writerAccessOrders as $order) {
             $this->order = $order;
-            $this->fetchNewComments($order['order']->id);
+            $this->fetchNewComments($order->order_id);
         }
 
         $this->sendNotificationEmails();
@@ -73,7 +71,7 @@ class WriterAccessCommentController extends Controller {
             return response()->json($content, 500);
         }
 
-        $this->order = $this->getUsersOrders([$orderId])[0]; // TODO Change
+        $this->order = WriterAccessOrder::whereOrderId($orderId)->first();
         $this->fetchNewComments($orderId);
 
         return response()->json(['message' => 'Comment successfully posted.']);
@@ -96,9 +94,9 @@ class WriterAccessCommentController extends Controller {
     {
         $wa_comment = new WriterAccessComment();
 
-        $wa_comment->user_id = $this->order['user_id'];
-        $wa_comment->order_id = $this->order['order']->id;
-        $wa_comment->order_title = $this->order['order']->title;
+        $wa_comment->user_id = $this->order->user->id;
+        $wa_comment->order_id = $this->order->order_id;
+        $wa_comment->order_title = $this->order->title;
         $wa_comment->timestamp = $comment->timestamp;
 
         if (property_exists($comment, 'writer')) {
@@ -123,7 +121,7 @@ class WriterAccessCommentController extends Controller {
 
     private function commentExists ($comment)
     {
-        return !$this->wa_comments->where('order_id', (string)$this->order['order']->id)
+        return !$this->wa_comments->where('order_id', (string)$this->order->order_id)
             ->where('timestamp', $comment->timestamp)->isEmpty();
     }
 }

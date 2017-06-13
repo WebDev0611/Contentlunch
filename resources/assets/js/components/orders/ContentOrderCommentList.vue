@@ -69,7 +69,7 @@
                     $.post('/api/content/orders/' + this.orderId + '/comments?fresh=true', {comment: this.message})
                         .done(response => {
                             this.refresh()
-                            swal("Done!", response.message, "success")
+                            //swal("Done!", response.message, "success")
                         })
                         .fail((xhr, status, error) => {
                             if (xhr.responseJSON.error) {

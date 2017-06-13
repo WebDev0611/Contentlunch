@@ -151,18 +151,6 @@ class ContentController extends Controller
         return view('content.create', $data);
     }
 
-    public function orderComments (Request $request, $id)
-    {
-        if(!collect($this->getOrders($request))->contains('id', $id)) {
-            return redirect()->route('content_orders.index')->with([
-                'flash_message' => 'You don\'t have sufficient permissions to do this.',
-                'flash_message_type' => 'danger',
-            ]);
-        }
-
-        return view('content.order_comments', ['orderId' => $id]);
-    }
-
     protected function getWriterLevels($assetTypeId, $wordcount)
     {
         return DB::table('writer_access_prices')
