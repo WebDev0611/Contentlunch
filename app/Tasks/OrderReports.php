@@ -12,7 +12,7 @@ class OrderReports {
     public static function sendPendingOrdersNotification ()
     {
         WriterAccessOrder::where('status', 'Pending Approval')->each(function ($order) {
-            $user = User::where('writer_access_Project_id', (string)$order->project->id)->first();
+            $user = User::where('writer_access_Project_id', (string)$order->project_id)->first();
             if ($user) {
                 Mail::send('emails.writeraccess_pending_order', [], function ($message) use ($user) {
                     $message->from("no-reply@contentlaunch.com", "Content Launch")
