@@ -1,6 +1,5 @@
 <template>
-    <div :class="index >= itemsToShow ? 'hidden' : ''"
-         v-if="passesFilter">
+    <div :class="!shouldShow ? 'hide' : ''">
 
         <div :title="order.title"
              :data-original-title="order.title"
@@ -49,15 +48,11 @@
     export default {
         name: 'content-order-item',
 
-        props: ['order', 'index', 'itemsToShow', 'filter'],
+        props: ['order', 'shouldShow'],
 
         computed: {
             borderColor() {
                 return (this.order.status === 'Approved' || this.order.status === 'Pending Approval') ? 'border-green' : ''
-            },
-
-            passesFilter() {
-                return this.filter === 'all' || this.order.status === this.filter
             }
         }
     }

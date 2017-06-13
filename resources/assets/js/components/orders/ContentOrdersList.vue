@@ -9,12 +9,10 @@
             <loading v-if='!loaded'></loading>
 
             <content-order-item v-if="orders.length"
-                                v-for="(order, key) in orders"
+                                v-for="order in orders"
                                 :order="order"
                                 :key="order.id"
-                                :index="key"
-                                :items-to-show="itemsToShow"
-                                :filter="filter"
+                                :should-show="shouldShow(order)"
             ></content-order-item>
 
             <div v-if="!orders.length" class="alert alert-info alert-forms" role="alert">
@@ -29,11 +27,11 @@
 
         </div>
 
-        <div class="create-panel-table" :class="showMorePanelClass">
+        <!--<div class="create-panel-table" :class="showMorePanelClass">
             <div class="create-panel-table-cell text-center">
                 <a @click="showMore" href="#">{{ showMorePanelText }}</a>
             </div>
-        </div>
+        </div>-->
 
     </div>
 </template>
@@ -87,6 +85,10 @@
 
             showMore() {
                 this.itemsToShow = (this.itemsToShow > this.showLimit) ? this.showLimit : this.orders.length;
+            },
+
+            shouldShow(order) {
+                return this.filter === 'all' || order.status === this.filter
             }
         }
     }
