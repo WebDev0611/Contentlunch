@@ -17,6 +17,16 @@ class WriterAccessComment extends Model {
         return $this->belongsTo('App\User');
     }
 
+    public function writer ()
+    {
+        return $this->belongsTo('App\WriterAccessWriter', 'writer_id', 'writer_id');
+    }
+
+    public function editor ()
+    {
+        return $this->belongsTo('App\WriterAccessWriter', 'editor_id', 'writer_id');
+    }
+
     public function order ()
     {
         return $this->belongsTo('App\WriterAccessOrder', 'order_id', 'order_id');

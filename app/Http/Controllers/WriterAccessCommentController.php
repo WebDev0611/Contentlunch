@@ -59,9 +59,9 @@ class WriterAccessCommentController extends Controller {
 
         return $order->comments()
             ->with('user')
-            ->with('order.writer')
-            ->with('order.editor')
-            ->orderBy('timestamp', 'asc')->get();
+            ->with('writer')
+            ->with('editor')
+            ->orderBy('timestamp', 'desc')->get();
     }
 
     public function postOrderComment (Request $request, $orderId)

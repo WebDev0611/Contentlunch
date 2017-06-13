@@ -149,65 +149,6 @@
 
                 <content-order-comment-list order-id="{{$order->order_id}}"></content-order-comment-list>
 
-                <!--
-                <div class="panel-body">
-                    <ul class="comment">
-
-                        <li class="right clearfix">
-                            <span class="comment-img pull-right">
-                                <img src="{{$order->writer->photo}}" alt="User Avatar" class="img-circle"/>
-                            </span>
-                            <div class="comment-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">{{ $order->writer->name }}</strong>
-                                    <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span> 4 mins ago
-                                    </small>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sagittis vitae nisl non laoreet. Aliquam non nisi at leo sollicitudin efficitur. Mauris vel eros ornare, vestibulum turpis in
-                                </p>
-                            </div>
-                        </li>
-
-                        <li class="left clearfix">
-                            <span class="comment-img pull-left">
-                                <img src="{{ \Auth::user()->present()->profile_image }}" alt="User Avatar" class="img-circle"/>
-                            </span>
-                            <div class="comment-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">{{ \Auth::user()->present()->name }}</strong>
-                                    <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span> 2 hours ago
-                                    </small>
-                                </div>
-                                <p>
-                                    Lasdaslkjdosal
-                                </p>
-                            </div>
-                        </li>
-
-                        <li class="right clearfix">
-                            <span class="comment-img pull-right">
-                                <img src="/images/cl-avatar2.png" alt="User Avatar" class="img-circle"/>
-                            </span>
-                            <div class="comment-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">{{ $order->writer->name }}</strong>
-                                    <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span> 4 days ago
-                                    </small>
-                                </div>
-                                <p>
-                                    LAsldlasdasd
-                                </p>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
--->
-
             </aside> <!-- End Side Pane -->
 
         </div>
