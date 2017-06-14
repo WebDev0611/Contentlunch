@@ -74,7 +74,7 @@ class WriterAccessController extends Controller
     private function getStripeCustomer(String $stripeToken){
 
         $user = Auth::user();
-        if($user->stripe_customer_id !== null){
+        if(!empty($user->stripe_customer_id)){
             $customerId = $user->stripe_customer_id;
         }else{
             $customer = Customer::create(array(
@@ -514,9 +514,9 @@ class WriterAccessController extends Controller
             $price = max($price - $orderDetails->promo_discount ,0);
 
             // Handle the Stripe payment here
-            $paymentSuccessful = $this->bulkOrderPayment($stripeToken, $price);
+            $payment = $this->bulkOrderPayment($orderDetails, $stripeToken, $price);
 
-            if($paymentSuccessful === true) {
+            if($payment === true) {
                 $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();
 
                 $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $this->apiProject, $this->apiProjectId, $stripeToken, Config::get('services.stripe.secret'), $price));
@@ -529,7 +529,7 @@ class WriterAccessController extends Controller
                     ->to('/get_content_written/bulk-order/'.$bulkOrderStatus->id)
                     ->with("orders", $orders);
             } else {
-                // TODO redirect with error msg
+                return $payment;
             }
         } catch(Exception $e){
             return $this->redirectToOrderReview($orderDetails, $e->getMessage(), 'danger');
@@ -540,33 +540,33 @@ class WriterAccessController extends Controller
         return $this->delete('/orders/'.$id);
     }
 
-    private function bulkOrderPayment ($stripeToken, $totalOrderPrice)
+    private function bulkOrderPayment ($order, $stripeToken, $totalOrderPrice)
     {
         $this->initStripe();
         $customerId = $this->getStripeCustomer($stripeToken);
 
-        if($totalOrderPrice > 0) {
-            try {
-                $charge = Charge::create([
-                    'amount'      => $totalOrderPrice * 100,
-                    'currency'    => 'usd',
-                    'description' => 'ContentLaunch Order',
-                    "customer"    => $customerId
-                ]);
-
-                if ($charge->status !== "succeeded") {
-                    throw new Exception("Card not authorized");
-                }
-                else {
-                    return true;
-                }
-            } catch (\Exception $e) {
-                echo $e->getMessage();
-                echo $e->getTrace();
-                die();
-            }
-        } else {
+        if($totalOrderPrice <= 0) {
             return true;
+        }
+
+        try {
+            $charge = Charge::create([
+                'amount'      => $totalOrderPrice * 100,
+                'currency'    => 'usd',
+                'description' => 'ContentLaunch Order',
+                "customer"    => $customerId
+            ]);
+
+            if ($charge->status === "succeeded") {
+                return true;
+            }
+
+            return $this->redirectToOrderReview($order, "Error with your card: " . $charge->status, 'danger');
+
+        }catch (\Stripe\Error\Base $e) {
+            return $this->redirectToOrderReview($order, $e->getMessage(), 'danger');
+        }catch (\Exception $e) {
+            return $this->redirectToOrderReview($order, $e->getMessage(), 'danger');
         }
     }
 
@@ -647,7 +647,7 @@ class WriterAccessController extends Controller
             curl_close($curl);
 
             Redis::set($redis_key, serialize( $output ));
-            Redis::expire($redis_key, 0); //Set cache with no expiration. We never want to post the same info twice.
+            Redis::persist($redis_key); //Set cache with no expiration. We never want to post the same info twice.
         }else{
             $output = unserialize($redis_cache);
         }
