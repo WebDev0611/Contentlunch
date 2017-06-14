@@ -157,8 +157,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/content/{content}/archive', 'ArchivedContentController@update')->name('archived_contents.update');
 
         Route::get('/content/orders', 'ContentController@orders')->name('content_orders.index');
-        Route::get('/content/orders/{id}', 'ContentController@order')->name('contentOrder');
-        Route::get('/content/orders/{id}/comments', 'ContentController@orderComments')->name('contentOrderComments');
+        Route::get('/content/orders/{id}', 'WriterAccessOrdersController@show')->name('contentOrder');
         Route::get('/content/orders/approve/{id}', 'WriterAccessController@orderApprove')->name('orderApprove');
         Route::get('/content/orders/delete/{id}', 'ContentController@orderDelete')->name('orderDelete');
         Route::get('/content/my', 'ContentController@my');
@@ -302,6 +301,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::group(['prefix' => 'export'], function () {
             Route::get('content/{id}/{extension}', 'ExportController@content')->name('export.content');
+            Route::get('order/{id}/{extension}', 'ExportController@order')->name('export.order');
         });
 
 
@@ -332,8 +332,6 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/api/contents/{content}/messages', 'ContentMessageController@store');
         Route::post('/api/contents/{content}/messages/auth', 'ContentMessageController@auth');
 
-        Route::get('/api/contents/orders-count', 'ContentController@getOrdersCount');
-
         Route::get('/api/ideas', 'IdeaController@recent');
         Route::get('/api/ideas/collaborators', 'IdeaCollaboratorsController@index');
         Route::get('/api/ideas/{idea}/collaborators', 'IdeaCollaboratorsController@index');
@@ -353,6 +351,10 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/messages', 'MessageController@index')->name('messages.index');
         Route::post('/api/messages/{user}', 'MessageController@store')->name('messages.store');
         Route::post('/api/messages/{user}/mark_as_read', 'MessageController@markAsRead')->name('messages.mark_as_read');
+
+        Route::get('/api/writeraccess-fetch-orders', 'WriterAccessOrdersController@fetch');
+        Route::get('/api/content/orders', 'WriterAccessOrdersController@getOrders');
+        Route::get('/api/content/orders-count', 'WriterAccessOrdersController@getOrdersCount');
 
         Route::get('/api/writeraccess-fetch-comments', 'WriterAccessCommentController@fetch');
         Route::get('/api/content/orders/{id}/comments', 'WriterAccessCommentController@getOrderComments');

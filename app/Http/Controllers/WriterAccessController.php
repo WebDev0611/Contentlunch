@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\CreatesNewWriterAccessOrder;
+use App\WriterAccessOrder;
 use App\WriterAccessPrice;
 use DateTime;
 use Illuminate\Http\Response;
@@ -30,6 +32,8 @@ use Illuminate\Support\Facades\Redis;
  */
 class WriterAccessController extends Controller
 {
+    use CreatesNewWriterAccessOrder;
+
     /**
      * @var string
      */
@@ -180,13 +184,24 @@ class WriterAccessController extends Controller
         }
     }
 
-    public function getOrders ($id = null)
+    public function getOrders ($id = null, $full = false)
     {
         if($id !== null) {
-            return $this->get('/orders/' . $id);
+            if (!$full) {
+                return $this->get('/orders/' . $id);
+            }
+            else {
+                $cacheKey = $id . '-' . time();
+                return $this->post('/orders/' . $id . '/previewfull', null, $cacheKey);
+            }
         }
 
         return $this->get('/orders');
+    }
+
+    public function getWriter ($id)
+    {
+        return $this->get('/writers/' . $id);
     }
 
     /**
@@ -321,6 +336,15 @@ class WriterAccessController extends Controller
 
             $errorMsg = 'An error occurred while trying to place your order. Please contact ContentLaunch support for more info. Thanks.';
             return $this->redirectToOrderReview($partialOrder, $errorMsg, 'danger');
+        } else {
+            // Save order
+            $createOrder = $this->createWriterAccessOrder($responseContent->orders[0]->id);
+            if($createOrder !== true) {
+                return $this->redirectToOrderReview($partialOrder,
+                    "Error ocurred while trying to save your order. (" . $createOrder['message'] . ")
+                     Please contact Content Launch support.",
+                    'danger');
+            }
         }
 
         return redirect()
@@ -382,9 +406,15 @@ class WriterAccessController extends Controller
             $response = $this->post('/orders', array_merge($order->toArray()));
 
             $responseContent = json_decode($response->getContent());
+
+            // Save order
+            $createOrder = $this->createWriterAccessOrder($responseContent->orders[0]->id);
+            if($createOrder !== true) {
+                echo "Error ocurred while trying to save order. (" . $createOrder['message'] . ")";
+            }
         }catch(Exception $e){
             echo $e->getMessage();
-            echo $e->getStack();
+            //echo $e->getStack();
         }
 
         return $responseContent;
@@ -521,7 +551,7 @@ class WriterAccessController extends Controller
             curl_close($curl);
 
             Redis::set($redis_key, serialize( $output ));
-            Redis::expire($redis_key, 60*20); //set cache for 20 min
+            Redis::expire($redis_key, 60*10); //set cache for 10 min
         }else{
             $output = unserialize($redis_cache);
         }

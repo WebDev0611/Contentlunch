@@ -1,31 +1,41 @@
 <template>
 
-    <div>
-        <div class="col-md-6" :class="{'pull-right' : comment.from_client}">
+    <div class="panel-body">
+        <ul class="comment">
 
-            <div class="panel panel-default single-comment"
-                 :class="{'panel-warning' : comment.from_client, 'panel-info' : !comment.from_client}">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <strong v-if="comment.from_client">You</strong>
+            <li class="clearfix" :class="liClass">
 
-                        <span v-else-if="comment.writer_name">
-                            <strong>{{comment.writer_name}}</strong> (Writer)
-                        </span>
+                <span v-if="comment.from_client" class="comment-img pull-left">
+                    <img :src="comment.user.profile_image" alt="User Avatar" class="img-circle"/>
+                </span>
 
-                        <span v-else-if="comment.editor_name">
-                            <strong>{{comment.editor_name}}</strong> (Editor)
-                        </span>
+                    <span v-else-if="comment.writer" class="comment-img pull-right">
+                    <img :src="comment.writer.photo" alt="Writer Avatar" class="img-circle"/>
+                </span>
 
-                        <span class="pull-right" v-text="formattedDate"></span>
-                    </h3>
+                    <span v-else-if="comment.editor" class="comment-img pull-right">
+                    <img :src="comment.editor.photo" alt="Editor Avatar" class="img-circle"/>
+                </span>
+
+                <div class="comment-body clearfix">
+                    <div class="header">
+
+                        <strong v-if="comment.writer" class="primary-font pull-right">{{comment.writer.name}}</strong>
+                        <strong v-else-if="comment.editor" class="primary-font pull-right">{{comment.editor.name}}</strong>
+                        <strong v-else-if="comment.from_client" class="primary-font">{{comment.user.name}}</strong>
+
+                        <small class="text-muted" :class="timeClass">
+                            <span class="glyphicon glyphicon-time"></span> {{ formattedDate }}
+                        </small>
+
+                    </div>
+                    <br v-if="!comment.from_client">
+
+                    <p> {{comment.note}} </p>
                 </div>
-                <div class="panel-body">{{comment.note}}</div>
-            </div>
+            </li>
 
-        </div>
-
-        <div class="clearfix"></div>
+        </ul>
     </div>
 
 </template>
@@ -38,14 +48,23 @@
 
         computed: {
             formattedDate() {
-                return moment(this.comment.timestamp).format("MM-DD-YYYY [at] HH:mm");
+                return moment(this.comment.timestamp).calendar();
+            },
+
+            liClass() {
+                return this.comment.from_client ? 'left' : 'right'
+            },
+
+            timeClass() {
+                return this.comment.from_client ? 'pull-right' : 'pull-left'
             }
         }
     }
 </script>
 
 <style scoped>
-    .panel-heading {
-        margin: 0;
+    .img-circle {
+        width: 44px;
+        height: 44px;
     }
 </style>

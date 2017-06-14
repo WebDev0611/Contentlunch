@@ -20,12 +20,17 @@ Vue.component('campaign-list', require('./components/campaigns/CampaignList.vue'
 Vue.component('content-orders-counter', require('./components/orders/ContentOrdersCounter.vue'));
 Vue.component('guests-invite-modal', require('./components/guests/InviteModal.vue'));
 Vue.component('guests-list', require('./components/guests/GuestList.vue'));
-Vue.component('content-order-comment', require('./components/orders/ContentOrderComment.vue'));
-Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
 Vue.component('content-messages', require('./components/messaging-system/ContentMessages.vue'));
 Vue.component('activity-feed', require('./components/dashboard/ActivityFeed.vue'));
 Vue.component('recent-content-list', require('./components/dashboard/RecentContentList.vue'));
 Vue.component('recent-ideas-list', require('./components/dashboard/RecentIdeasList.vue'));
+
+// Content Orders
+Vue.component('content-order-comment', require('./components/orders/ContentOrderComment.vue'));
+Vue.component('content-order-comment-list', require('./components/orders/ContentOrderCommentList.vue'));
+Vue.component('content-orders-list', require('./components/orders/ContentOrdersList.vue'));
+Vue.component('content-order-item', require('./components/orders/ContentOrderItem.vue'));
+Vue.component('content-orders-filter', require('./components/orders/ContentOrdersFilter.vue'));
 
 // Create Module
 Vue.component('content-filter', require('./components/create/ContentFilter.vue'));

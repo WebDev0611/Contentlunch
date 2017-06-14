@@ -1,12 +1,24 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
     <div>
-        <div class="alert alert-info" role="alert" v-if="!comments.length && loaded">
-            No comments for this order yet.
+        <loading v-if='!loaded'></loading>
+
+        <div class="panel-footer" v-if="loaded">
+                <textarea v-model="message" class="form-control input-sm"
+                          placeholder="Type your message here..."></textarea>
+
+            <span v-text="info" v-if="info.length" class="text-danger"></span>
+
+            <span class="input-group-btn post-btn">
+                            <button class="btn btn-primary btn-sm" @click="postComment"
+                                    v-if="!sending">Post</button>
+                </span>
+
+            <loading class="pull-right" v-if="sending"></loading>
         </div>
 
-        <h3 v-if="comments.length" class="order-title">{{comments[0].order_title}}</h3>
-
-        <loading v-if='!loaded'></loading>
+        <div class="alert alert-info alert-forms margin-20" v-if="!comments.length && loaded">
+            <p><strong>No comments have been posted for this order.</strong></p>
+        </div>
 
         <content-order-comment
                 v-if="loaded"
@@ -14,22 +26,6 @@
                 :key="comment.id"
                 :comment="comment"
         ></content-order-comment>
-
-        <div class="order-response" v-if="loaded">
-            <div class="col-md-8 col-md-offset-2">
-                <h4>Write a comment...</h4>
-
-                <textarea class="form-control" rows="6" v-model="message"></textarea>
-                <span v-text="info" v-if="info.length" class="text-danger"></span>
-
-                <button type="button" class="btn btn-primary pull-right" @click="postComment" v-if="!sending">
-                    Send
-                </button>
-
-                <loading class="pull-right" v-if="sending"></loading>
-
-            </div>
-        </div>
 
     </div>
 </template>
@@ -73,7 +69,7 @@
                     $.post('/api/content/orders/' + this.orderId + '/comments?fresh=true', {comment: this.message})
                         .done(response => {
                             this.refresh()
-                            swal("Done!", response.message, "success")
+                            //swal("Done!", response.message, "success")
                         })
                         .fail((xhr, status, error) => {
                             if (xhr.responseJSON.error) {
@@ -101,22 +97,22 @@
 </script>
 
 <style scoped>
-    h3.order-title {
-        margin-bottom: 40px;
-        padding-left: 15px;
-        font-weight: 600;
-    }
-
     .alert {
         margin: 0;
     }
 
-    .order-response {
-        border-top: 1px solid #dadfeb;
-        padding: 20px;
+    .post-btn {
+        margin-left: 10px !important;
+        display: inline-block;
     }
 
-    .order-response .btn {
-        margin-top: 10px;
+    textarea {
+        width: 80%;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    img.loading-relative {
+        margin: auto;
     }
 </style>

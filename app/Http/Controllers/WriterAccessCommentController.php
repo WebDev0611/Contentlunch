@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendWriterAccessCommentNotification;
 use App\User;
 use App\WriterAccessComment;
+use App\WriterAccessOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,11 +29,11 @@ class WriterAccessCommentController extends Controller {
 
     public function fetch ()
     {
-        $orders = $this->getUsersOrders();
-
-        foreach ($orders as $order) {
+        foreach (WriterAccessOrder::all() as $order) {
             $this->order = $order;
-            $this->fetchNewComments($order['order']->id);
+            if($order->status !== 'Open') {
+                $this->fetchNewComments($order->order_id);
+            }
         }
 
         $this->sendNotificationEmails();
@@ -50,11 +51,17 @@ class WriterAccessCommentController extends Controller {
 
     public function getOrderComments ($orderId)
     {
-        if (!collect($this->getUsersOrders())->pluck('order')->contains('id', $orderId)) {
+        $order = Auth::user()->writerAccessOrders()->whereOrderId($orderId)->first();
+
+        if (!$order) {
             return response()->json(['data' => 'You don\'t have sufficient permissions to do this.'], 403);
         }
 
-        return WriterAccessComment::whereOrderId($orderId)->orderBy('timestamp', 'asc')->get();
+        return $order->comments()
+            ->with('user')
+            ->with('writer')
+            ->with('editor')
+            ->orderBy('timestamp', 'desc')->get();
     }
 
     public function postOrderComment (Request $request, $orderId)
@@ -66,7 +73,7 @@ class WriterAccessCommentController extends Controller {
             return response()->json($content, 500);
         }
 
-        $this->order = $this->getUsersOrders([$orderId])[0];
+        $this->order = WriterAccessOrder::whereOrderId($orderId)->first();
         $this->fetchNewComments($orderId);
 
         return response()->json(['message' => 'Comment successfully posted.']);
@@ -85,41 +92,13 @@ class WriterAccessCommentController extends Controller {
         });
     }
 
-    private function getUsersOrders ($ids = [])
-    {
-        if (!empty($ids)) {
-            $tmpOrders = [];
-            foreach ($ids as $id) {
-                $tmpOrders[] = json_decode(utf8_encode($this->WAController->getOrders($id)->getContent()))->orders;
-            }
-            $allOrders = collect($tmpOrders)->flatten();
-        }
-        else {
-            $allOrders = collect(json_decode(utf8_encode($this->WAController->getOrders()->getContent()))->orders);
-        }
-
-        // Get only orders that belong to one of our users' projects
-        $orders = [];
-        foreach ($allOrders as $singleOrder) {
-            $user = $this->users->where('writer_access_Project_id', (string)$singleOrder->project->id)->first();
-            if ($user) {
-                $orders[] = [
-                    'user_id' => $user->id,
-                    'order'   => $singleOrder
-                ];
-            }
-        }
-
-        return $orders;
-    }
-
     private function createNewComment ($comment)
     {
         $wa_comment = new WriterAccessComment();
 
-        $wa_comment->user_id = $this->order['user_id'];
-        $wa_comment->order_id = $this->order['order']->id;
-        $wa_comment->order_title = $this->order['order']->title;
+        $wa_comment->user_id = $this->order->user->id;
+        $wa_comment->order_id = $this->order->order_id;
+        $wa_comment->order_title = $this->order->title;
         $wa_comment->timestamp = $comment->timestamp;
 
         if (property_exists($comment, 'writer')) {
@@ -144,7 +123,7 @@ class WriterAccessCommentController extends Controller {
 
     private function commentExists ($comment)
     {
-        return !$this->wa_comments->where('order_id', (string)$this->order['order']->id)
+        return !$this->wa_comments->where('order_id', (string)$this->order->order_id)
             ->where('timestamp', $comment->timestamp)->isEmpty();
     }
 }

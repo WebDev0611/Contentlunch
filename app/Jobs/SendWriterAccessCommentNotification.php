@@ -51,7 +51,7 @@ class SendWriterAccessCommentNotification extends Job implements ShouldQueue {
         $mailer->send('emails.writeraccess_comment', ['data' => $data], function ($message) {
             $message->from("no-reply@contentlaunch.com", "Content Launch")
                 ->to($this->comment->user->email)
-                ->subject('New Message from WriterAccess');
+                ->subject('New message on your order');
         });
 
         $this->comment->client_notified = true;

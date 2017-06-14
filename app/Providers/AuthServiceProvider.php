@@ -19,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Campaign' => 'App\Policies\CampaignPolicy',
         'App\Account' => 'App\Policies\AccountPolicy',
         'App\Task' => 'App\Policies\TaskPolicy',
+        'App\WriterAccessOrder' => 'App\Policies\ContentOrderPolicy',
     ];
 
     /**

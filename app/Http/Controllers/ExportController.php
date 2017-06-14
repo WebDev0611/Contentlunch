@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Content;
 use App\Export;
 use App\Traits\Redirectable;
+use App\WriterAccessOrder;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -48,6 +49,25 @@ class ExportController extends Controller {
 
         if ($locationHandle !== null) {
             $locationHandle->uploadFile($pathToFile, $content->title . '.' . $extension, $mimetype);
+        }
+
+        return response()->download($pathToFile)->deleteFileAfterSend(true);
+    }
+
+    public function order ($id, $extension)
+    {
+        $order = WriterAccessOrder::findOrFail($id);
+
+        if (Auth::user()->cant('show', $order)) {
+            return $this->danger('content_orders.index', "You don't have sufficient permissions to do this.");
+        }
+
+        switch ($extension) {
+            case 'docx' :
+                $pathToFile = Export::orderToWordDocument($order, str_slug($order->preview_title, '-'));
+                break;
+            default:
+                return $this->danger('content_orders.index', "Unsupported extension.");
         }
 
         return response()->download($pathToFile)->deleteFileAfterSend(true);

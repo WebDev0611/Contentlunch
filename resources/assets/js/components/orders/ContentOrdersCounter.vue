@@ -31,7 +31,7 @@
 
         methods: {
             refresh() {
-                $.get('/api/contents/orders-count', {'pending-approval': true})
+                $.get('/api/content/orders-count', {'pending-approval': true})
                     .then(response => this.contentOrdersToReviewCount = response.count)
                     .fail(
                         err => {
