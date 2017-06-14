@@ -403,7 +403,9 @@ class WriterAccessController extends Controller
     public function queuedOrderSubmit(Order $order)
     {
         try{
-            $response = $this->post('/orders', array_merge($order->toArray()));
+            $cache_key = $order->getProjectid() . '-' . snake_case($order->getTitle());
+
+            $response = $this->post('/orders', array_merge($order->toArray()), $cache_key);
 
             $responseContent = json_decode($response->getContent());
 
@@ -506,24 +508,29 @@ class WriterAccessController extends Controller
                 ));
             }
 
-
             if(Auth::user()->belongsToAgencyAccount()) {
                 $price -= ($price * 10/100);
             }
             $price = max($price - $orderDetails->promo_discount ,0);
 
-            $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();
+            // Handle the Stripe payment here
+            $paymentSuccessful = $this->bulkOrderPayment($stripeToken, $price);
 
-            $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $this->apiProject, $this->apiProjectId, $stripeToken, Config::get('services.stripe.secret'), $price));
+            if($paymentSuccessful === true) {
+                $bulkOrderStatus =  WriterAccessBulkOrderStatus::create();
 
-            $this->dispatch($job);
+                $job = (new WriterAccessBulkOrder($bulkOrderStatus->id, $user, $orders, $this->apiProject, $this->apiProjectId, $stripeToken, Config::get('services.stripe.secret'), $price));
 
-            $this->reducePromoCreditAmount($orderDetails);
+                $this->dispatch($job);
 
-            return redirect()
-                ->to('/get_content_written/bulk-order/'.$bulkOrderStatus->id)
-                ->with("orders", $orders);
+                $this->reducePromoCreditAmount($orderDetails);
 
+                return redirect()
+                    ->to('/get_content_written/bulk-order/'.$bulkOrderStatus->id)
+                    ->with("orders", $orders);
+            } else {
+                // TODO redirect with error msg
+            }
         } catch(Exception $e){
             return $this->redirectToOrderReview($orderDetails, $e->getMessage(), 'danger');
         }
@@ -531,6 +538,36 @@ class WriterAccessController extends Controller
 
     public function deleteOrder($id){
         return $this->delete('/orders/'.$id);
+    }
+
+    private function bulkOrderPayment ($stripeToken, $totalOrderPrice)
+    {
+        $this->initStripe();
+        $customerId = $this->getStripeCustomer($stripeToken);
+
+        if($totalOrderPrice > 0) {
+            try {
+                $charge = Charge::create([
+                    'amount'      => $totalOrderPrice * 100,
+                    'currency'    => 'usd',
+                    'description' => 'ContentLaunch Order',
+                    "customer"    => $customerId
+                ]);
+
+                if ($charge->status !== "succeeded") {
+                    throw new Exception("Card not authorized");
+                }
+                else {
+                    return true;
+                }
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+                echo $e->getTrace();
+                die();
+            }
+        } else {
+            return true;
+        }
     }
 
     /**

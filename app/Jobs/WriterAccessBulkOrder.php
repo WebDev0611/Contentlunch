@@ -28,26 +28,22 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
     private $apiProject;
     private $apiProjectId;
     private $failedOrders = [];
-    private $stripeToken;
-    private $stripeApiKey;
-    private $totalOrderPrice;
 
     /**
      * WriterAccessBulkOrder constructor.
      * @param Integer $bulkOrderStatusId
-     * @param User $user
+     * @param User    $user
      * @param Order[] $orders
-     * @param Request $originalRequest
+     * @param null    $apiProject
+     * @param null    $apiProjectId
+     * @internal param Request $originalRequest
      */
-    public function __construct($bulkOrderStatusId, User $user, array $orders, $apiProject = null, $apiProjectId = null, $stripeToken, $stripeApiKey, $totalOrderPrice){
+    public function __construct($bulkOrderStatusId, User $user, array $orders, $apiProject = null, $apiProjectId = null){
         $this->bulkOrderStatus = WriterAccessBulkOrderStatus::find($bulkOrderStatusId);
         $this->user = $user;
         $this->orders = $orders;
         $this->apiProject = $apiProject;
         $this->apiProjectId = $apiProjectId;
-        $this->stripeToken = $stripeToken;
-        $this->stripeApiKey = $stripeApiKey;
-        $this->totalOrderPrice = $totalOrderPrice;
     }
 
     /**
@@ -66,68 +62,6 @@ class WriterAccessBulkOrder extends Job implements ShouldQueue
         $this->bulkOrderStatus->completed = false;
         $this->bulkOrderStatus->total_orders = count($this->orders);
         $this->bulkOrderStatus->completed_orders = 0;
-
-        try{
-            echo "APIKEY: ".$this->stripeApiKey."\n";
-            Stripe::setApiKey($this->stripeApiKey);
-            // set up your tweaked Curl client
-            $curl = new \Stripe\HttpClient\CurlClient(array(CURLOPT_PROXY => ''));
-            // tell Stripe to use the tweaked client
-            \Stripe\ApiRequestor::setHttpClient($curl);
-        }catch(Exception $e){
-            echo $e->getMessage();
-        }
-
-        // Get/create stripe customer
-        try{
-            echo "Trying to get stripe customer\n";
-
-            if($this->user->stripe_customer_id !== null){
-                $customerId = $this->user->stripe_customer_id;
-            }else{
-                $customer = Customer::create(array(
-                    'email' => $this->user->email,
-                    'source' => $this->stripeToken,
-                ));
-
-                $customerId = $customer->id;
-                $this->user->stripe_customer_id = $customerId;
-                $this->user->save();
-            }
-
-            echo $customerId."\n";
-
-        }catch(Exception $e){
-            echo $e->getMessage();
-            echo $e->getTrace();
-            // TODO: We need to do something here to let the user know we could not process the payment.
-            die();
-        }
-
-        if($this->totalOrderPrice > 0) {
-            try{
-                echo "Trying to create a charge.\n";
-                $charge = Charge::create(array(
-                    'amount' => $this->totalOrderPrice * 100,
-                    'currency' => 'usd',
-                    'description' => 'ContentLaunch Order',
-                    "customer" => $customerId
-                ));
-
-
-                if($charge->status !== "succeeded"){
-                    throw new Exception("Card not authorized");
-                }
-
-                echo $charge->id."\n";
-
-            }catch(Exception $e){
-                echo $e->getMessage();
-                echo $e->getTrace();
-                // TODO: We need to do something here to let the user know that the card was not authorized. Maybe move this back to the controller.
-                die();
-            }
-        }
 
         foreach ($this->orders as $key=>$order){
             if(!$this->placeOrder($order)){
