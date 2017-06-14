@@ -414,7 +414,7 @@ class WriterAccessController extends Controller
             }
         }catch(Exception $e){
             echo $e->getMessage();
-            echo $e->getStack();
+            //echo $e->getStack();
         }
 
         return $responseContent;
