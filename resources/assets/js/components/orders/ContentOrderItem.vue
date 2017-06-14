@@ -1,5 +1,5 @@
 <template>
-    <div :class="!shouldShow ? 'hide' : ''">
+    <div :class="{'hide': !shouldShow}">
 
         <div :title="order.title"
              :data-original-title="order.title"
