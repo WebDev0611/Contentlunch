@@ -28,7 +28,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <div class="input-form-button">
-                            <input type="text" id="trend-search-input" placeholder="Search..." class="input-search-icon">
+                            <input type="text" id="trend-search-input" placeholder="Enter a topic, industry or keyword" class="input-search-icon">
                             <span class="input-form-button-action">
                                 <button class="button" id="trend-search">SEARCH</button>
                             </span>

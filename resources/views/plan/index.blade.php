@@ -32,7 +32,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <div class="input-form-button">
-                            <input type="text" id="topic-search-val" placeholder="Search..." class="input-search-icon">
+                            <input type="text" id="topic-search-val" placeholder="Enter a topic, industry or keyword" class="input-search-icon">
                             <span class="input-form-button-action">
                                 <button class="button" id="topic-search">SEARCH</button>
                             </span>
