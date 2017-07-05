@@ -81,10 +81,12 @@ abstract class BaseConnectionController extends Controller
 
     protected function redirectRoute()
     {
-        $redirectUrl = Session::get('redirect_route');
-        Session::forget('redirect_route');
+        $redirectRoute = $_COOKIE['redirect_route'];
 
-        return $redirectUrl ? $redirectUrl : 'connections.index';
+        setcookie("redirect_route","", time()-3600, "/");
+        unset ($_COOKIE['redirect_route']);
+
+        return $redirectRoute ? $redirectRoute : 'connections.index';
     }
 
     protected function saveConnection(array $settings, $providerSlug, $activateAccount = true)

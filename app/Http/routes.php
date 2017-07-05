@@ -68,7 +68,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
         Route::get('connect', 'OnboardingController@connect')->name('onboardingConnect');
 
-        Route::get('score', 'OnboardingController@score');
+        Route::get('score', 'OnboardingController@score')->name("onboarding.score");
 
         Route::get('/home', 'HomeController@index');
         Route::get('/dashboard', 'AccountController@stats');
@@ -311,6 +311,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
          */
         Route::delete('/api/attachments/{attachment}', 'AttachmentController@destroy')->name('attachments.destroy');
         Route::get('/api/connections', 'ConnectionController@index');
+        Route::get('/api/connections/ga', 'ConnectionController@ga');
 
         Route::get('/api/campaigns', 'CampaignController@index');
         Route::get('/api/campaigns/collaborators', 'CampaignCollaboratorsController@accountCollaborators');
@@ -359,6 +360,11 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/writeraccess-fetch-comments', 'WriterAccessCommentController@fetch');
         Route::get('/api/content/orders/{id}/comments', 'WriterAccessCommentController@getOrderComments');
         Route::post('/api/content/orders/{id}/comments', 'WriterAccessCommentController@postOrderComment');
+
+        Route::get('/api/content-score/accounts', 'ContentScoreController@accounts');
+        Route::get('/api/content-score/properties/{account_id}', 'ContentScoreController@properties');
+        Route::get('/api/content-score/profiles/{account_id}/{property_id}', 'ContentScoreController@profiles');
+        Route::get('/api/content-score/{profile_id}', 'ContentScoreController@score');
     });
 });
 
@@ -367,6 +373,8 @@ Route::get('/coming-soon',  function () {
 });
 
 Route::post('/stripe-webhook', 'StripeController@webhook');
+
+
 
 /*
  |--------------------------------------------------------------------------

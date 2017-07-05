@@ -30,6 +30,25 @@ class ConnectionController extends Controller
         ]);
     }
 
+    public function ga (){
+        $connections = response()->json(
+            $this->selectedAccount
+                ->connections()
+                ->active()
+                ->where("provider_id", "=", "16") // select only google analytic connections
+                ->get()
+        );
+
+        if(count($connections->getData()) == 0){
+            setcookie('redirect_route', 'onboarding.score', time()+3600, "/");
+        }
+
+        $test = $_COOKIE['redirect_route'];
+
+        return $connections;
+
+    }
+
     protected function accountConnections($request)
     {
         return $this->selectedAccount
@@ -177,7 +196,7 @@ class ConnectionController extends Controller
             'meta_data' => $request->input('api'),
             'connection_id' => $connection->id,
         ]);
-
+//die("Jesus die for you sins.");
         // - Lets get out of here
         return redirect()->route('connectionProvider', $request->input('con_type'));
     }

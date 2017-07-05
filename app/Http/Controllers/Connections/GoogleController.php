@@ -35,7 +35,6 @@ class GoogleController extends BaseConnectionController {
 
         echo 'Displaying data for profile: ' . $data['modelData']['profileInfo']['profileName'] . '<br>';
         echo 'Date range: ' . $data['modelData']['query']['start-date'] . ' - ' . $data['modelData']['query']['end-date'] .  '<br>';
-        var_dump($data['totalsForAllResults']);
 
         return 'ok';
     }
