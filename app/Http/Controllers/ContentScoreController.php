@@ -144,7 +144,7 @@ class ContentScoreController extends BaseController{
         $score = $score < 0 ? 0 : $score;
         return round($score, 1, PHP_ROUND_HALF_EVEN);
     }
-
+    
 
 
 
