@@ -80,7 +80,11 @@
   }
 }
 
-@include donut-chart('.primary', 91, 60px, 5px, #c6cfe1, #f2f3f9, #6944b7);
+@include donut-chart('.primary', 0, 60px, 5px, #c6cfe1, #f2f3f9, #6944b7);
+
+@for $i from 0 through 100 {
+  @include donut-chart('.primary-#{$i}', $i, 60px, 5px, #c6cfe1, #f2f3f9, #6944b7)
+}
 
 .dashboard-notification-box-count {
   font-size: 34px !important;

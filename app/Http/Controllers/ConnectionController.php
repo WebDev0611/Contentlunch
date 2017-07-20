@@ -30,6 +30,24 @@ class ConnectionController extends Controller
         ]);
     }
 
+    public function ga (){
+        $connections = response()->json(
+            $this->selectedAccount
+                ->connections()
+                ->active()
+                ->where("provider_id", "=", "16") // select only google analytic connections
+                ->get()
+        );
+
+        if(count($connections->getData()) == 0){
+            setcookie('redirect_route', 'onboarding.score', time()+3600, "/");
+        }
+
+
+        return $connections;
+
+    }
+
     protected function accountConnections($request)
     {
         return $this->selectedAccount

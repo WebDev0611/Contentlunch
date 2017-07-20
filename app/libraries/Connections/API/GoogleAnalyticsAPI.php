@@ -6,9 +6,9 @@ use oAuth\API\GoogleAnalyticsAuth;
 
 class GoogleAnalyticsAPI {
 
-    protected $auth;
+    public $auth;
 
-    protected $analyticsService;
+    public $analyticsService;
 
 
     public function __construct ($content = null, $connection = null)

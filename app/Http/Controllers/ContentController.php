@@ -32,6 +32,7 @@ use Input;
 use Response;
 use Storage;
 use Validator;
+use google\Auth\HttpHandler;
 
 class ContentController extends Controller
 {

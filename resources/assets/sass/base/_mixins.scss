@@ -743,6 +743,7 @@
       background: $base;
 
       .slice {
+
         &.one {
           clip: rect(0 $size $size/2 0);
           -webkit-transform: rotate($deg1);
@@ -772,7 +773,7 @@
           font-weight: 700;
 
           &:after {
-            content: '5.1';
+            content: "#{$perc/10}";
           }
         }
       }
