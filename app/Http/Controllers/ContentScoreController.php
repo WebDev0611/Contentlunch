@@ -119,12 +119,13 @@ class ContentScoreController extends BaseController{
         $interest = $this->cleanScore($avgSessionDuration / 11); // From google industry standard of 1:50 (110)
 
         // This calculation is based on how many of the entrances were from organic searches. A perfect score of 10
-        // wpi;d occur when 50% of the site's entrances are from organic searches. Anything less will cause a drop
+        // would occur when 60% of the site's entrances are from organic searches. Anything less will cause a drop
         // in the score.
         $search = $entrances == 0 ? 0 : $this->cleanScore($organicSearches / ($entrances / 10 * 6) * 10);
 
         // The impact of a single piece of content will be determined by how engaged the user was with the site after
-        // coming in contact with this content. Did they leave the site?
+        // coming in contact with this content. Did they leave the site? Did they engage with call to actions?
+        // Did they visit other pages on the site after reading this content?
         // Sessions over exits minus bounce percentage divided by ten.
         $impact = $exits == 0 ? 0 : $this->cleanScore($sessions / $exits - ($bounceRate / 10));
 
