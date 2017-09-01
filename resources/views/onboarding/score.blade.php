@@ -15,7 +15,7 @@
                             <div class="col-md-8 col-md-offset-2">
 
                                 <h5 class="onboarding-step-text text-center">
-                                    Peliminary Content Score
+                                    Preliminary Content Score
                                 </h5>
 
                                 <div class="onboarding-step">
@@ -128,11 +128,9 @@
                                     </div>
 
                                 </div>
-                                {{--<p>
-                                    This is your preliminary content score. By using ContentLaunch you will be able to
-                                    improve it. You wil sed placerat arcu, eget porta nibh. Sed a ornare nibh.
-                                    Phasellus sed erat ultrices nunc maximus ornare nec sed massa.
-                                </p>--}}
+                                <p>
+                                    This is your preliminary content score. By using ContentLaunch you can improve it.
+                                </p>q
                             </div>
                         </div>
 
