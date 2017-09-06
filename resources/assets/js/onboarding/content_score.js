@@ -13,6 +13,7 @@ var prelimContentScoreApp = new Vue({
         searchNegativeFeedback: "Unfortunately, you don’t have many site visitors coming from organic search. But this can be improved!",
         impactPositiveFeedback: "Visitors to your sites content are engaged! They respond to your calls to action and read other content on your site. Nice work.",
         impactNegativeFeedback: "Unfortunately, visitors to your sites content are not very engaged. Many of them leave your site quickly. But this can be improved!",
+        gaAccountName: ""
 
     },
     mounted: function(){
@@ -25,10 +26,19 @@ var prelimContentScoreApp = new Vue({
         this.scoreRow = $(".row.score");
         this.feedbackRow = $(".row.feedback");
         this.contentScoreDonutChart = $(".donut-chart.content-score");
-
         this.getGaConnections();
     },
+
     methods: {
+
+        debug(data){
+            window.debug=data;
+            console.log(data);
+        },
+
+        setGaAccountName(name) {
+            this.gaAccountName = name;
+        },
 
         getGaConnections(){
             this.message = "Checking for Active Google Analytics Connections.";
@@ -93,6 +103,7 @@ var prelimContentScoreApp = new Vue({
                 //console.log("Going for one account!");
                 // One Account call getProfiles with that account
                 this.getProperties(accounts[0].id);
+                this.setGaAccountName(accounts[0].name);
 
             }else{
                 let options = ['<option value=""> - Choose Account - </option>'];
@@ -207,7 +218,8 @@ var prelimContentScoreApp = new Vue({
         },
 
         handleScore(scoreResults){
-            this.message = "This is your preliminary content score. <br /> By using ContentLaunch you will be able to improve it.";
+            // TODO ADD SCORED URL INTO THE MESSAGE HERE.
+            this.message = "This is your preliminary content score for '"+this.gaAccountName+"'. <br /> By using ContentLaunch you will be able to improve it.";
             this.loadingRing.hide();
             this.scoreRow.hide();
             this.scoreRow.removeClass("hide");

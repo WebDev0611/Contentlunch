@@ -62,7 +62,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <button type="submit" class="btn btn-primary">
+                                                    <button type="submit" class="btn btn-primary connect-button">
                                                         Connect to Google Analytics
                                                     </button>
                                                 </div>
@@ -82,7 +82,7 @@
                                     <div class="row account hide">
                                         <div class="input-form-group">
                                             <div class="select">
-                                                <select @change="getProperties($event.target.value)" name="ga_account"></select>
+                                                <select @change="getProperties($event.target.value); setGaAccountName($event.target.item($event.target.selectedIndex).text);" name="ga_account"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -128,9 +128,9 @@
                                     </div>
 
                                 </div>
-                                <p>
+                                {{--<p>
                                     This is your preliminary content score. By using ContentLaunch you can improve it.
-                                </p>
+                                </p>--}}
                             </div>
                         </div>
 
@@ -147,7 +147,7 @@
                                     </div>
                                     <div class="onboarding-score-section col-md-6">
                                         <div class="onboarding-score-result negative">
-                                            NEGATIVE FEEDBACK:
+                                            IMPROVEMENTS:
                                         </div>
                                         <p>
                                             <span v-html="negativeFeedback"></span>
