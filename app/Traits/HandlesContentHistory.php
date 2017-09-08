@@ -31,6 +31,8 @@ trait HandlesContentHistory
         'archived' => 'Archived',
         'ready_published' => 'Ready to be published',
         'published' => 'Published',
+        'publish_url' => 'Publish URL',
+        'wordpress_post_id' => 'WordPress Post ID',
         'written' => 'Written',
         'user_id' => 'Author',
         'email_subject' => 'Email Subject',

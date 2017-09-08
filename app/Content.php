@@ -36,6 +36,8 @@ class Content extends Model
         'archived',
         'ready_published',
         'published',
+        'publish_url',
+        'wordpress_post_id',
         'written',
         'user_id',
         'email_subject',

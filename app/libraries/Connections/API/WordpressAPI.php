@@ -105,6 +105,9 @@ class WordPressAPI
             'response' => []
         ];
 
+        $post_id = null;
+        $publish_url = null;
+
         try {
             $options = $this->createOptionsAndHeaderData();
             $url = $this->baseUrl() . '/posts/new';
@@ -112,9 +115,17 @@ class WordPressAPI
             $context = stream_context_create($options);
             $apiResponse = file_get_contents($url, false, $context);
 
+            $responseData = json_decode($apiResponse);
+
+            $post_id = $responseData->ID;
+
+            $publish_url = str_replace("%postname%",
+                $responseData->other_URLs->suggested_slug,
+                $responseData->other_URLs->permalink_URL);
+
             $response = [
                 'success' => true,
-                'response' => json_decode($apiResponse),
+                'response' => $responseData,
             ];
 
         } catch (ClientException $e) {
@@ -123,7 +134,11 @@ class WordPressAPI
             $response['error'] = $responseBody->message;
         }
 
+        $this->content->wordpress_post_id =  $post_id;
+        $this->content->publish_url =  $publish_url;
         $this->content->setPublished();
+
+        $this->content->save();
 
         return $response;
     }
