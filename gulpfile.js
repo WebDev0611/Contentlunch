@@ -39,11 +39,14 @@ elixir(function (mix) {
             './bower_components/tinymce/tinymce.min.js',
             './bower_components/dropzone/dist/dropzone.js',
             './bower_components/sweetalert2/dist/sweetalert2.min.js',
-            './bower_components/fastselect/dist/fastselect.standalone.min.js',
-            './bower_components/vue/dist/vue.js'
+            './bower_components/fastselect/dist/fastselect.standalone.min.js'
         ], "public/js/vendor.js")
 
         .browserify('vue-app.js')
+
+        .scripts([
+            './bower_components/vue/dist/vue.js'
+        ], "public/js/vue.js")
 
         .scripts([
             './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',

@@ -20,8 +20,9 @@
 @yield('content')
 
 <script src="/js/vendor.js"></script>
+<script src="/js/vue.js"></script>
 <script src="/js/plugins.js"></script>
-<script src="/js/app.js"></script>
+<script src="/js/app.js"></script>z
 
 @yield('scripts')
 
