@@ -8,8 +8,8 @@
     <meta name=description content="Content Launch">
     <meta name=viewport content="initial-scale=1.0,width=device-width">
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" >
-    <link rel="stylesheet" href="/css/vendor.css">
-    <link rel=stylesheet href=/css/main.css>
+    <link rel="stylesheet" href="{{ elixir('css/vendor.css', null) }}">
+    <link rel=stylesheet href="{{ elixir('css/main.css', null) }}">
 
     <link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
     <link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">
@@ -41,8 +41,8 @@
 
 </div>
 
-<script src="/js/vendor.js"></script>
-<script src="/js/plugins.js"></script>
+<script src="{{ elixir('js/vendor.js', null) }}"></script>
+<script src="{{ elixir('js/plugins.js', null) }}"></script>
 
 <script type='text/javascript'>
     $.ajaxSetup({
@@ -54,8 +54,8 @@
 
 @include('layouts.partials.js_user')
 
-<script src="/js/app.js"></script>
-<script src="/js/vue-app.js"></script>
+<script src="{{ elixir('js/app.js', null) }}"></script>
+<script src="{{ elixir('js/vue-app.js', null) }}"></script>
 <!-- Page Specific JS -->
 @yield('scripts')
 

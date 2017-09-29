@@ -22,6 +22,36 @@ require('laravel-elixir-vueify');
 elixir(function (mix) {
     mix
         .sass('main.scss', 'public/css/main.css')
+        .version([
+            'public/css/main.css',
+            'public/css/vendor.css',
+            'public/js/vendor.js',
+            'public/js/vendor.js',
+            'public/js/vue-app.js',
+            'public/js/vue.js',
+            'public/js/plugins.js',
+            'public/js/app.js',
+            'public/js/topic.js',
+            'public/js/trends.js',
+            'public/js/avatar_view.js',
+            'public/js/onboarding.js',
+            'public/js/content.js',
+            'public/js/content-create.js',
+            'public/js/content-custom.js',
+            'public/js/ideas.js',
+            'public/js/idea_editor.js',
+            'public/js/campaign.js',
+            'public/js/calendar.js',
+            'public/js/campaign-calendar.js',
+            'public/js/calendar-helpers.js',
+            'public/js/dashboard.js',
+            'public/js/performance.js',
+            'public/js/content-settings.js',
+            'public/js/account-settings.js',
+            'public/js/subscriptions.js',
+            'public/js/task_editor.js',
+            'public/js/twitter.js'
+        ], 'public')
 
         .combine([
             './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css',
@@ -88,9 +118,11 @@ elixir(function (mix) {
         .babel('resources/assets/js/content/*.js', 'public/js/content.js')
         .babel('resources/assets/js/content/create/*.js', 'public/js/content-create.js')
         .babel('resources/assets/js/content/custom/*.js', 'public/js/content-custom.js')
+        // TODO: Make sure the {{ elixir('/js/content-custom.js', null) }} works in templates
 
         /* ideas */
         .babel('resources/assets/js/plan/ideas.js', "public/js/ideas.js")
+
         .babel([
             'resources/assets/js/plan/editor.js',
             'resources/assets/js/plan/idea_collaborators.js',
@@ -101,12 +133,15 @@ elixir(function (mix) {
 
         /* calendar scripts */
         .babel('resources/assets/js/calendar/calendar.js', "public/js/calendar.js")
+        // TODO: be sure that "{{ elixir('/js/calendar.js', null) }}" works in templates
         .babel('resources/assets/js/calendar/campaign-calendar.js', "public/js/campaign-calendar.js")
+        // TODO: be sure that {{ elixir('/js/campaign-calendar.js', null) }} will work with templates
         .babel('resources/assets/js/calendar/calendar-helpers.js', "public/js/calendar-helpers.js")
 
         /* home area scripts */
         .babel('resources/assets/js/dashboard/dashboard.js', "public/js/dashboard.js")
         .babel('resources/assets/js/dashboard/performance.js', "public/js/performance.js")
+        // TODO: be sure that {{ elixir('/js/performance.js', 'public') }} will work in templates
 
         /* settings scripts */
         .babel('resources/assets/js/settings/content/*.js', 'public/js/content-settings.js')
@@ -118,6 +153,7 @@ elixir(function (mix) {
 
         /* twitter scripts */
         .babel('resources/assets/js/collaborate/twitter.js', 'public/js/twitter.js')
+        // TODO: Be sure that {{ elixir('/js/twitter.js', 'public') }} will work with templates
 
         /* tiny mce assets */
         .copy('./bower_components/tinymce/themes', "public/js/themes")
@@ -167,6 +203,10 @@ elixir(function (mix) {
         .copy('./resources/assets/admin_theme/font-awesome/fonts', 'public/fonts')
         .copy('./resources/assets/admin_theme/css/patterns', 'public/css/patterns')
     ;
-    mix.livereload();
+    mix.livereload()
+
+    .browserSync({
+        proxy: 'localhost:3000'
+    })
 });
 

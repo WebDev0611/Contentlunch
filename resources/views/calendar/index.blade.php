@@ -189,7 +189,7 @@ var campaigns = {!! $campaigns !!};
 var calendar = {!! $cal !!};
 var my = {!! $my !!};
 </script>
-<script src="/js/calendar.js"></script>
-<script src="/js/calendar-helpers.js"></script>
-<script src="/js/content-custom.js"></script>
+<script src="{{ elixir('js/calendar.js', null) }}"></script>
+<script src="{{ elixir('js/calendar-helpers.js', null) }}"></script>
+<script src="{{ elixir('js/content-custom.js', null) }}"></script>
 @stop

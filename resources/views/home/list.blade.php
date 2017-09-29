@@ -145,5 +145,5 @@
 @stop
 
 @section('scripts')
-    <script src="/js/dashboard.js"></script>
+    <script src="{{ elixir('js/dashboard.js', null) }}"></script>
 @stop

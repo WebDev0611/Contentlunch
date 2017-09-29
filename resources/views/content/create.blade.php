@@ -156,6 +156,6 @@
         });
     </script>
 
-    <script src="/js/content-create.js"></script>
-    <script src="/js/content-custom.js"></script>
+    <script src="{{ elixir('js/content-create.js', null) }}"></script>
+    <script src="{{ elixir('js/content-custom.js', null) }}"></script>
 @stop

@@ -64,5 +64,5 @@
 
 @section('scripts')
 @include('plan.partials.backbone_templates')
-<script src="/js/trends.js"></script>
+<script src="{{ elixir('js/trends.js', null) }}"></script>
 @stop

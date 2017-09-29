@@ -168,7 +168,7 @@ var campaigns = {!! $campaigns !!};
 @stop
 
 @section('scripts')
-<script src="/js/campaign-calendar.js"></script>
+<script src="{{ elixir('js/campaign-calendar.js', null) }}"></script>
 <script>
     //tasks
     $('#add-task-button').click(function() {

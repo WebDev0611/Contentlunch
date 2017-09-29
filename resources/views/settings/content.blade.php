@@ -45,7 +45,7 @@
 @stop
 
 @section('scripts')
-<script src="/js/content-settings.js"></script>
+<script src="{{ elixir('js/content-settings.js', null) }}"></script>
 
 <script type="text/javascript">
     $(function(){

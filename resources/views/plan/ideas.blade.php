@@ -76,5 +76,5 @@
 @stop
 
 @section('scripts')
-<script src="/js/ideas.js"></script>
+<script src="{{ elixir('js/ideas.js', null) }}"></script>
 @stop

@@ -60,6 +60,6 @@
         });
     })();
 </script>
-<script src="/js/content.js"></script>
-<script src="/js/content-custom.js"></script>
+<script src="{{ elixir('js/content.js', null) }}"></script>
+<script src={{ elixir('js/content-custom.js', null) }}></script>
 @stop

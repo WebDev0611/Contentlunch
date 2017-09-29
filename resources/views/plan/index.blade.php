@@ -81,5 +81,5 @@
 
 @section('scripts')
 @include('plan.partials.backbone_templates')
-<script src="/js/topic.js"></script>
+<script src="{{ elixir('js/topic.js', null) }}"></script>
 @stop

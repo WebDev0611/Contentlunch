@@ -56,6 +56,6 @@
 @stop
 
 @section('scripts')
-<script src="js/avatar_view.js"></script>
-<script src="js/onboarding.js"></script>
+<script src="{{ elixir('js/avatar_view.js', null) }}"></script>
+<script src="{{ elixir('js/onboarding.js', null) }}"></script>
 @stop

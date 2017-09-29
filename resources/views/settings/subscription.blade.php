@@ -414,7 +414,7 @@
         {!! 'var subscriptionTypeSlug="' . $activeSubscription->subscriptionType->slug . '";' !!}
     @endif
     </script>
-    <script src="/js/subscriptions.js"></script>
+    <script src="{{ elixir('js/subscriptions.js', null) }}"></script>
 
     <script>
         $(function(){

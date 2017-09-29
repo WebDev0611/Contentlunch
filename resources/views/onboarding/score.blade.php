@@ -176,6 +176,6 @@
 
 
 @section('scripts')
-    <script src="js/onboarding.js"></script>
+    <script src="{{ elixir('js/onboarding.js', null) }}"></script>
 @stop
 

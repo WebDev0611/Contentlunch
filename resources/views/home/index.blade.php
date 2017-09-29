@@ -193,5 +193,5 @@
 @stop
 
 @section('scripts')
-<script src="/js/performance.js"></script>
+<script src="{{ elixir('js/performance.js', null) }}"></script>
 @stop

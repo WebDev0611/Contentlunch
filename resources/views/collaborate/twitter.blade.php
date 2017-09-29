@@ -228,5 +228,5 @@
 @stop
 
 @section('scripts')
-<script src="/js/twitter.js"></script>
+<script src="{{ elixir('js/twitter.js', null) }} "></script>
 @stop

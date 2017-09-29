@@ -199,5 +199,5 @@
 @stop
 
 @section('scripts')
-<script type='text/javascript' src="/js/task_editor.js"></script>
+<script type='text/javascript' src="{{ elixir('js/task_editor.js', null) }}"></script>
 @stop

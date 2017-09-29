@@ -161,7 +161,7 @@
 <script type="text/javascript">
 var idea_obj = {!! $idea !!};
 </script>
-<script src="/js/idea_editor.js"></script>
+<script src="{{ elixir('js/idea_editor.js', null) }}"></script>
 <script>
     //tasks
     $('#add-task-button').click(function() {

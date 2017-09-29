@@ -31,7 +31,7 @@
     </div>
 
     <!-- Plugins -->
-    <script src="{!! asset('js/vendor.js') !!}"></script>
+    <script src="{{ elixir('js/vendor.js', null) }}"></script>
     <script src="{!! asset('js/admin/admin_vendor.js') !!}"></script>
 
     <!-- Scripts -->

@@ -202,7 +202,7 @@
 @stop
 
 @section('scripts')
-<script src="/js/avatar_view.js"></script>
+<script src={{ elixir('js/avatar_view.js', null) }}"></script>
 <script>
 
     var view = new AvatarView({ el: '#settings-avatar' });

@@ -11,7 +11,7 @@
     <meta name="viewport" content="initial-scale=1.0,width=device-width">
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" >
 
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="{{ elixir('css/main.css', null) }}">
 
 </head>
 <body>
@@ -19,10 +19,10 @@
 @include('partials.flash')
 @yield('content')
 
-<script src="/js/vendor.js"></script>
-<script src="/js/vue.js"></script>
-<script src="/js/plugins.js"></script>
-<script src="/js/app.js"></script>z
+<script src="{{ elixir('js/vendor.js', null) }}"></script>
+<script src="{{ elixir('js/vue.js', null) }}"></script>
+<script src="{{ elixir('js/plugins.js', null) }}"></script>
+<script src="{{ elixir('js/app.js', null) }}"></script>
 
 @yield('scripts')
 
