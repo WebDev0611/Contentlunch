@@ -22,36 +22,6 @@ require('laravel-elixir-vueify');
 elixir(function (mix) {
     mix
         .sass('main.scss', 'public/css/main.css')
-        .version([
-            'public/css/main.css',
-            'public/css/vendor.css',
-            'public/js/vendor.js',
-            'public/js/vendor.js',
-            'public/js/vue-app.js',
-            'public/js/vue.js',
-            'public/js/plugins.js',
-            'public/js/app.js',
-            'public/js/topic.js',
-            'public/js/trends.js',
-            'public/js/avatar_view.js',
-            'public/js/onboarding.js',
-            'public/js/content.js',
-            'public/js/content-create.js',
-            'public/js/content-custom.js',
-            'public/js/ideas.js',
-            'public/js/idea_editor.js',
-            'public/js/campaign.js',
-            'public/js/calendar.js',
-            'public/js/campaign-calendar.js',
-            'public/js/calendar-helpers.js',
-            'public/js/dashboard.js',
-            'public/js/performance.js',
-            'public/js/content-settings.js',
-            'public/js/account-settings.js',
-            'public/js/subscriptions.js',
-            'public/js/task_editor.js',
-            'public/js/twitter.js'
-        ], 'public')
 
         .combine([
             './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css',
@@ -202,6 +172,37 @@ elixir(function (mix) {
 
         .copy('./resources/assets/admin_theme/font-awesome/fonts', 'public/fonts')
         .copy('./resources/assets/admin_theme/css/patterns', 'public/css/patterns')
+
+        .version([
+            'public/css/main.css',
+            'public/css/vendor.css',
+            'public/js/vendor.js',
+            'public/js/vendor.js',
+            'public/js/vue-app.js',
+            'public/js/vue.js',
+            'public/js/plugins.js',
+            'public/js/app.js',
+            'public/js/topic.js',
+            'public/js/trends.js',
+            'public/js/avatar_view.js',
+            'public/js/onboarding.js',
+            'public/js/content.js',
+            'public/js/content-create.js',
+            'public/js/content-custom.js',
+            'public/js/ideas.js',
+            'public/js/idea_editor.js',
+            'public/js/campaign.js',
+            'public/js/calendar.js',
+            'public/js/campaign-calendar.js',
+            'public/js/calendar-helpers.js',
+            'public/js/dashboard.js',
+            'public/js/performance.js',
+            'public/js/content-settings.js',
+            'public/js/account-settings.js',
+            'public/js/subscriptions.js',
+            'public/js/task_editor.js',
+            'public/js/twitter.js'
+        ], 'public')
     ;
     mix.livereload()
 

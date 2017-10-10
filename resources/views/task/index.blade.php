@@ -160,12 +160,19 @@
                         </div>
 
                         <div class="input-form-group">
-                            <ul class="form-image-list">
+                            <ul style="list-style-type: none;">
                                 @foreach ($task->attachments as $image)
-                                    <li class="text-right">
-                                        <a class="form-list-image-link" href="{{ $image->filename }}">
-                                            <img src="{{ $image->filename }}" alt="">
+                                    <li class="">
+                                     {{--   <a class="form-list-image-link attachement-link" target="_blank" href="{{ $image->filename }}">
+                                            <i class="fa fa-paperclip fa-5x" style="phpmargin-top: 25%;" aria-hidden="true"></i>
+                                            --}}{{--<img class="" src="{{ $image->filename }}" alt="">--}}{{--
+                                        </a>--}}
+
+                                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                        <a target="_blank" href="{{ $image->filename }}" style="padding: 10px 5px;">
+                                            {{ str_limit(basename($image->filename).PHP_EOL, 120) }}
                                         </a>
+
                                         <a data-id="{{ $image->id }}"
                                            class="attachment-delete btn btn-default btn-xs"
                                            href="#"><span class="icon icon-trash"></span></a>

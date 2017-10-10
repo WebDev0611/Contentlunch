@@ -159,6 +159,10 @@ class Helpers {
         $bucket = Config::get('filesystems.disks.s3.bucket') . '/';
         $splitUrl = explode($bucket, $fullUrl);
 
+        if(count($splitUrl) === 1){
+            $splitUrl = explode("amazonaws.com/", $fullUrl);
+        }
+
         return $splitUrl[1];
     }
 

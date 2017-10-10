@@ -31,8 +31,7 @@
         "vinkla/pusher": "~1.0",
         "google/apiclient": "^2.0",
         "spatie/laravel-activitylog": "^1.15",
-        "gathercontent/laravel-fractal": "^1.0",
-        "spatie/laravel-analytics": "2.2.0"
+        "gathercontent/laravel-fractal": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
