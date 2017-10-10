@@ -58,6 +58,7 @@ class ContentController extends Controller
 
     public function index(Request $request)
     {
+        $this->fixMissingUserIDs();
         return $request->ajax()
             ? $this->indexAjax()
             : view('content.index', $this->content->contentList($this->filters));
@@ -194,6 +195,18 @@ class ContentController extends Controller
         $data = compact('contentTypes', 'pricesJson', 'contenttypedd', 'campaigndd', 'promotion', 'userIsOnPaidAccount', 'isAgencyAccount');
 
         return view('content.create', $data);
+    }
+
+    protected function fixMissingUserIDs(){
+        $brokenContentRows = Content::all()->where('user_id', 0);
+
+        foreach($brokenContentRows as $contentRow){
+
+            $account_user_row =  DB::table('account_user')->where('account_id', $contentRow->account_id)->get();
+
+            $contentRow->user_id = $account_user_row[0]->user_id;
+            $contentRow->save();
+        }
     }
 
     protected function getWriterLevels($assetTypeId, $wordcount)
