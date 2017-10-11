@@ -204,8 +204,11 @@ class ContentController extends Controller
 
             $account_user_row =  DB::table('account_user')->where('account_id', $contentRow->account_id)->get();
 
-            $contentRow->user_id = $account_user_row[0]->user_id;
-            $contentRow->save();
+            if(isset($account_user_row[0])){
+                $contentRow->user_id = $account_user_row[0]->user_id;
+                $contentRow->save();
+            }
+
         }
     }
 
