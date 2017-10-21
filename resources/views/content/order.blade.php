@@ -25,9 +25,8 @@
                                             value="written_content"
                                             @if($order->status !== "Approved") href="/content/orders/approve/{{ $order->order_id }}" @endif>
 
-                                        <img src="/images/icons/check-large.svg"
-                                             alt="Approve">@if($order->status === "Approved") APPROVED @else
-                                            APPROVE @endif
+                                        <img class="icon" src="/images/icons/check-large.svg"
+                                             alt="Approve"><span>@if($order->status === "Approved") APPROVED @else APPROVE @endif</span>
                                     </a>
 
                                     <?php echo e(Form::open(['route' => 'contents.store', 'class' => 'content-order-launch'])); ?>
@@ -41,7 +40,7 @@
                                                 class="button button-outline-secondary button-small delimited launch"
                                                 name="action"
                                                 value="written_content">
-                                                <img src="/images/icons/spaceship-circle.svg" alt="Launch"> LAUNCH
+                                                <img class="icon" src="/images/icons/content-alert.svg" alt="Create Content"> <span>CREATE</span>
                                         </button>
 
 
@@ -56,7 +55,7 @@
                                                     type="button"
                                                     class="button button-outline-secondary button-small delimited launch"
                                                     name="action">
-                                                <img src="/images/icons/export.svg" alt="Export"> DOWNLOAD
+                                                    <img class="icon" src="/images/icons/export.svg" alt="Export"> <span>DOWNLOAD</span>
                                             </button>
                                         </a>
                                     @endif
