@@ -30,14 +30,25 @@
                                             APPROVE @endif
                                     </a>
 
+                                    <?php echo e(Form::open(['route' => 'contents.store', 'class' => 'content-order-launch'])); ?>
 
-                                    <button
-                                            type="submit"
-                                            class="button button-outline-secondary button-small delimited launch"
-                                            name="action"
-                                            value="written_content">
-                                        <img src="/images/icons/spaceship-circle.svg" alt="Launch"> LAUNCH
-                                    </button>
+
+                                        <?php echo Form::hidden('title', $order->preview_title); ?>
+                                        <?php echo Form::hidden('body', $order->preview_text); ?>
+
+                                        <button
+                                                type="submit"
+                                                class="button button-outline-secondary button-small delimited launch"
+                                                name="action"
+                                                value="written_content">
+                                                <img src="/images/icons/spaceship-circle.svg" alt="Launch"> LAUNCH
+                                        </button>
+
+
+                                    <?php echo e(Form::close()); ?>
+
+
+
 
                                     @if($order->status === "Approved")
                                         <a href="{{ route('export.order', [$order->id, 'docx']) }}">

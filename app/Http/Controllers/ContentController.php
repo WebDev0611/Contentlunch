@@ -121,6 +121,10 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
+        if(!$request->exists("content_type_id")){
+            $request->merge(["content_type_id" => 1]);
+        }
+
         $validator = $this->onSaveValidation($request->all());
 
         if ($validator->fails()) {
