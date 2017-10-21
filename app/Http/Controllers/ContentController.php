@@ -58,7 +58,6 @@ class ContentController extends Controller
 
     public function index(Request $request)
     {
-        $this->fixMissingUserIDs();
         return $request->ajax()
             ? $this->indexAjax()
             : view('content.index', $this->content->contentList($this->filters));
@@ -159,6 +158,8 @@ class ContentController extends Controller
             return response()->json(['status' => 'error saving'], 500);
         }
 
+        $this->fixMissingUserIDs();
+
         return redirect('edit/'.$content->id);
     }
 
@@ -206,7 +207,13 @@ class ContentController extends Controller
 
         foreach($brokenContentRows as $contentRow){
 
-            $account_user_row =  DB::table('account_user')->where('account_id', $contentRow->account_id)->get();
+            $account = DB::table('accounts')->where('id', $contentRow->account_id)->first();
+
+            //var_dump($account);
+
+            $root_account = empty($account->parent_account_id) ? $contentRow->account_id :$account->parent_account_id;
+
+            $account_user_row =  DB::table('account_user')->where('account_id', $root_account)->get();
 
             if(isset($account_user_row[0])){
                 $contentRow->user_id = $account_user_row[0]->user_id;
