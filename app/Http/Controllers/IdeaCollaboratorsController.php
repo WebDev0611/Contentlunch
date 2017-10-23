@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Idea;
+use Illuminate\Support\Facades\DB;
+use Mail;
 
 class IdeaCollaboratorsController extends Controller
 {
@@ -65,6 +67,22 @@ class IdeaCollaboratorsController extends Controller
     {
         $authorIds = collect($request->input('collaborators'))->merge(Auth::id())->toArray();
         $idea->collaborators()->sync($authorIds);
+
+        foreach($authorIds as $authorId){
+            $author = DB::table('users')->where('id', $authorId)->first();
+
+            $data = [
+                'link' => $_SERVER['HTTP_ORIGIN']."/idea/".$idea->id,
+                'user' => Auth::user(),
+                'idea' => $idea,
+            ];
+
+            Mail::send('emails.invite.idea_socialize', $data, function($message) use ($author) {
+                $message->from("invites@contentlaunch.com", "Content Launch")
+                    ->to($author->email)
+                    ->subject('You\'ve been invited to view and idea');
+            });
+        }
 
         return response()->json([
             'data' => Idea::find($idea->id)->collaborators()->get()
