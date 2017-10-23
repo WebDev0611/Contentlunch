@@ -605,6 +605,7 @@ class WriterAccessController extends Controller
      * @param $apiPath
      * @param array $postFields
      *
+     * @param null $cache_key
      * @return Response
      */
     private function post($apiPath, $postFields = null, $cache_key = null)
