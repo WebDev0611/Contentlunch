@@ -452,7 +452,7 @@ class WriterAccessController extends Controller
     {
         $user = Auth::user();
 
-        $response = $this->post('/projects', [ 'projectname' => $this->apiProject ]);
+        $response = $this->post('/projects', [ 'projectname' => $this->apiProject ], $this->apiProject);
         $responseContent = json_decode($response->getContent());
 
         if (!isset($responseContent->fault) && !isset($responseContent->error)) {
