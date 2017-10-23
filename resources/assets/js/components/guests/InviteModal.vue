@@ -105,7 +105,7 @@
                 let plural = this.emails.split(',').length > 1;
                 let message = plural
                     ? 'The invites were sent. The users will be able to join this piece of content as a guest'
-                    : 'The invite was sent. The user will be able to join this piece fo content as a guest';
+                    : 'The invite was sent. The user will be able to join this piece of content as a guest';
 
                 let header = plural ? 'Guests invited!' : 'Guest invited!';
 
