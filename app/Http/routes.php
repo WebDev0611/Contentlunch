@@ -305,7 +305,6 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         });
 
 
-
         /**
          * AJAX Helpers
          */
@@ -328,6 +327,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::get('/api/contents/{content}/guests', 'ContentGuestsController@index');
         Route::post('/api/contents/{content}/guests', 'ContentGuestsController@store');
         Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
+        Route::get('/api/contents/{content}/comments', 'ContentCommentsController@index');
+        Route::get('/api/contents/{content}/approvals', 'ContentCommentsController@approvals');
 
         Route::get('/api/contents/{content}/messages', 'ContentMessageController@index');
         Route::post('/api/contents/{content}/messages', 'ContentMessageController@store');
