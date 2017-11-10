@@ -239,4 +239,12 @@ class Content extends Model
     {
         return $this->dueDateDiffFromToday() <= 2;
     }
+
+    /**
+     * Get all of the approvals for the content.
+     */
+    public function approvals()
+    {
+        return $this->morphToMany('App\ContentApproval');
+    }
 }
