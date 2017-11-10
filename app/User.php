@@ -241,4 +241,21 @@ class User extends Authenticatable
     {
         return Promo::whereEmail($this->email)->active()->first();
     }
+
+    /**
+     * Get all of the approvals for the content.
+     */
+    public function approvals()
+    {
+        return $this->hasMany("App\ContentApproval")->with("content");
+    }
+
+    /**
+     * Get all of the approvals for the content.
+     */
+    public function comments()
+    {
+        return $this->hasMany("App\ContentComment")->with("content");
+    }
+
 }

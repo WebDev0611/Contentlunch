@@ -816,4 +816,10 @@ class ContentController extends Controller
         return $customContentType;
     }
 
+    public function approvals(Request $request, Content $content)
+    {
+        $approvers = $content->approvers()->get();
+        return response()->json($approvers);
+    }
+
 }

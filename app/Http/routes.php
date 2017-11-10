@@ -328,7 +328,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/api/contents/{content}/guests', 'ContentGuestsController@store');
         Route::get('/api/contents/{content}/tasks', 'ContentTasksController@index');
         Route::get('/api/contents/{content}/comments', 'ContentCommentsController@index');
-        Route::get('/api/contents/{content}/approvals', 'ContentCommentsController@approvals');
+        Route::get('/api/contents/{content}/approvals', 'ContentController@approvals');
 
         Route::get('/api/contents/{content}/messages', 'ContentMessageController@index');
         Route::post('/api/contents/{content}/messages', 'ContentMessageController@store');

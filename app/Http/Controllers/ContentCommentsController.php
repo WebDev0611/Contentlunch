@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Content;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ContentCommentController extends Controller
+class ContentCommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Content $content
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Content $content)
     {
-        //
+        $comments = $content->comments()->get();
+        return response()->json($comments);
     }
 
     /**

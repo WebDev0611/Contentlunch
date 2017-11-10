@@ -243,8 +243,17 @@ class Content extends Model
     /**
      * Get all of the approvals for the content.
      */
-    public function approvals()
+    public function approvers()
     {
-        return $this->morphToMany('App\ContentApproval');
+        return $this->hasMany("App\ContentApproval")->with("user");
     }
+
+    /**
+     * Get all of the approvals for the content.
+     */
+    public function comments()
+    {
+        return $this->hasMany("App\ContentComment")->with("user");
+    }
+
 }
