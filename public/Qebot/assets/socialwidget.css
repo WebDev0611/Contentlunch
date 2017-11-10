@@ -1,0 +1,20 @@
+#mydiv 
+{
+   	width    : 600px;
+    height   : 450px;
+    overflow : hidden;
+    position : relative;
+    box-shadow: 3px 3px 3px #888888;
+     border-style: solid;
+    border-color: #333;
+    border-width: 1px;
+}
+
+#myiframe
+{
+    position : absolute;
+    top      : -280px;
+    left     : -430px;
+    width    : 1280px;
+    height   : 1200px;
+}

@@ -1,0 +1,52 @@
+body {
+}
+
+.disable_page {
+	-webkit-filter: blur(5px);
+ 	-moz-filter: blur(5px);
+ 	-o-filter: blur(5px);
+ 	-ms-filter: blur(5px);
+ 	filter: blur(5px);
+}
+
+.disable_page * {
+   pointer-events: none;
+   cursor: default;
+   -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.page-sidebar-menu-closed .sidebar-search {
+	display: none !important;
+}
+
+@media screen and (max-width: 1187px) {
+	.nav.navbar-nav.pull-right {
+		position:absolute;
+		float:rigth !important;
+		width:70%;
+		left:43%;
+		top:0;
+	}
+}
+
+.progress-holder {
+	background:#fff;
+	border:1px solid #aaaaaa;
+	width:100%;
+}
+.progress-holder-fill {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e5e5e5+0,cccccc+50,b2b2b2+100 */
+	background: #e5e5e5; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e5e5e5 0%, #cccccc 50%, #b2b2b2 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #e5e5e5 0%,#cccccc 50%,#b2b2b2 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #e5e5e5 0%,#cccccc 50%,#b2b2b2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#b2b2b2',GradientType=0 ); /* IE6-9 */
+	border-rigth:1px solid #b2b2b2;
+	height:2em;
+	
+}
