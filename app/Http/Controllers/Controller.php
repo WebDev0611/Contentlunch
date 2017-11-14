@@ -28,6 +28,10 @@ class Controller extends BaseController
             View::make($this->contentView, $data);
     }
 
+    public function isQebotUser(){
+        return Auth::user()->qebot_user == 1;
+    }
+
     public function isGlobalAdmin()
     {
         return Auth::user()->is_admin == 1;
