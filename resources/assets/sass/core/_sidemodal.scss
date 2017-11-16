@@ -60,7 +60,7 @@
 
 .sidemodal-header-title {
   position: relative;
-  color: #6944b7;
+  color: $base-color-purple;
   margin: 0;
 
   &.large {
@@ -99,13 +99,13 @@
 .sidemodal-link {
   display: block;
   font-size: 13px;
-  color: #2482ff;
+  color: $base-color-blue;
   font-family: $source-sans-pro;
   font-weight: bold;
   margin-bottom: 15px;
 
   &:hover, &:focus {
-    color: #2482ff;
+    color: $base-color-blue;
     opacity: 0.8;
     text-decoration: none;
   }

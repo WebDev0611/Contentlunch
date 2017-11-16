@@ -57,8 +57,8 @@
 }
 
 .checkcircle.active {
-  background-color: #2482ff;
-  border-color: #2482ff;
+  background-color: $base-color-blue;
+  border-color: $base-color-blue;
   color: #fff;
   opacity: 1;
 }
@@ -95,7 +95,7 @@
 
     &:before {
       content: "NEXT TASK";
-      color: #6844B7;
+      color: $base-color-purple;
       font-size: .9em;
       font-weight: 700;
       position: absolute;
@@ -296,7 +296,7 @@
 .list-stages .active {
   background-color: #E9E3F4;
   border-color: #E9E3F4;
-  color: #6944B7;
+  color: $base-color-purple;
 }
 
 .list-stages .active:not(:last-child):before {

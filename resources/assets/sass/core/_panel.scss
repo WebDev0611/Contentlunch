@@ -70,10 +70,10 @@ $panel-border-radius: 4px;
 
     &.active > a, &:hover > a, &:focus > a {
       background: #ffffff;
-      color: #2481ff;
+      color: $base-color-blue;
       text-decoration: none;
-      /* border-top: 2px solid #2481ff; */
-      box-shadow: 0 -2px #2481ff;
+      /* border-top: 2px solid $base-color-blue; */
+      box-shadow: 0 -2px $base-color-blue;
       border-left: 1px solid #dadfeb;
       border-right: 1px solid #dadfeb;
     }
@@ -200,7 +200,7 @@ $panel-border-radius: 4px;
   bottom: 0;
   border: 0;
   background: none;
-  color: #2482ff;
+  color: $base-color-blue;
   font-family: $source-sans-pro;
   font-weight: normal;
   font-size: 16px;
@@ -209,7 +209,7 @@ $panel-border-radius: 4px;
 
   &:hover, &:focus {
     text-decoration: underline;
-    color: #2482ff;
+    color: $base-color-blue;
   }
   
   .icon-arrow-right {
@@ -362,7 +362,7 @@ $panel-border-radius: 4px;
   font-family: $source-sans-pro;
   font-size: 16px;
   font-weight: bold;
-  color: #2482FF;
+  color: $base-color-blue;
   margin: 0;
   height: 47px;
   line-height: 47px;

@@ -6,9 +6,9 @@
 
 // Variables
 $create-step-point-background: #f0eff1;
-$create-step-point-background-active: #2482ff;
-$create-step-text-color: #2482ff;
-$create-step-primary: #2482ff;
+$create-step-point-background-active: $base-color-blue;
+$create-step-text-color: $base-color-blue;
+$create-step-primary: $base-color-blue;
 
 // Classes
 .create-step {

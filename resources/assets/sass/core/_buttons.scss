@@ -7,16 +7,16 @@
 // Variables
 $button-default-color: #ffffff;
 $button-default-background: #6c7786;
-$button-primary-background: #2482ff;
+$button-primary-background: $base-color-blue;
 $button-outline-color: #6d7886;
 $button-outline-background: #6d7886;
 $button-outline-border: solid #6d7886;
 $button-disabled-opacity: 0.20;
 $button-switches-background: #f8f9fc;
 $button-switches-color: #c8c7cd;
-$button-switches-color-active: #2482ff;
+$button-switches-color-active: $base-color-blue;
 $button-switches-border: solid #dadfeb;
-$button-action-color: #2482ff;
+$button-action-color: $base-color-blue;
 
 // Classes
 .pointer {
@@ -67,7 +67,7 @@ a:hover, a:focus {
   color: #c8c7cd;
 
   &:hover, &:focus {
-    color: #2482ff;
+    color: $base-color-blue;
     background: #ffffff;
   }
 }

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Login;
 use \Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Session;
-use Auth;
 use Storage;
 use Mail;
 

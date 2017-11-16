@@ -53,7 +53,7 @@
 
             @can('guests-denied')
             @if(App\Account::selectedAccount()->activePaidSubscriptions()->isEmpty())
-                <a href="{{route('subscription')}}">
+                <a class="upgrade-link" href="{{route('subscription')}}">
                     <button class="btn btn-warning">
                         Upgrade
                     </button>

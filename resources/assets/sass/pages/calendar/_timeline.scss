@@ -27,7 +27,7 @@
     padding: 8px 10px;
     font-size: 14px;
     font-family: $source-sans-pro;
-    color: #6944b7;
+    color: $base-color-purple;
     font-weight: bold;
     height: 35px;
 
@@ -58,7 +58,7 @@
     padding: 8px;
     font-size: 14px;
     font-family: $source-sans-pro;
-    color: #6944b7;
+    color: $base-color-purple;
     font-weight: normal;
     vertical-align: top;
     height: 35px;
@@ -147,7 +147,7 @@
   width: 170px;
   height: 30px;
   padding: 2px;
-  background: #6944b7;
+  background: $base-color-purple;
   border-radius: 3px;
   vertical-align: middle;
   line-height: 1;

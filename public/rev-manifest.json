@@ -1,5 +1,6 @@
 {
-  "css/main.css": "css/main-14903470db.css",
+  "css/main-q.css": "css/main-q-a5a19d4550.css",
+  "css/main.css": "css/main-b4c57d3429.css",
   "css/vendor.css": "css/vendor-269550530c.css",
   "js/account-settings.js": "js/account-settings-36bb071208.js",
   "js/app.js": "js/app-244e089570.js",
@@ -24,6 +25,6 @@
   "js/trends.js": "js/trends-256f38d76c.js",
   "js/twitter.js": "js/twitter-96413918a2.js",
   "js/vendor.js": "js/vendor-a9ae2f3f65.js",
-  "js/vue-app.js": "js/vue-app-385af47642.js",
+  "js/vue-app.js": "js/vue-app-829a34f0fd.js",
   "js/vue.js": "js/vue-4e29912d91.js"
 }

@@ -113,8 +113,8 @@ $search-bar-border: solid #c6cfe1;
   border-radius: 3px;
 
   &:hover {
-    background-color: #2482ff;
-    border-color: #2482ff;
+    background-color: $base-color-blue;
+    border-color: $base-color-blue;
     color: #fff;
   }
 }

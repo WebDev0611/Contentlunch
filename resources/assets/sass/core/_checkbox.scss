@@ -58,14 +58,14 @@
   }
 
   &:hover > span:before {
-    box-shadow: 0 0 0 1px #2482ff;
+    box-shadow: 0 0 0 1px $base-color-blue;
   }
 
   > input[type="checkbox"]:checked + span:before {
     content: "\e913";
-    box-shadow: 0 0 0 1px #2482ff;
-    border-color: #2482ff;
-    background: #2482ff;
+    box-shadow: 0 0 0 1px $base-color-blue;
+    border-color: $base-color-blue;
+    background: $base-color-blue;
     color: #ffffff;
   }
 }
@@ -147,20 +147,20 @@
       box-shadow: 0 0 0 1px #edab7e;
     }
   }
-  &.CL-d68ae6 {
+  &.CL-$base-color-light-purple {
     > span {
-      background: #d68ae6;
+      background: $base-color-light-purple;
     }
     > input[type="checkbox"]:checked + span, &:hover > span {
-      box-shadow: 0 0 0 1px #d68ae6;
+      box-shadow: 0 0 0 1px $base-color-light-purple;
     }
   }
   &.CL-a089e7 {
     > span {
-      background: #a089e7;
+      background: $base-color-light-purple;
     }
     > input[type="checkbox"]:checked + span, &:hover > span {
-      box-shadow: 0 0 0 1px #a089e7;
+      box-shadow: 0 0 0 1px $base-color-light-purple;
     }
   }
   &.CL-5496cb {
@@ -234,7 +234,7 @@
       width: 15px;
       height: 15px;
       left: 30px;
-      background: #2482ff;
+      background: $base-color-blue;
       border-radius: 50%;
     }
 
@@ -332,7 +332,7 @@
   }
 
   &:hover > span:after {
-    box-shadow: 0 0 0 1px #2482ff;
+    box-shadow: 0 0 0 1px $base-color-blue;
     background: $base-color-white;
   }
 
@@ -342,9 +342,9 @@
 
     &:after {
       content: "\e913";
-      box-shadow: 0 0 0 1px #2482ff;
-      border-color: #2482ff;
-      background: #2482ff;
+      box-shadow: 0 0 0 1px $base-color-blue;
+      border-color: $base-color-blue;
+      background: $base-color-blue;
       color: #ffffff;
     }
   }
@@ -385,7 +385,7 @@
   }
 
   input[type=checkbox]:checked, input[type=radio]:checked {
-    box-shadow: inset 0px 0px 0px 20px #2482ff;
+    box-shadow: inset 0px 0px 0px 20px $base-color-blue;
   }
 
   input[type=checkbox]:after, input[type=radio]:after {

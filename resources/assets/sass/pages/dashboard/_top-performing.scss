@@ -45,7 +45,7 @@
     font-size: 12px;
   }
   &.active {
-    color: #2482ff;
+    color: $base-color-blue;
   }
   &.critical {
     color: #FB8579;
@@ -62,6 +62,6 @@
   font-family: $source-sans-pro;
   font-weight: bold;
   font-size: 18px;
-  color: #6944b7;
+  color: $base-color-purple;
   margin: 0;
 }

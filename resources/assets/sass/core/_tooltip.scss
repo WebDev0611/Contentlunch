@@ -11,7 +11,7 @@
   @include transition($base-transition);
 
   &:hover, &:focus {
-    color: #6944b7;
+    color: $base-color-purple;
   }
 
   &.large {

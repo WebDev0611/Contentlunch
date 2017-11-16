@@ -24,7 +24,7 @@
   background-color: #fff;
 }
 .plan:hover {
-  border-color: #6944B7;
+  border-color: $base-color-purple;
   z-index: 5;
   box-shadow: 0 -4px 0 rgba(105,68,183,0.85), 0 0 8px 1px rgba(0,0,0,.1);
   transform: scale(1.006);
@@ -43,7 +43,7 @@
 }
 .plans .title {
   text-align: center;
-  color: #6944B7;
+  color: $base-color-purple;
   font-size: 1.2em;
 }
 .plans .desc {

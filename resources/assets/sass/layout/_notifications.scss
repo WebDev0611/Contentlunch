@@ -1,5 +1,5 @@
 .btn-upgrade, .btn-hide {
-  background-color: #6944B6;
+  background-color: $base-color-purple;
   color: #fff;
   text-transform: uppercase;
   font-weight: 600;
@@ -61,7 +61,7 @@
   h4 {
     margin-top: 0;
     margin-bottom: 10px;
-    color: #6944B6;
+    color: $base-color-purple;
     font-weight: 900;
   }
 
@@ -103,7 +103,7 @@
   }
 
   h4 {
-    color: #6546B7;
+    color: $base-color-purple;
   }
 
   p {
@@ -146,7 +146,7 @@
     width: 12px;
     height: 16px;
     border-top: 8px solid transparent;
-    border-right: 12px solid #6944B6;
+    border-right: 12px solid $base-color-purple;
     border-bottom: 8px solid transparent;
     margin: 12px !important;
   }

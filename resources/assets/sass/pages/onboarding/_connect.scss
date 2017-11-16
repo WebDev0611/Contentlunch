@@ -51,11 +51,11 @@
 
     &.active {
       background: $base-color-white;
-      border-left: 3px solid #6944b7;
+      border-left: 3px solid $base-color-purple;
       margin-right: -1px;
 
       > a {
-        color: #6944b7;
+        color: $base-color-purple;
 
       }
     }

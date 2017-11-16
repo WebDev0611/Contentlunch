@@ -40,7 +40,7 @@
   margin-top: 20px;
   margin-bottom: 15px;
   font-size: 14px;
-  color: #6844b7;
+  color: $base-color-purple;
   margin-left: -20px;
   font-weight: bold;
 
@@ -88,7 +88,7 @@
     font-size: 12px;
   }
   &.active {
-    color: #2482ff;
+    color: $base-color-blue;
   }
   &.due {
     color: #f24638;
@@ -295,7 +295,7 @@
         line-height: 1.3em;
       }
       .title {
-        color: #2482FF;
+        color: $base-color-blue;
         margin: 6px auto;
         font-weight: 700;
         font-size: 1.1em;
@@ -303,7 +303,7 @@
 
       [class^="icon-"] {
         font-size: 2.4em;
-        color: #2482FF;
+        color: $base-color-blue;
       }
     }
   }
@@ -390,7 +390,7 @@
   text-align: center;
   font-size: 26px;
   font-style: italic;
-  color: #2482ff;
+  color: $base-color-blue;
 }
 
 .campaigns-list {

@@ -15,7 +15,7 @@
     background: #f7f8fb;
     font-size: 14px;
     font-family: $source-sans-pro;
-    color: #6944b7;
+    color: $base-color-purple;
     font-weight: normal;
 
     &:first-child {
@@ -63,7 +63,7 @@
   font-family: $source-sans-pro;
   font-weight: bold;
   font-size: 15px;
-  color: #6944b7;
+  color: $base-color-purple;
   padding: 2px;
 }
 

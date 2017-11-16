@@ -6,15 +6,15 @@
 
 // Variables
 $calendar-menu-navigator-link-color: #b6bdc9;
-$calendar-menu-navigator-link-color-hover: #2482ff;
+$calendar-menu-navigator-link-color-hover: $base-color-blue;
 $calendar-menu-navigator-date-color: #1d1131;
 $calendar-menu-select-border: solid #dadfeb;
 $calendar-menu-select-button-color: #1d1131;
-$calendar-menu-select-button-color-active: #2482ff;
-$calendar-menu-select-button-border: solid #d68ae6;
+$calendar-menu-select-button-color-active: $base-color-blue;
+$calendar-menu-select-button-border: solid $base-color-light-purple;
 $calendar-menu-buttons-border: solid #dadfeb;
 $calendar-menu-buttons-color: #9fa6b0;
-$calendar-menu-buttons-color-active: #2482ff;
+$calendar-menu-buttons-color-active: $base-color-blue;
 $calendar-menu-dropdown-border: solid #dadfeb;
 
 // Classes

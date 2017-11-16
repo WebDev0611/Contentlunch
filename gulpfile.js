@@ -22,6 +22,7 @@ require('laravel-elixir-vueify');
 elixir(function (mix) {
     mix
         .sass('main.scss', 'public/css/main.css')
+        .sass('main-q.scss', 'public/css/main-q.css')
 
         .combine([
             './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css',
@@ -175,6 +176,7 @@ elixir(function (mix) {
 
         .version([
             'public/css/main.css',
+            'public/css/main-q.css',
             'public/css/vendor.css',
             'public/js/vendor.js',
             'public/js/vendor.js',

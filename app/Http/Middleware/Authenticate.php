@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class Authenticate
 {
@@ -28,6 +29,8 @@ class Authenticate
                 return redirect('/login');
             }
         }
+
+        Session::set('qebotUser', Auth::user()->qebot_user);
 
         return $next($request);
     }

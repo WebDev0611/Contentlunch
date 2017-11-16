@@ -48,9 +48,9 @@ $navigation-space-left: 70px;
 /// Base colors
 /// @access public
 /// @type HEX
-$base-color-purple: #6944b7;
-$base-color-light-purple: #d68ae6;
-$base-color-lightest-purple: #e9e3f4;
+$base-color-purple: #d74d4f;
+$base-color-light-purple: #ff7878;
+$base-color-lightest-purple: #f4eded;
 $base-color-white:  #ffffff;
 $base-color-black:  #000000;
-$base-color-blue: #2482ff;
+$base-color-blue: $base-color-purple;

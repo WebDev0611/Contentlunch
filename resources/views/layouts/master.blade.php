@@ -9,7 +9,12 @@
     <meta name=viewport content="initial-scale=1.0,width=device-width">
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" >
     <link rel="stylesheet" href="{{ elixir('css/vendor.css', null) }}">
-    <link rel=stylesheet href="{{ elixir('css/main.css', null) }}">
+
+    @if (Session::get('qebotUser'))
+        <link rel=stylesheet href="{{ elixir('css/main-q.css', null) }}">
+    @else
+        <link rel=stylesheet href="{{ elixir('css/main.css', null) }}">
+    @endif
 
     <link rel="stylesheet" href="/css/plugins/dropzone/basic.min.css">
     <link rel="stylesheet" href="/css/plugins/dropzone/dropzone.min.css">

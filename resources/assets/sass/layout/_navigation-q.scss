@@ -5,9 +5,9 @@
 //------------------------------
 
 // Variables
-$navigation-background: #1d1131;
+$navigation-background: #303031;
 $navigation-logo: $base-color-purple;
-$navigation-menu-border: 1px solid #4a415a;
+$navigation-menu-border: 1px solid #5a5959;
 $navigation-menu-link-color: #d2cfd6;
 $navigation-menu-link-color-active: $base-color-purple;
 $navigation-menu-link-background: #f2f3f9;
@@ -25,7 +25,7 @@ $navigation-menu-link-background: #f2f3f9;
 }
 
 .navigation-logo {
-  display: block;
+  display: none;
   height: 65px;
   line-height: 65px;
   padding-left: 15px;
@@ -45,6 +45,9 @@ $navigation-menu-link-background: #f2f3f9;
   margin: 0;
 
   > li {
+    &:first-child{
+      display: none;
+    }
     list-style: none;
     border-bottom: $navigation-menu-border;
   }

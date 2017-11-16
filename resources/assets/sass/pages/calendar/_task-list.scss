@@ -65,7 +65,7 @@
     line-height: 20px;
   }
   &.purple {
-    background: #6944b7;
+    background: $base-color-purple;
   }
   &.icon-blog-post, &.icon-hubspot-blog-post {
     background: #16588d;
@@ -337,7 +337,7 @@
     &.active {
       border-color: #e9e3f4;
       background: #e9e3f4;
-      color: #6944b7;
+      color: $base-color-purple;
 
       &:before {
         background: #9d85d0;

@@ -47,7 +47,7 @@
     > a.active {
       position: relative;
       padding-right: 35px;
-      color: #2482FF;
+      color: $base-color-blue;
       
       &:after {
         content: "\e913";
@@ -56,7 +56,7 @@
         width: 18px;
         height: 18px;
         line-height: 20px;
-        background-color: #2482FF;
+        background-color: $base-color-blue;
         border-radius: 50%;
         text-align: center;
         color: #fff;
@@ -108,7 +108,7 @@
   letter-spacing: 1px;
 
   &.important {
-    color: #6944b7;
+    color: $base-color-purple;
   }
 }
 

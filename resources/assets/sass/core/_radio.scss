@@ -47,13 +47,13 @@
   }
 
   &:hover > span:before {
-    box-shadow: 0 0 0 1px #2482ff;
+    box-shadow: 0 0 0 1px $base-color-blue;
   }
 
   > input[type="radio"]:checked + span:before {
     content: " ";
-    box-shadow: 0 0 0 1px #2482ff;
-    border-color: #2482ff;
+    box-shadow: 0 0 0 1px $base-color-blue;
+    border-color: $base-color-blue;
     background: $base-color-white;
   }
 }
@@ -98,12 +98,12 @@
   }
 
   &:hover > span:before {
-    box-shadow: 0 0 0 1px #2482ff;
+    box-shadow: 0 0 0 1px $base-color-blue;
   }
 
   > input[type="radio"]:checked + span:before {
-    box-shadow: 0 0 0 1px #2482ff;
+    box-shadow: 0 0 0 1px $base-color-blue;
     border-color: $base-color-white;
-    background: #2482ff;
+    background: $base-color-blue;
   }
 }
