@@ -335,12 +335,12 @@
     }
 
     &.active {
-      border-color: #e9e3f4;
-      background: #e9e3f4;
+      border-color: $base-color-lightest-purple;
+      background: $base-color-lightest-purple;
       color: $base-color-purple;
 
       &:before {
-        background: #9d85d0;
+        background: $base-color-light-purple;
       }
     }
   }

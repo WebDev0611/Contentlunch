@@ -294,8 +294,8 @@
 }
 
 .list-stages .active {
-  background-color: #E9E3F4;
-  border-color: #E9E3F4;
+  background-color: $base-color-lightest-purple;
+  border-color: $base-color-lightest-purple;
   color: $base-color-purple;
 }
 
@@ -307,7 +307,7 @@
   position: absolute;
   top: 110%;
   left: 50%;
-  background-color: #9D85D0;
+  background-color: $base-color-light-purple;
 }
 
 .list-stages-side {

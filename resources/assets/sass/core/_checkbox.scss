@@ -242,8 +242,8 @@
       width: 35px;
       height: 35px;
       left: 5px;
-      background: rgba(36, 130, 255, 0.5);
-      color: #f9f9fb;
+      background: $base-color-light-purple;
+      color: $base-color-lightest-gray;
       border-radius: 50%;
       top: 5px;
       line-height: 35px;
@@ -255,7 +255,7 @@
   &:hover > span {
     > img {
       border: 3px solid #ffffff;
-      box-shadow: 0 0 0 1px #a7cdff;
+      box-shadow: 0 0 0 1px $base-color-lightest-purple;
 
     }
 
