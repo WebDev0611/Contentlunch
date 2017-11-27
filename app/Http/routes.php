@@ -52,6 +52,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
     Route::group(['middleware' => 'guest'], function () {
         Route::get('signup', 'OnboardingController@signup');
         Route::post('signup', 'OnboardingController@process_signup');
+        Route::post('/api/qebot/users/create', "QebotLoginController@create");
+        Route::post('/api/qebot/users/login', "QebotLoginController@login");
     });
 
     Route::group([ 'prefix' => 'guests' ], function() {
