@@ -143,7 +143,8 @@
             <a
                 type='submit'
                 class="btn btn-secondary"
-                href="https://contentlaunch.uservoice.com/knowledgebase/articles/1159846-how-do-you-set-up-a-wordpress-content-connection">
+                href="https://contentlaunch.uservoice.com/knowledgebase/articles/1159846-how-do-you-set-up-a-wordpress-content-connection"
+                target="_blank">
                 Need Help?
             </a>
         </div>
