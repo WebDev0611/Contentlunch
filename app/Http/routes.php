@@ -54,6 +54,14 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('signup', 'OnboardingController@process_signup');
         Route::post('/api/qebot/users/create', "QebotLoginController@create");
         Route::post('/api/qebot/users/login', "QebotLoginController@login");
+        Route::get('/api/qebot/users/create', function(){
+            return response()
+                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to authentic users."]]);
+        });
+        Route::get('/api/qebot/users/login', function(){
+            return response()
+                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to authentic users."]]);
+        });
     });
 
     Route::group([ 'prefix' => 'guests' ], function() {
