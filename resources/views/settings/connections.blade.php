@@ -132,12 +132,20 @@
         </div>
     </div>
     <div class="row" >
-        <div class="col-md-12">
+        <div class="col-md-8">
             <button
                 type='submit'
                 class="btn btn-primary">
                 Connect to WordPress
             </button>
+        </div>
+        <div class="col-md-4">
+            <a
+                type='submit'
+                class="btn btn-secondary"
+                href="https://contentlaunch.uservoice.com/knowledgebase/articles/1159846-how-do-you-set-up-a-wordpress-content-connection">
+                Need Help?
+            </a>
         </div>
     </div>
 </template>
