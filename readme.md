@@ -1,27 +1,39 @@
-# Laravel PHP Framework
+# ContentLaunch APP
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+## Development Prerequisites
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+1. Install docker. (https://www.docker.com/get-docker)
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+2. Install docker-compose (https://docs.docker.com/compose/install/)
 
-## Official Documentation
+3. Install nodejs/npm (https://nodejs.org/en/download/)
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+4. Install bower `npm install -g bower`
 
-## Contributing
+5. Install gulp `npm isntall -g bower`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## Local Environment Setup
 
-## Security Vulnerabilities
+1. Make a copy of the `.env-local` file and name it `.env`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+2. From a fresh clone of the project, run `docker-compose build`. This will take a while depending on the speed of your development machine.
 
-## License
+3. Now run `docker-compose up -d` to start the newly created containers in a detached state.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+4. Next we'll gather php dependencies and setup the db tables for the app. We'll to that by running the following:
+    ```
+    docker-compose run contentlaunch composer install
+    docker-compose run contentlaunch php artisan migrate
+    docker-compose run contentlaunch php artisan db:seed
+    ```
+ 
+5. On to downloading dependencies and building the front end:
+    ```
+    bower install
+    npm install
+    gulp
+    ```
+
+6. You should now be able to access the app from http://localhost:3000. 
+
+7. To learn more about how docker-compose works, check out this link https://docs.docker.com/compose/.

@@ -1,12 +1,54 @@
-FROM cvsouth/apache-php7-mysql-redis
+#start with our base image (the foundation) - version 7.1.5
+FROM php:7.0.19-apache
 
-RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash - && \
-    apt-get update && \
-    apt-get install -y nodejs && \
-    npm install -g bower && \
-    npm install -g gulp && \
-    curl -sS https://getcomposer.org/installer -o composer-setup.php && \
-    php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+#install all the system dependencies and enable PHP modules 
+RUN apt-get update && apt-get install -y \  
+      libicu-dev \
+      libpq-dev \
+      libmcrypt-dev \
+      git \
+      zip \
+      unzip \
+    && rm -r /var/lib/apt/lists/* \
+    && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
+    && docker-php-ext-install \
+      intl \
+      mbstring \
+      mcrypt \
+      pcntl \
+      pdo_mysql \
+      pdo_pgsql \
+      pgsql \
+      zip \
+      opcache
 
+#install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
+#set our application folder as an environment variable
+ENV APP_HOME /var/www/html
 
+#change uid and gid of apache to docker user uid/gid
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+# enable apache module rewrite
+RUN a2enmod rewrite
+RUN a2ensite 000-default
+
+#change the web_root to laravel /var/www/html/public folder
+RUN sed -i -e "s/html/html\/public/g" /etc/apache2/sites-enabled/000-default.conf
+RUN sed -i -e "s/#ServerName www.example.com/ServerName localhost/g" /etc/apache2/sites-enabled/000-default.conf
+RUN sed -i -e "s/\${APACHE_LOG_DIR}/\/var\/log\/apache2/g" /etc/apache2/sites-enabled/000-default.conf
+
+# add some php configurations
+COPY config/php-configs/php.ini /usr/local/etc/php
+
+#copy source files and run composer
+#COPY . $APP_HOME
+
+# install all PHP dependencies
+#ENV COMPOSER_ALLOW_SUPERUSER 1
+#RUN composer install --no-interaction
+
+#change ownership of our applications
+#RUN chown -R www-data:www-data $APP_HOME

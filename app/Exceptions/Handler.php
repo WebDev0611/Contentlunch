@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
 
     public function isProduction()
     {
-        return getenv('APP_ENV', 'production') !== 'local' && url('/') === 'app.contentlaunch.com';
+        return getenv('APP_ENV') !== 'local' && url('/') === 'app.contentlaunch.com';
     }
 
     /**
