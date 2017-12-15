@@ -3,10 +3,21 @@
   "scripts": {
     "prod": "gulp --production",
     "dev": "gulp && gulp watch",
-    "docker": "cd laradock && docker-compose up -d nginx mysql redis beanstalkd && cd ../",
-    "ssh-workspace": "cd laradock && docker-compose exec workspace bash && cd ../",
-    "ssh-mysql": "cd laradock && docker-compose exec mysql bash && cd ../",
-    "ssh-redis": "cd laradock && docker-compose exec redis bash && cd ../"
+    "docker": "docker-compose down && docker-compose build",
+    "start": "docker-compose up -d",
+    "composer": "docker-compose run contentlaunch composer install",
+    "migrate": "docker-compose run contentlaunch php artisan migrate",
+    "seed": "docker-compose run contentlaunch php artisan db:seed",
+    "bower": "npm install -g bower && bower install",
+    "gulp": "npm install -g gulp && gulp",
+    "watch": "npm install -g gulp && gulp watch",
+    "env-setup": "npm run docker && npm run start && npm run composer && npm run migrate && npm run seed",
+    "front-end-setup": "npm run bower && npm install && npm run gulp",
+    "setup": "npm run env-setup && npm run front-end-setup && npm run watch",
+    "down": "docker-compose down",
+    "open": "open http://localhost:3000",
+    "db": "mysql -h 127.0.0.1 -P 3006 -u root -plaunch123 -D contentlaunch",
+    "ssh": "docker-compose run contentlaunch bash"
   },
   "devDependencies": {
     "bootstrap-sass": "^3.3.0",
