@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y \
       git \
       zip \
       unzip \
+      wget \
+      vim \
+      telnet \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
@@ -42,6 +45,31 @@ RUN sed -i -e "s/\${APACHE_LOG_DIR}/\/var\/log\/apache2/g" /etc/apache2/sites-en
 
 # add some php configurations
 COPY config/php-configs/php.ini /usr/local/etc/php
+
+# https://xdebug.org/docs/install
+RUN cd /tmp \
+    && wget https://xdebug.org/files/xdebug-2.5.0.tgz \
+    && tar -zxvf xdebug-2.5.0.tgz \
+    && cd xdebug-2.5.0 \
+    && /usr/local/bin/phpize \
+    && ./configure --enable-xdebug --with-php-config=/usr/local/bin/php-config \
+    && make \
+    && cp modules/xdebug.so /usr/local/lib/php/extensions/no-debug-non-zts-20151012/
+
+
+# add xdebug configurations
+RUN { \
+        echo '[xdebug]'; \
+        echo 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20151012/xdebug.so'; \
+        echo 'xdebug.remote_enable=on'; \
+        echo 'xdebug.remote_autostart=on'; \
+        echo 'xdebug.remote_connect_back=off'; \
+        echo 'xdebug.remote_handler=dbgp'; \
+        echo 'xdebug.profiler_enable=off'; \
+        echo 'xdebug.profiler_output_dir="/var/www/html"'; \
+        echo 'xdebug.remote_port=9000'; \
+        echo 'xdebug.remote_port=$XDEBUG_HOST_IP'; \
+    } > /usr/local/etc/php/conf.d/xdebug.ini
 
 #copy source files and run composer
 #COPY . $APP_HOME

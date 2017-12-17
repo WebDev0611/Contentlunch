@@ -13,6 +13,8 @@ services:
       - mysql
     volumes:
       - ./:/var/www/html
+    environment:
+        XDEBUG_CONFIG: remote_host=${XDEBUG_HOST_IP}
 #    environment:
 #      - COMPOSER_ALLOW_SUPERUSER=1
 
