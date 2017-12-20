@@ -54,14 +54,29 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('signup', 'OnboardingController@process_signup');
         Route::get('/api/qebot/users/create', function(){
             return response()
-                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to authentic users."]]);
+                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to use this endpoint."]]);
         });
         Route::get('/api/qebot/users/login', function(){
             return response()
-                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to authentic users."]]);
+                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to use this endpoint."]]);
+        });
+        Route::get('/api/qebot/users/logout', function(){
+            return response()
+                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to use this endpoint."]]);
+        });
+        Route::get('/api/qebot/users/activate', function(){
+            return response()
+                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to use this endpoint."]]);
+        });
+        Route::get('/api/qebot/users/deactivate', function(){
+            return response()
+                ->json(['error' => 'HTTP Method Not Allowed', 'messages' => ["Please use POST to use this endpoint."]]);
         });
         Route::post('/api/qebot/users/create', "QebotLoginController@create");
         Route::post('/api/qebot/users/login', "QebotLoginController@login");
+        Route::post('/api/qebot/users/logout', "QebotLoginController@logout");
+        Route::post('/api/qebot/users/activate', "QebotLoginController@activate");
+        Route::post('/api/qebot/users/deactivate', "QebotLoginController@deactivate");
     });
 
     Route::group([ 'prefix' => 'guests' ], function() {

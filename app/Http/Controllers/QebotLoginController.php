@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\AccountUser;
 use App\Http\Controllers\Auth\AuthController;
 use App\SubscriptionType;
 use App\User;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
@@ -37,7 +39,7 @@ class QebotLoginController extends Controller
             return response()->json([
                 "error" => $exception->getMessage(),
                 "messages" => $exception->validator->messages()
-            ]);
+            ], 400);
         }
 
         $data = [
@@ -72,19 +74,117 @@ class QebotLoginController extends Controller
             return response()->json([
                 "error" => $exception->getMessage(),
                 "messages" => $exception->validator->messages()
-            ]);
+            ], 400);
         }
 
         if (!$this->createNewUserSession($request->get('id'), $request->get('token'))){
             return response()->json([
                 "error" => "Unable to authenticate user."
-            ]);
+            ], 400);
         }
 
         return response()->json([
             "user" => $this->trimUser(Auth::user()),
             "session_id" => Crypt::encrypt(session()->getId())
         ]);
+    }
+
+    public function logout(Request $request) {
+        try{
+            $this->validate($request, [
+                "token" => 'required|exists:api_users'
+            ]);
+        }catch (ValidationException $exception){
+            return response()->json([
+                "error" => $exception->getMessage(),
+                "messages" => $exception->validator->messages()
+            ], 400);
+        }
+
+        Session::flush();
+
+        return response()->json([
+            "session_status" => "invalidated"
+        ]);
+    }
+
+
+    public function activate(Request $request) {
+
+        try{
+            $this->validate($request, [
+                "token" => 'required|exists:api_users',
+                "id" => 'required|exists:users'
+            ]);
+        }catch (ValidationException $exception){
+            return response()->json([
+                "error" => $exception->getMessage(),
+                "messages" => $exception->validator->messages()
+            ], 400);
+        }
+
+        if (!$this->activateAccount($request->get('id'))){
+            return response()->json([
+                "error" => "Unable to activate the account associated with this user id."
+            ], 400);
+        }
+
+        return response()->json([
+            "activated" => true,
+            "message" => "Account activated successfully"
+        ]);
+    }
+
+    public function deactivate(Request $request) {
+
+        try{
+            $this->validate($request, [
+                "token" => 'required|exists:api_users',
+                "id" => 'required|exists:users'
+            ]);
+        }catch (ValidationException $exception){
+            return response()->json([
+                "error" => $exception->getMessage(),
+                "messages" => $exception->validator->messages()
+            ], 400);
+        }
+
+        if (!$this->deactivateAccount($request->get('id'))){
+            return response()->json([
+                "error" => "Unable to deactivate the account associated with this user id."
+            ], 400);
+        }
+
+        return response()->json([
+            "deactivated" => true,
+            "message" => "Account deactivated successfully"
+        ]);
+    }
+
+    protected function activateAccount($userId){
+        $accountId = DB::table('account_user')
+            ->select('account_id')
+            ->where("user_id", $userId)
+            ->get()[0]->account_id;
+
+        $result = DB::table('accounts')
+            ->where("id", $accountId)
+            ->update(["enabled"=>true]);
+
+        return $result;
+    }
+
+    protected function deactivateAccount($userId){
+        $accountId = DB::table('account_user')
+            ->select('account_id')
+            ->where("user_id", $userId)
+            ->get()[0]->account_id;
+
+        $result = DB::table('accounts')
+            ->where("id", $accountId)
+            ->update(["enabled"=>false]);
+
+        return $result;
     }
 
     protected function trimUser($user){
