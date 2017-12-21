@@ -19,17 +19,26 @@ $search-bar-border: solid #c6cfe1;
   .support-text {
     display: inline-block;
     color: #ccc;
-    margin-right: 10px;
-    margin-left: 10px;
     margin-top: -10px;
     position: relative;
 
     .fa {
-      margin-left: 10px;
       margin-right: 10px;
       font-size: 26px;
       position: relative;
       top: 5px;
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .search-bar {
+    .support-text {
+      margin-right: 10px;
+      margin-left: 10px;
+
+      .fa {
+        margin-left: 10px;
+      }
     }
   }
 }
@@ -73,14 +82,17 @@ $search-bar-border: solid #c6cfe1;
 }
 
 .btn-create {
-  min-width: 150px;
   text-align: left;
   line-height: 32px;
   padding: 0 15px;
-
   .caret {
     float: right;
     margin-top: 13px;
+  }
+}
+@media (min-width: 1200px) {
+  .btn-create {
+    min-width: 150px;
   }
 }
 
