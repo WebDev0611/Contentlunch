@@ -35,19 +35,19 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @include('elements.searchbar-form-field')
             </div>
         @else
-            <div class="col-md-7">
+            <div class="col-md-6">
                 @include('elements.searchbar-form-field')
             </div>
         @endif
 
-        <div class="col-md-5 text-right">
+        <div class="col-md-6 text-right">
 
             <a href="https://contentlaunch.uservoice.com" class='support-text' title='Click here for support' target='_blank'>
-                Need help?
+                <span class="visible-lg-inline">Need help?</span>
                 <i class="fa fa-question-circle"></i>
             </a>
 
