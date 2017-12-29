@@ -1,8 +1,6 @@
 <template>
     <div>
-        <alert type='info' v-show='!contents.length && loaded'>
-            No Published Content at this moment.
-        </alert>
+        <alert type='info' v-show='!contents.length && loaded' v-html='alert'></alert>
 
         <content-list-item
             v-for='content in contents'
@@ -44,10 +42,12 @@
                 authorFilter: null,
                 campaignFilter: null,
                 stageFilter: null,
+                alert: 'No published content at this moment.'
             }
         },
 
         created() {
+            this.updateAlert();
             this.fetchContents();
 
             bus.$on('filter', filters => {
@@ -62,6 +62,15 @@
         },
 
         methods: {
+            updateAlert() {
+                if (this.stage === 'written') {
+                    this.alert = 'No content being written/edited at this moment.';
+                }
+                if (this.stage === 'ready') {
+                    this.alert =  'No content ready to publish at this moment.';
+                }
+            },
+
             url() {
                 let url = '/api/contents/';
 
