@@ -25,11 +25,11 @@
 
                 <div class="col-md-8 col-md-offset-2">
                     <h5 class="heading-border text-center">
-                        Please complete the form and we’ll suggest a content program
-                        <i class="popover-icon icon-question"
+                        Simply complete the form and we'll suffuse a content program 
+                         <i class="popover-icon icon-question"
                            data-toggle="popover"
-                           title="How Content Prescription Works?"
-                           data-content="The Content Launch team reviews your goals, budget and the type of company you are, and based on this, provides the best content recommendations to improve your marketing goals"
+                           title="How does Content Prescription Work?"
+                           data-content="Our algorithm looks at your goals, budgets, and your company type, and then provides the best content recommendations to improve your content marketing program."
                            data-placement="bottom"
                         ></i>
                     </h5>

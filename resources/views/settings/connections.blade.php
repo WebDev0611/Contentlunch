@@ -26,8 +26,12 @@
 
                                 <div class="settings-import-action">
                                     <span>
-                                        {{count($connections)}} connections,
-                                        <strong>{{$activeConnectionsCount}} active</strong>
+                                        @if(count($connections) > 0)
+                                            {{count($connections)}} connections,
+                                            <strong>{{$activeConnectionsCount}} active</strong>
+                                        @else
+                                            {{count($connections)}} connections
+                                        @endif
                                     </span>
                                     <button
                                         class="button button-small"

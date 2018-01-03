@@ -43,7 +43,7 @@
             <div class="panel-separator">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5>Select one or more topics of interest from lists below to create an idea</h5>
+                        <h5>Select one or more keyword phrases from the list below to create a content idea.</h5>
                     </div>
                     <div class="col-md-6 text-right">
                         <button type="button"

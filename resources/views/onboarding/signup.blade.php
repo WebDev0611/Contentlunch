@@ -21,9 +21,7 @@
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <h3 class="onboarding-heading text-center">Welcome to ContentLaunch</h3>
-                            <h5 class="onboarding-text text-center">
-                                Please complete four quick steps to get started. It won’t take more than 5 mins
-                            </h5>
+                            <h5 class="onboarding-text text-center">Please complete four quick steps to get started.</h5>
                         </div>
                     </div>
                     <div class="row">
