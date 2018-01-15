@@ -13,7 +13,7 @@
 
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
-                            <h3 class="onboarding-heading text-center">Welcome to ContentLaunch</h3>
+                            <h3 class="onboarding-heading text-center">Welcome to {{ trans('messages.company') }}</h3>
                             <h5 class="onboarding-text text-center">
                                 You have been invited as a guest to the {{ $accountName }} account.
                                 Please complete the form below to get started.

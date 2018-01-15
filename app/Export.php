@@ -77,7 +77,7 @@ class Export extends Model {
         $table->addCell(6000)->addText($content->meta_keywords, ['bold' => true]);
 
         // Footer
-        $section->addFooter()->addText('Generated on ' . date('m-d-Y') . ' at ' . date('h:i A') . ' with ContentLaunch', null, ['alignment' => Jc::RIGHT]);
+        $section->addFooter()->addText('Generated on ' . date('m-d-Y') . ' at ' . date('h:i A') . ' with '.trans('messages.company'), null, ['alignment' => Jc::RIGHT]);
 
         // Save it
         $pathToFile = self::exportPath() . ($documentName == null ? 'document_' . time() . '_' . str_random(16) : $documentName) . '.docx';

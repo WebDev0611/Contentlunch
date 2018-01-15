@@ -14,6 +14,11 @@
                 <div class="inner supernarrow">
                     <h3 class="onboarding-step-text text-center">
                         Login
+                        @if (Session::get('qebotUser'))
+                            Qebot
+                        @else
+                            Or not
+                        @endif
                     </h3>
 
                     <!-- Onboarding content -->

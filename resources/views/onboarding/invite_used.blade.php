@@ -9,7 +9,7 @@
         <div class="onboarding-container">
             <div class="inner narrow">
                 <h3 class="text-center">
-                    Welcome to ContentLaunch
+                    Welcome to {{ trans('messages.company') }}
                 </h3>
                 <h5 class="onboarding-text text-center">
                     Please enter your information to create an account.
