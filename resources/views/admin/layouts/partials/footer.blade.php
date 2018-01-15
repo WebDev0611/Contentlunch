@@ -3,6 +3,6 @@
 
     </div>
     <div>
-        <strong>Copyright</strong> ContentLaunch &copy; 2016-2017
+        <strong>Copyright</strong> {{ trans('messages.company') }} &copy; 2016-2017
     </div>
 </div>
