@@ -5,7 +5,7 @@
 @extends('emails.layouts.master', $staticData)
 @section('content')
     <p>
-        Thank you for signing up at ContentLaunch! <br>
+        Thank you for signing up at {{ trans('messages.company') }}! <br>
         You can log into your private account:
     </p>
     <a href="{{ route('login') }}">

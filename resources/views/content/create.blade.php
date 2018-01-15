@@ -83,7 +83,7 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <p>
-                                To be able to import content from Basecamp you need to authorize ContentLaunch
+                                To be able to import content from Basecamp you need to authorize {{ trans('messages.company') }}
                                 to be able to access the Basecamp content. Curabitur maximus et augue eget accumsan.
                                 Mauris quis augue vel lorem aliquet convallis sit amet ac dui.
                             </p>

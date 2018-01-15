@@ -5,7 +5,7 @@
     {{-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> --}}
 
         <div class="col-md-8 height-60">
-            <h4>You are using the 2 week free trial of ContentLaunch</h4>
+            <h4>You are using the 2 week free trial of {{ trans('messages.company') }}</h4>
 
             <p>You can {!! $restriction !!} during this period. Switch to a paid account to remove
                 this and other limitations.</p>
@@ -26,7 +26,7 @@
         {{-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> --}}
 
         <div class="col-md-8 height-60">
-            <h4>You are using the free version of ContentLaunch</h4>
+            <h4>You are using the free version of {{ trans('messages.company') }}</h4>
 
             <p>You can {!! $restriction !!}. Switch to a paid account to remove
                 this and other limitations.</p>

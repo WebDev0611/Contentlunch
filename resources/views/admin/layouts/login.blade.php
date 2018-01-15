@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ContentLaunch | Administrative Dashboard </title>
+    <title>{{ trans('messages.company') }} | Administrative Dashboard </title>
 
     <link rel="stylesheet" href="{!! asset('css/admin_vendor.css') !!}">
     <link rel="stylesheet" href="{!! asset('css/admin.css') !!}">
@@ -44,7 +44,7 @@
         {{ Form::close() }}
 
         <p class="m-t">
-            <small>ContentLaunch &copy; 2016-2017</small>
+            <small>{{ trans('messages.company') }} &copy; 2016-2017</small>
         </p>
     </div>
 </div>

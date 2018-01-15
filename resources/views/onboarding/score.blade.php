@@ -129,7 +129,7 @@
 
                                 </div>
                                 {{--<p>
-                                    This is your preliminary content score. By using ContentLaunch you can improve it.
+                                    This is your preliminary content score. By using {{ trans('messages.company') }} you can improve it.
                                 </p>--}}
                             </div>
                         </div>

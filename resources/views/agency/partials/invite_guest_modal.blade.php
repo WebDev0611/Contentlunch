@@ -13,7 +13,7 @@
             <div class="modal-body">
 
                 <div class="inner">
-                    <p class="intro">Invite client to ContentLaunch to share content, plans and more.</p>
+                    <p class="intro">Invite client to {{ trans('messages.company') }} to share content, plans and more.</p>
 
                     <div class="input-form-group">
                         <label for="#">Invite</label>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Request;
 use Closure;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -20,6 +22,17 @@ class Authenticate
     {
         $isAjax = $request->ajax() || $request->wantsJson();
 
+        $is_qebot_user = Auth::user() ? (Auth::user()->qebot_user || $this->isQebotDomain($request)) : $this->isQebotDomain($request) ;
+
+        Session::set('qebotUser', $is_qebot_user);
+
+        echo trans('messages.company');
+        die();
+
+        if($is_qebot_user){
+            App::setLocale("qb");
+        }
+
         if (Auth::guard($guard)->guest()) {
             session([ 'redirect_url' => $request->getRequestUri() ]);
 
@@ -30,8 +43,10 @@ class Authenticate
             }
         }
 
-        Session::set('qebotUser', Auth::user()->qebot_user);
-
         return $next($request);
+    }
+
+    private function isQebotDomain(Request $request){
+        return strpos($request->getHttpHost(), "qebot");
     }
 }
