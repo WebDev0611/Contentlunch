@@ -4,9 +4,7 @@
 
 @extends('emails.layouts.master', $staticData)
 @section('content')
-    <p>
-        You've recently been assigned a task:
-    </p>
+    <p>You've recently been assigned a task:</p>
 
     <table>
         <tr>

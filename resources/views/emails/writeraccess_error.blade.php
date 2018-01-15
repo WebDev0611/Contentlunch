@@ -4,33 +4,33 @@
 
 @extends('emails.layouts.master', $staticData)
 @section('content')
-    <p>
-        This is an automatic email notification from the Content Launch app triggered by error when trying to place the order.<br><br>
-        <b>Order details:</b>
-    </p>
+    <p>This is an automatic email notification from the Content Launch app triggered by error when trying to place the order.</p>
+    
+    <p><strong>Order details:</strong></p>
+
     <table>
         <tr>
-            <td><b>Partial Order ID:</b></td>
+            <td><strong>Partial Order ID:</strong></td>
             <td>{{ $data['partial_order_id'] }}</td>
         </tr>
         <tr>
-            <td><b>User name:</b></td>
+            <td><strong>User name:</strong></td>
             <td>{{ $data['user_name'] }}</td>
         </tr>
         <tr>
-            <td><b>User email:</b></td>
+            <td><strong>User email:</strong></td>
             <td>{{ $data['user_email'] }}</td>
         </tr>
         <tr>
-            <td><b>Account ID:</b></td>
+            <td><strong>Account ID:</strong></td>
             <td>{{ $data['acc_id'] }}</td>
         </tr>
         <tr>
-            <td><b>Timestamp:</b></td>
+            <td><strong>Timestamp:</strong></td>
             <td>{{ date('M-d-Y H:i:s') }}</td>
         </tr>
         <tr>
-            <td><b>Response:</b></td>
+            <td><strong>Response:</strong></td>
             <td>{{ $data['api_response'] }}</td>
         </tr>
     </table>

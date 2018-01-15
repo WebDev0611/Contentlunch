@@ -4,10 +4,9 @@
 
 @extends('emails.layouts.master', $staticData)
 @section('content')
-    <p>
-        This is an automatic notification about failed queued job in your app. <br>
-        Job details below:
-    </p>
+    <p>This is an automatic notification about failed queued job in your app.</p>
+
+    <p>Job details below:</p>
 
     <table>
         <tr>

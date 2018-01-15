@@ -4,15 +4,11 @@
 
 @extends('emails.layouts.master', $staticData)
 @section('content')
-    <p>
-        <b>{{ $now->format('m/d/Y') }}</b>
-    </p>
-    <p>
-        The following users registered between {{ $now->format('m/d/Y H:i:s') }} and {{ $yesterday->format('m/d/Y H:i:s') }}:
-    </p>
-    <p>
-        Total users registered: <strong>{{ $users->count() }}</strong>
-    </p>
+    <p><strong>{{ $now->format('m/d/Y') }}</strong></p>
+
+    <p>The following users registered between {{ $now->format('m/d/Y H:i:s') }} and {{ $yesterday->format('m/d/Y H:i:s') }}:</p>
+
+    <p>Total users registered: <strong>{{ $users->count() }}</strong></p>
 
     @if ($users->count())
         <table>
