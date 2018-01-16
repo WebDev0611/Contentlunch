@@ -26,9 +26,6 @@ class Authenticate
 
         Session::set('qebotUser', $is_qebot_user);
 
-        echo trans('messages.company');
-        die();
-
         if($is_qebot_user){
             App::setLocale("qb");
         }

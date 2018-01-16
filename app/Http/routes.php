@@ -235,6 +235,9 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/edit/images', 'ContentController@images')->name('imageContent');
         Route::post('/edit/attachments', 'ContentController@attachments')->name('attachmentContent');
 
+        // Review page for client review and approval
+        Route::get('/review/{content}', 'ContentController@editContent')->name('editContent');
+
         // - editing content form page
         Route::get('/edit/{content}', 'ContentController@editContent')->name('editContent');
         Route::post('/edit/{content}', 'ContentController@editStore')->name('content.update')->middleware('format_date:due_date,m/d/Y');

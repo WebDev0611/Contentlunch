@@ -425,6 +425,37 @@ class ContentController extends Controller
         return view('content.editor', $data);
     }
 
+    // - edit content on page
+    public function reviewContent(Content $content)
+    {
+        $this->ensureCollaboratorsExists($content);
+
+        $data = [
+            'content' => $content,
+            'tagsJson' => $this->selectedAccount->present()->tagsJson,
+            'connectionsDetails' => $this->selectedAccount->getActiveConnections(),
+            'mailchimpSettings' => json_decode($content->mailchimp_settings),
+            'contentTagsJson' => $content->present()->tagsJson,
+            'authorDropdown' => $this->selectedAccount->authorsDropdown(),
+            'relatedContentDropdown' => $this->selectedAccount->relatedContentsDropdown(),
+            'calendarsDropdown' => $this->selectedAccount->calendarsDropdown(),
+            'buyingStageDropdown' => BuyingStage::dropdown(),
+            'personaDropdown' => Persona::dropdown(),
+            'campaignDropdown' => CampaignPresenter::dropdown(),
+            'connections' => Connection::dropdown(),
+            'contentTypeDropdown' => ContentTypePresenter::dropdown(),
+            'files' => $content->attachments()->where('type', 'file')->get(),
+            'images' => $content->attachments()->where('type', 'image')->get(),
+            'isCollaborator' => $content->hasCollaborator(Auth::user()),
+            'tasks' => $content->tasks()->with('user')->get(),
+            'isPublished' => isset($content) && $content->status  && $content->status->slug == 'published',
+            'guidelines' => $this->selectedAccount->guidelines,
+            'customContentType' => isset($content->customContentType) ? $content->customContentType->name : ''
+        ];
+
+        return view('content.review', $data);
+    }
+
     public function getContentTypes()
     {
         return ContentType::with('provider')->get();
