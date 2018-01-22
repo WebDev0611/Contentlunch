@@ -44,3 +44,76 @@
 .relative {
   position: relative;
 }
+
+.workspace-review {
+  position: fixed;
+  top: 66px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  > .panel {
+    height: calc(100% - 66px);
+  }
+  
+  .panel-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+    .panel-header {
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    
+    .panel-container {
+      flex: 1 1 auto;
+      overflow-y: auto;
+    }
+  }
+  
+}
+
+.distancer {
+  height: 50px;
+  
+  &.distancer-short {
+    height: 25px;
+  }
+  
+  &.distancer-supershort {
+    height: 12px;
+  }
+}
+
+.nobottommargin {
+  margin-bottom: 0 !important;
+}
+.article-type {
+  position: relative;
+  padding-left: 26px;
+  display: inline-block;
+  font-size: 15px;
+  margin: 0;
+  
+  > span {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #6C7786;
+    position: absolute;
+    left: 0;
+    font-size: .8em;
+  }
+  
+  &.article-type-blog {
+    
+    > span {
+      background-color: #EDAD27;
+    }
+  }
+}

@@ -40,6 +40,10 @@ Vue.component('content-dashboard', require('./components/create/ContentDashboard
 // Plan Module
 Vue.component('ideas', require('./components/plan/Ideas.vue'));
 
+// Review Module
+Vue.component('content-feedback-counter', require('./components/reviews/ContentFeedbackCounter.vue'));
+Vue.component('content-feedback-comment-list', require('./components/reviews/contentFeedbackCommentList.vue'));
+
 new Vue({
     el: '#root',
     store,

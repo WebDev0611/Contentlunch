@@ -18,6 +18,33 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-notification-alt:before {
+  content: "\e966";
+} 
+.icon-threedots-alt:before {
+  content: "\e965";
+} 
+.icon-search:before {
+  content: "\e964";
+} 
+.icon-article:before {
+  content: "\e95e";
+}
+.icon-comment:before {
+  content: "\e95f";
+}
+.icon-comment-new:before {
+  content: "\e960";
+}
+.icon-navigation-review:before {
+  content: "\e961";
+}
+.icon-tags:before {
+  content: "\e962";
+}
+.icon-x:before {
+  content: "\e963";
+} 
 .icon-star-outline:before {
     content: "\e95b";
 }
@@ -40,7 +67,7 @@
 .icon-idea-new:before {
   content: "\e957";
 }
-.icon-type-blog:before, .icon-type-hubspot:before, .icon-type-wordpress:before {
+.icon-type-blog:before {
   content: "\e958";
 }
 .icon-type-facebook:before {
@@ -126,7 +153,7 @@
 .icon-mangento:before {
   content: "\e93a";
 }
-.icon-social-facebook:before {
+.icon-social-fb:before {
   content: "\e93b";
 }
 .icon-social-jm:before {
@@ -135,10 +162,10 @@
 .icon-social-mg:before {
   content: "\e93d";
 }
-.icon-social-twitter:before {
+.icon-social-tw:before {
   content: "\e93e";
 }
-.icon-social-wordpress:before {
+.icon-social-wp:before {
   content: "\e93f";
 }
 .icon-calendar-add:before {

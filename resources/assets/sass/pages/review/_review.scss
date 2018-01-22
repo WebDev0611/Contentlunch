@@ -1,0 +1,527 @@
+//------------------------------
+// *****************************
+// Review Content
+// *****************************
+//------------------------------
+
+.grey {
+  color: rgba(0,0,0,.45);
+}
+.toppadded {
+  padding-top: 6px;
+}
+.sidetab-reviewinfo {
+  
+  > dl {
+    display: flex;
+    align-items: center;
+    padding: 18px 0;
+    margin: 0;
+    
+    &+dl {
+      border-top: 1px solid #dadfeb;
+    }
+    
+    dt {
+      text-align: right;
+      width: 40%;
+      flex: 0 0 auto;
+      padding-right: 15px;
+      font-weight: 400;
+      opacity: .65;
+    }
+    
+    dd {
+      font-size: 1.05em;
+      
+      .badge {
+        background-color: #F2F3F9;
+        padding: 2px 5px;
+        border-radius: 3px;
+        margin-right: 5px;
+        font-size: 1.1em;
+        font-weight: 400;
+        font-family: $source-sans-pro;
+        color: #464e57;
+      }
+    }
+    
+    .user-avatar {
+      display: inline-block;
+      vertical-align: middle;
+      margin: -4px 0;
+      margin-right: 4px;
+    }
+  }
+}
+
+
+.article {
+  font-size: 16px;
+  color: #000;
+  padding-bottom: 35px;
+  
+  .article-header,
+  .article-body,
+  .article-tags,
+  .article-images {
+    padding-left: 45px;
+    position: relative;
+    padding-top: 28px;
+    
+    .article-picto {
+      position: absolute;
+      left: 0;
+      font-size: 1.3em;
+      opacity: .5;
+    }
+  }
+  
+  .article-heading {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1;
+    margin-bottom: 5px;
+    color: rgba(57, 44, 70, 0.55);
+    text-transform: uppercase;
+  }
+
+  
+  .article-date {
+    font-size: .85em;
+    opacity: .7;
+  }
+  
+  .article-block {
+    transition: .2s all;
+    padding: 3px 6px;
+    margin-left: -3px;
+    margin-right: -3px;
+    padding-right: 15px;
+    border-radius: 3px;
+    
+    &:hover {
+      background-color: rgba(242, 243, 249, .5);
+      
+      .article-block-comments {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+  
+  h1 {
+    margin: 0;
+    margin-bottom: .4em;
+    font-weight: 700;
+    font-size: 1.6em;
+  }
+  
+  h2 {
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-top: 1.5em;
+    margin-bottom: .8em;
+  }
+  
+  p {
+    line-height: 1.5em;
+    margin: 5px 0;
+  }
+  
+  ul {
+    
+    > li {
+      margin: 3px 0;
+    }
+  }
+}
+
+.article-review {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.article-block-comments {
+  width: auto;
+  position: absolute;
+  left: 100%;
+  padding-left: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: .2s all;
+  
+  .btn-article-block-addcomment {
+    display: inline-block;
+    width: 34px;
+    height: 33px;
+    line-height: 36px;
+    border-radius: 50%;
+    background-color: #6C7786;
+    color: #fff;
+    font-size: 1.2em;
+    text-align: center;
+    margin-left: -20px;
+    
+    &:hover {
+      background-color: lighten(#6C7786, 3%);
+    }
+  }
+  
+  .article-block-comments-new {
+    display: none;
+  }
+  
+  .input {
+    font-size: 13px;
+    line-height: 1.25em;
+    min-height: inherit;
+  }
+  
+  .article-block-actions {
+        
+    > a {
+      font-size: 12px;
+      display: inline-block;
+      padding: 2px 7px;
+      color: rgba(36, 129, 255, .85);
+      
+      &:hover {
+        color: #2481ff;
+      }
+    }
+    
+    .btn-cancel {
+      color: rgba(108, 119, 134, .65);
+        
+      &:hover {
+        color: #6C7786;
+      }
+    }
+  }
+}
+
+.list-tags {
+  margin: 0;
+  
+  > li {
+    background-color: #F2F3F9;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-right: -2px;
+    margin-bottom: 2px;
+    font-size: .9em;
+  }
+}
+
+.list-images {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  
+  > li {
+    width: 33.3333%;
+    padding: 2px;
+  }
+  
+  a {
+    display: block;
+    position: relative;
+    padding-top: 56%;
+    background-color: #F2F3F9;
+    
+    &:before {
+      content: "\e964";
+      font-family: $icon-fonts; 
+      transition: .2s all;
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      background-color: rgba(0,0,0,.4);
+      color: #fff;
+      text-align: center;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      transition: .15s ease-out;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(.2);
+    }
+    
+    &:after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,.25);
+      transition: .2s all;
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    &:hover {
+      
+      &:after {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      &:before {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+      }
+    }
+  }
+  
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+.input-area-review {
+  min-height: inherit;
+}
+
+.review-feedback {
+  padding-bottom: 15px;
+  
+  .review-feedback-total {
+    margin: 0;
+    margin-bottom: 8px;
+    color: rgba(29, 17, 49, .65);
+  }
+  
+  .review-feedback-head {
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1;
+    margin-bottom: 5px;
+    color: rgba(57, 44, 70, 0.55);
+    text-transform: uppercase;
+  }
+}
+
+.review-feedback-actions {
+  display: flex;
+  
+  .button {
+    font-size: .8em;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin: 0 2px;
+    letter-spacing: 0;
+  }
+}
+
+.review-feedback-overall {
+  
+  .medium {
+    font-size: 1.1em;
+    color: #000;
+  }
+}
+
+.review-inline {
+  
+  > p {
+    opacity: .75;
+  }
+  
+  blockquote {
+    padding: 0;
+    padding-left: 25px;
+    border-left: 0;
+    font-size: 1em;
+    color: #000;
+    position: relative;
+    
+    &:before {
+      content: '“';
+      font-size: 3.5em;
+      position: absolute;
+      left: 0;
+      line-height: .85em;
+      opacity: .25;
+    }
+    
+    p {
+      font-size: 1.05em;
+      line-height: 1.3em;
+    }
+  }
+}
+
+.dropdown-review-feedback {
+  position: relative;
+  margin-bottom: 22px;
+  
+  .btn-review-feedback {
+    display: block;
+    border: 1px solid #dadfeb;
+    border-radius: 3px;
+    position: relative;
+    padding: 5px 10px;
+    padding-left: 60px;
+    line-height: 1.25em;
+    color: #1d1131;
+    
+    &:hover {
+      border-color: #c6ccdb;
+    }
+    
+    .date {
+      opacity: .65;
+    }
+    
+    .user-avatar {
+      position: absolute;
+      left: 12px;
+    }
+    
+    .caret {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: .5;
+    }
+  }
+  
+  .dropdown-menu {
+    width: 100%;
+    
+    > li {
+      
+      > a {
+        position: relative;
+        padding-left: 60px;
+        line-height: 1.25em;
+      }
+    }
+    
+    .date {
+      font-weight: 400;
+      opacity: .65;
+    }
+    .user-avatar {
+      position: absolute;
+      left: 12px;
+    }
+  }
+}
+
+.guests {
+  padding-top: 16px;
+  
+  .guests-head {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1;
+    margin-bottom: 5px;
+    color: rgba(57, 44, 70, 0.55);
+    text-transform: uppercase;
+  }
+}
+
+.list-users-withaction {
+  
+  > li {
+    position: relative;
+    display: flex;
+    
+    > a {
+      flex: 1 0 auto;
+    }
+  }
+  
+  .list-users-actions {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    .btn-list-action {
+      display: inline-block;
+      padding: 10px 12px;
+      line-height: 1.1em;
+      min-height: inherit;
+      border-bottom: none;
+      border-radius: 3px;
+      color: rgba(0,0,0,.15);
+      
+      &:hover {
+        color: rgba(0,0,0,.8);
+      }
+    }
+    
+    &:hover {
+      z-index: 6;
+    }
+    
+    .dropdown-menu {
+      
+      > li {
+        
+        > a {
+          min-height: inherit;
+          padding: 10px 35px;
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.list-users-guests {
+  
+  .review-not-received {
+    padding: 9px 12px;
+    padding-left: 60px;
+    border-bottom: 1px solid rgba(218, 223, 235, 0.5);
+    min-height: 48px;
+    
+    .user-avatar {
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(#f57268, .45);
+    }
+  }
+}
+
+.btn-showallguests {
+  float: right;
+}
+
+
+.review-controls {
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid #dadfeb;
+  > button {
+    text-transform: uppercase;
+    position: relative;
+    line-height: 32px;
+    color: #ffffff;
+    border-radius: 3px;
+    font-family: "Source Code Pro", sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: .1em;
+    transition: 0.2s;
+    padding-right: 40px;
+    &:first-child{
+      margin-right: 10px;
+    }
+  }
+}

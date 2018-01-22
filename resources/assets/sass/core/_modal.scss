@@ -28,8 +28,20 @@
   letter-spacing: 1px;
   font-size: .9em;
 }
+.modal-picto {
+  width: 140px;
+  margin-bottom: 15px;
+  
+  &.modal-picto-small {
+    width: 100px;
+  }
+}
 .modal-body {
   padding-bottom: 30px;
+
+  .medium {
+    font-size: 1.1em;
+  }
 
   .inner {
     max-width: 400px;
@@ -67,6 +79,12 @@
 
     .btn {
       min-width: 130px;
+    }
+  }
+
+  &.widebuttons {    
+    .button {
+      min-width: 170px;
     }
   }
 }
