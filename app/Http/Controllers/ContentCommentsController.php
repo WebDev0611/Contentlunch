@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Content;
+use App\ContentComment;
 use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ContentCommentsController extends Controller
 {
@@ -35,12 +38,36 @@ class ContentCommentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     * @param Content $content
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Content $content)
     {
-        //
+        $validation = $this->commentValidator($request->all());
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 400);
+        }
+
+        $data = [
+            "content_id" => $content->id,
+            "user_id" => Auth::user()->id,
+            "text" => $request->input("text")
+        ];
+
+        $comment = ContentComment::create($data);
+
+        $comment->save();
+
+        return response()->json($comment);
+    }
+
+    private function commentValidator($input)
+    {
+        return Validator::make($input, [
+            'text' => 'required',
+        ]);
     }
 
     /**
