@@ -243,9 +243,9 @@ class Content extends Model
     /**
      * Get all of the approvals for the content.
      */
-    public function approvers()
+    public function approvals()
     {
-        return $this->hasMany("App\ContentApproval")->with("user");
+        return $this->hasMany("App\ContentApproval")->with('user');
     }
 
     /**
