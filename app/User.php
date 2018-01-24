@@ -255,7 +255,7 @@ class User extends Authenticatable
      */
     public function comments()
     {
-        return $this->hasMany("App\ContentComment")->with("content");
+        return $this->hasMany("App\ContentComment");
     }
 
 }
