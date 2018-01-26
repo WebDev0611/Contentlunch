@@ -10,7 +10,7 @@
         <button class="button button-primary btn-block button-small text-uppercase save-idea" @click="postComment">Submit Comments</button>
         
         <div class="distancer distancer-short"></div>
-        <p class="review-feedback-head">Inline Feedback</p>
+        <p class="review-feedback-head hidden">Feedback</p>
         <div class="review-feedback-inline">
             <div class="review-inline">
                 <blockquote v-for="comment in comments">
@@ -45,13 +45,13 @@
 
         methods: {
             fetchComments() {
-                return ['This looks a bit vague. Maybe you can add some more hands-on experiences.'];
+                return [];
+                // return ['This looks a bit vague. Maybe you can add some more hands-on experiences.'];
                 // return $.get('');
             },
 
             postComment() {
                 this.comments.push(this.message);
-                this.message = '';
                 // if (!this.message.length) {
                 //     this.info = 'Comment can\'t be empty'
                 // } else {
@@ -70,6 +70,13 @@
                 //     //     this.sending = false;
                 //     // });
                 // }
+                if (this.comments.length > 0) {
+                    $('.btn-rejectcontent').removeAttr('disabled');
+                    $('.review-feedback-head').removeClass('hidden');
+                }
+                // clear message
+                this.message = '';
+
             },
 
             refresh() {

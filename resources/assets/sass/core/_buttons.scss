@@ -322,6 +322,9 @@ a:hover, a:focus {
 .button-withlasticon {
   padding-right: 30px;
   position: relative;
+  &[disabled] {
+    opacity: .6;
+  }
   
   .icon {
     position: absolute;
