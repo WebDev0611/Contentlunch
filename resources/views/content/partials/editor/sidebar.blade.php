@@ -1,21 +1,25 @@
 <div class="panel-header">
     <ul class="panel-tabs withborder">
-        <li class="active">
-            <a href="#sidetab-communication" data-toggle='tab'>Communication</a>
+        <li>
+            <a href="#sidetab-tasks" role='tab' data-toggle='tab'>Tasks</a>
         </li>
 
-        <li>
-            <a href="#sidetab-tasks" role='tab' data-toggle='tab'>Content Tasks</a>
+        <li class="active">
+            <a href="#sidetab-activity" data-toggle='tab'>Activity</a>
         </li>
 
         <li>
             <a href="#sidetab-history" role="tab" data-toggle="tab">History</a>
         </li>
+
+        <li>
+            <a href="#sidetab-feedback" role="tab" data-toggle="tab">Feedback</a>
+        </li>
     </ul>
 </div>
 
 <div class="tab-content">
-    <div class="sidepanel tab-pane nopadding active" role="tabpanel" id="sidetab-communication">
+    <div class="sidepanel tab-pane nopadding active" role="tabpanel" id="sidetab-activity">
         <content-messages
             content-id="{{ $content->id }}"
             has-access='{!! $content->hasAccessToMessages(Auth::user()); !!}'>
@@ -32,6 +36,10 @@
 
     <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-history">
         @include('content.partials.editor.sidebar_history')
+    </div>
+
+    <div class="sidepanel tab-pane" role="tabpanel" id="sidetab-feedback">
+        @include('content.partials.editor.sidebar_feedback')
     </div>
 </div>
 
