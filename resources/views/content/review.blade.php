@@ -77,7 +77,7 @@
                         Approve
                         <span class="icon icon-check-light"></span>
                     </button>
-                    <button class="button-withlasticon button-red btn-rejectcontent" data-toggle="modal" data-target="#modal-reject">
+                    <button disabled="disabled" class="button-withlasticon button-red btn-rejectcontent" data-toggle="modal" data-target="#modal-confirmation-reject">
                         Needs Edits
                         <span class="icon icon-x"></span>
                     </button>
@@ -124,15 +124,17 @@
     });
 
     // Tour 
-    var tour = new Shepherd.Tour({
+
+    var tour;
+
+    tour = new Shepherd.Tour({
         defaults: {
             classes: 'shepherd-theme-arrows'
         }
     });
-
     tour.addStep('editor', {
-        title: '1/5: This is your main editor area',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla arcu nisl, eleifend id justo sed, feugiat dignissim justo.',
+        title: '1/3: This is your main editor area',
+        text: 'You\'ll find the content draft here. Carefully read it and then add comments/feedback to the content by hovering over the draft and clicking the "Add Comment" button.  A comment field will appear; type your feedback in the box.',
         attachTo: '.article-review right',
         buttons: [
             {
@@ -147,6 +149,48 @@
             }
         ],
         advanceOn: '.docs-link click'
+    });
+    tour.addStep('comments', {
+        title: '2/3: This is the main comments section',
+        text: 'You\'ll find all comments/feedback from all reviewers here.  The most recent feedback will appear first. Whether you have one reviewer or ten or more, you can see what everyone said about the content right here. ',
+        attachTo: '.content-tasks-box-container left',
+        buttons: [
+            {
+                text: 'Next Step',
+                classes: 'text-uppercase button button-small',
+                action: tour.next
+            },
+            {
+                text: 'Quit',
+                classes: 'text-uppercase button button-outline-secondary button-small',
+                action: tour.cancel
+            }
+        ],
+        advanceOn: '.docs-link click'
+    });
+    tour.addStep('approve', {
+        title: '3/3: These are the Approve and Need Edits buttons',
+        text: 'When you are finished with your review of the content draft, select one of these buttons. If the content draft looked good and you have no edits, select "Approve". If you had edits, select "Needs Edits"',
+        attachTo: '.review-controls left',
+        buttons: [
+            {
+                text: 'Next Step',
+                classes: 'text-uppercase button button-small',
+                action: tour.next
+            },
+            {
+                text: 'Quit',
+                classes: 'text-uppercase button button-outline-secondary button-small',
+                action: tour.cancel
+            }
+        ],
+        advanceOn: '.docs-link click'
+    });
+    tour.addStep('finish', {
+        title: 'Finish Tour',
+        showCancelLink: true,
+        text: 'That concludes the tour. Have questions? Click on the Intercom icon in the lower right corner of the page or email us: <a href="mailto:support@contentlaunch.com">support@contentlaunch.com</a>',
+        buttons: false
     });
 </script>
 @stop
