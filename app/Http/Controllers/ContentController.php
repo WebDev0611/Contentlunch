@@ -80,15 +80,15 @@ class ContentController extends Controller
     public function published()
     {
         $contents = $this->content->publishedQuery($this->filters)->paginate(5);
-        $total = $this->content->publishedQuery($this->filters)->count();
+        $total = $contents->total();
 
         return $this->fractalCollection($contents, $total);
     }
 
     public function ready()
     {
-        $contents = $this->content->readyQuery($this->filters)->paginate(5);
-        $total = $this->content->readyQuery($this->filters)->count();
+        $contents = $this->content->readyQuery($this->filters)->paginate(5);;
+        $total = $contents->total();
 
         return $this->fractalCollection($contents, $total);
     }
@@ -96,7 +96,7 @@ class ContentController extends Controller
     public function written()
     {
         $contents = $this->content->writtenQuery($this->filters)->paginate(5);
-        $total = $this->content->writtenQuery($this->filters)->count();
+        $total = $contents->total();
 
         return $this->fractalCollection($contents, $total);
     }
