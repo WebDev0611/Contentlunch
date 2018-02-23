@@ -25,7 +25,7 @@ elixir(function (mix) {
         .sass('main-q.scss', 'public/css/main-q.css')
 
         .combine([
-            './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css',
+            './resources/assets/admin_theme/font-awesome/css/font-awesome.min.css'
         ], 'public/css/vendor.css')
 
         .sass('admin/admin.scss', 'public/css/admin.css')
@@ -40,7 +40,9 @@ elixir(function (mix) {
             './bower_components/tinymce/tinymce.min.js',
             './bower_components/dropzone/dist/dropzone.js',
             './bower_components/sweetalert2/dist/sweetalert2.min.js',
-            './bower_components/fastselect/dist/fastselect.standalone.min.js'
+            './bower_components/fastselect/dist/fastselect.standalone.min.js',
+            './bower_components/tether-shepherd/dist/js/tether.js',
+            './bower_components/tether-shepherd/dist/js/shepherd.min.js'
         ], "public/js/vendor.js")
 
         .browserify('vue-app.js')
