@@ -32,19 +32,15 @@
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <div class="row">
-
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     @include('guests.partials.form')
-                                </div>
-                                <div class="col-md-4">
-                                    @include('onboarding.partials.avatar')
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            {{ Form::submit('Next Step', ['class' => 'button button-extend text-uppercase']) }}
+                            {{ Form::submit('Review Content', ['class' => 'button button-extend text-uppercase']) }}
                         </div>
                     </div>
                     {{ Form::close() }}

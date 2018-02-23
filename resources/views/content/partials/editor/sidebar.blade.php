@@ -42,7 +42,7 @@
         </li>
 
         <li>
-            <a href="#sidetab-guests" class='add-person-tab' data-toggle="tab">Guests</a>
+            <a href="#sidetab-guests" class='add-person-tab' data-toggle="tab">Clients</a>
         </li>
 
         @if ($isCollaborator)
