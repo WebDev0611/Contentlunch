@@ -53,12 +53,12 @@
     </div>  <!-- End Panel Container -->
 
 </div>
+@stop
+
+@section('scripts')
 <script>
     var campaign_types = {!! $campaignTypes !!};
     var campaign = {!! $campaign->toJson() !!};
 </script>
-@stop
-
-@section('scripts')
 <script src="{{ elixir('js/campaign.js', null) }}"></script>
 @stop
