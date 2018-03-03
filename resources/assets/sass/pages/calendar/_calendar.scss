@@ -9,6 +9,13 @@
   table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
+  &.calendar-f3ee8b > tbody > tr > td:not([disabled]) { background-color: #f3ee8b;}
+  &.calendar-fdcc5b > tbody > tr > td:not([disabled]) { background-color: #fdcc5b;}
+  &.calendar-edab7e > tbody > tr > td:not([disabled]) { background-color: #edab7e;}
+  &.calendar-d68ae6 > tbody > tr > td:not([disabled]) { background-color: #d68ae6;}
+  &.calendar-a089e7 > tbody > tr > td:not([disabled]) { background-color: #a089e7;}
+  &.calendar-5496cb > tbody > tr > td:not([disabled]) { background-color: #5496cb;}
+  &.calendar-7cd1d1 > tbody > tr > td:not([disabled]) { background-color: #7cd1d1;}
 }
 
 #calendar-loading-gif {

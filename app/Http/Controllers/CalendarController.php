@@ -64,11 +64,11 @@ class CalendarController extends Controller {
     public function index (Request $request, $id, $year = 0, $month = 0, $day = 0)
     {
         /* draws a calendar */
-        function draw_calendar ($month, $year)
+        function draw_calendar ($month, $year, $color)
         {
 
             /* draw table */
-            $calendar = '<table class="calendar">';
+            $calendar = '<table class="calendar '.$color.'">';
 
             /* table headings */
             $headings = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -134,22 +134,23 @@ class CalendarController extends Controller {
 
         $default_month = date('F');
         $default_year = date('Y');
+        $calColor = Calendar::find($id)->color == '' ? '' : 'calendar-'.Calendar::find($id)->color;
 
         if ($month !== 0 && $year !== 0) {
             $default_month = date('F', strtotime($year . '-' . $month));
             $default_year = $year;
             $month = date('n', strtotime($year . '-' . $month));
-            $calendar_layout = draw_calendar($month, $year);
+            $calendar_layout = draw_calendar($month, $year, $calColor);
 
         }
         else {
             $year = $default_year;
             $month = date('m', strtotime($year . '-' . $default_month));
 
-            $calendar_layout = draw_calendar(date('n'), date('Y'));
+            $calendar_layout = draw_calendar(date('n'), date('Y'), $calColor);
         }
 
-        $number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $number_of_days = date('t', mktime(0, 0, 0, $month, 1, $year));
 
         $campaigns_start_date = false;
         $campaigns_end_date = false;
@@ -284,12 +285,12 @@ class CalendarController extends Controller {
         $start_weektimestamp = $week_string;
         $end_weektimestamp = strtotime("+1 week", $week_string);
 
-        function generate_weekly_calendar ($year = 0, $month = 0, $day = 0, $start = 0)
+        function generate_weekly_calendar ($year = 0, $month = 0, $day = 0, $start = 0, $color)
         {
 
             $date_tracker = [];
             //weekly header
-            $week_string = '<table class="calendar">';
+            $week_string = '<table class="calendar '.$color.'">';
             $week_string .= '<thead class="calendar-week"><th disabled></th>';
             $curr_time = $start;
             for ($d = 0; $d < 7; $d++) {
@@ -322,7 +323,8 @@ class CalendarController extends Controller {
         }
 
         $month = date('n', $date_string);
-        $weekly_calendar_string = generate_weekly_calendar($year, $month, $day, $start_weektimestamp);
+        $calColor = Calendar::find($id)->color == '' ? '' : 'calendar-'.Calendar::find($id)->color;
+        $weekly_calendar_string = generate_weekly_calendar($year, $month, $day, $start_weektimestamp, $calColor);
 
         $day_of_week = date('l', $date_string);
         $display_month = date('F', $date_string);
@@ -399,9 +401,9 @@ class CalendarController extends Controller {
 
         $content = '';//$content_q->get();
 
-        function generate_daily_calendar ($year, $month, $day)
+        function generate_daily_calendar ($year, $month, $day, $color)
         {
-            $daily_timetable = '<table class="calendar"><tbody class="calendar-day">';
+            $daily_timetable = '<table class="calendar '.$color.'"><tbody class="calendar-day">';
 
             $start_time_row = date('H', strtotime('10:00:00'));
             $end_time_row = date('H', strtotime('23:00:00'));
@@ -424,7 +426,7 @@ class CalendarController extends Controller {
 
             return $daily_timetable;
         }
-
+        $calColor = Calendar::find($id)->color == '' ? '' : 'calendar-'.Calendar::find($id)->color;
         return View::make('calendar.daily', [
             'cal'                 => Calendar::find($id),
             'my'                  => $this->my($request),
@@ -443,7 +445,7 @@ class CalendarController extends Controller {
             'contenttypedd'           => ContentTypePresenter::dropdown(),
             'campaigns'               => $this->campaigns->toJson(),
             'content_items'           => $content,
-            'daily_calendar'          => generate_daily_calendar($year, $month, $day)
+            'daily_calendar'          => generate_daily_calendar($year, $month, $day, $calColor)
         ]);
     }
 
