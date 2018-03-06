@@ -13,8 +13,12 @@ $navigation-menu-link-color-active: $base-color-purple;
 $navigation-menu-link-background: $base-color-lightest-purple;
 
 // Classes
+#root {
+  position: relative;
+}
+
 .navigation {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
@@ -22,6 +26,8 @@ $navigation-menu-link-background: $base-color-lightest-purple;
   height: 100%;
   background: $navigation-background;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
 }
 
 .navigation-logo {
@@ -111,10 +117,7 @@ $navigation-menu-link-background: $base-color-lightest-purple;
 
 .navigation-settings {
   display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  margin-top: auto;
   border-top: $navigation-menu-border;
   text-align: center;
   height: 60px;
