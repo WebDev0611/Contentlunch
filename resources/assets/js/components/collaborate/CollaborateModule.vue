@@ -20,9 +20,7 @@
             <div class="panel-separator"></div>
 
             <div class="panel-contenthead">
-                <p v-show="results.length">
-                    {{ results.length }} influencers found.
-                </p>
+                <p v-show="results.length">{{ results.length }} influencers found <a data-toggle="popover" tabindex="0" role="button" data-trigger="focus" title="" data-content="Click on the star icon in the top right corner to bookmak an influencer." data-placement="top" class="popover-icon icon-question"><span class="sr-only">How to bookmark influencer?</span></a></p>
             </div>
 
             <div class="inner wide">

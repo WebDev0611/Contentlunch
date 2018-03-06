@@ -85,3 +85,12 @@
         </div> <!-- End Modal: Invite Influencer -->
     </div>
 @stop
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({
+                'html': true
+            });
+        });
+    </script>
+@stop
