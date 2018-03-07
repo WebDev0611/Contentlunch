@@ -2,7 +2,7 @@
 <div id="personas-view">
     <div class="row">
         <div class="col-md-8">
-            <p class="settings-text text-center">
+            <p class="settings-text">
                 A Buyer Persona is a representation of your ideal customer based on real data about your existing customers.
                 You could have 1, 2, 3 or many types of buyer personas.
                 Your personas will be used in the content you create in Content Launch, so you can target your content to them.
