@@ -26,7 +26,7 @@
             <div class="inner wide">
                 <loading v-show="loading"></loading>
                 <ul class="list-inline list-influencers" id="influencer-results">
-                    <influencer v-for="result in results" :data="result"></influencer>
+                    <influencer @toggled="updateBookmarkedList" v-for="result in results" :data="result" :key='result.id'></influencer>
                 </ul>
             </div>
         </div>
@@ -47,7 +47,8 @@
                     <influencer
                         v-for="bookmark in bookmarks"
                         :data="bookmark"
-                        :key='bookmark.id'>
+                        :key='bookmark.id'
+                        @toggled="updateSearchList">
                     </influencer>
                 </ul>
             </div>
@@ -88,6 +89,37 @@
                 }
             },
 
+            updateBookmarkedList(influencer) {
+                const twitterId = influencer.data.twitter_id_str,
+                    bookmarkState = influencer.data.bookmarked;
+                let influencerIndex = this.bookmarks.findIndex(thisInfluencer => {
+                    return thisInfluencer.twitter_id_str == twitterId;
+                });
+                if (influencerIndex > -1) {
+                    // remove boomark from array
+                    this.bookmarks.splice(influencerIndex, 1);
+                } else {
+                    // Add bookmark to array
+                    if (bookmarkState) this.bookmarks.push(influencer.data);
+                }
+            },
+            updateSearchList(influencer) {
+                const twitterId = influencer.data.twitter_id_str;
+                let resultsIndex = this.results.findIndex(thisInfluencer => {
+                    return thisInfluencer.twitter_id_str == twitterId;
+                });
+                let bookmarksIndex = this.bookmarks.findIndex(thisInfluencer => {
+                    return thisInfluencer.twitter_id_str == twitterId;
+                });
+
+                if (resultsIndex > -1) {
+                    // uncheck star on results
+                    this.results[resultsIndex].bookmarked = false;
+                }
+                // remove bookmark from array
+                this.bookmarks.splice(bookmarksIndex, 1);
+            },
+
             fetchBookmarks() {
                 return $.get('/influencers/bookmarks').then(response => {
                         this.bookmarks = response.data.map(element => {
@@ -103,6 +135,8 @@
 
                     if (_.findWhere(this.bookmarks, { twitter_id_str })) {
                         element.bookmarked = true;
+                    } else {
+                        element.bookmarked = false;
                     }
 
                     return element;
