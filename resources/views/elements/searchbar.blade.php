@@ -9,7 +9,7 @@
                                 <span class="company-logo">
                                     <img src="{{ $selectedAccount->present()->account_image }}" alt="{{ $selectedAccount->name }}">
                                 </span>
-                                <span>{{ $selectedAccount->name }}</span>
+                                <span>{{ str_limit($selectedAccount->name, $limit = 15, $end = '...') }}</span>
                             </span>
                             <span class="caret"></span>
                         </a>

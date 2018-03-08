@@ -9,6 +9,13 @@
   table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
+  &.calendar-f3ee8b .calendar-task-list > li { background-color: #f3ee8b;}
+  &.calendar-fdcc5b .calendar-task-list > li { background-color: #fdcc5b;}
+  &.calendar-edab7e .calendar-task-list > li { background-color: #edab7e;}
+  &.calendar-d68ae6 .calendar-task-list > li { background-color: #d68ae6;}
+  &.calendar-a089e7 .calendar-task-list > li { background-color: #a089e7;}
+  &.calendar-5496cb .calendar-task-list > li { background-color: #5496cb;}
+  &.calendar-7cd1d1 .calendar-task-list > li { background-color: #7cd1d1;}
 }
 
 #calendar-loading-gif {

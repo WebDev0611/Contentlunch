@@ -6,6 +6,9 @@
 
 .popover-icon {
   color: $base-color-purple;
+  &:hover, &:focus, &:active {
+    color: $base-color-purple;
+  }
 }
 
 .popover {

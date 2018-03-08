@@ -109,7 +109,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-//-- code here
-</script>

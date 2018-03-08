@@ -111,11 +111,12 @@ var AddCampaignCollaboratorModal = Backbone.View.extend({
     },
 
     submit() {
-        if (this.data.campaignId) {
-            this.saveCollaboratorsToAPI().then(this.refreshCollaborators().bind(this))
+        var my = this;
+        if (my.data.campaignId) {
+            my.saveCollaboratorsToAPI().then(my.refreshCollaborators());
         } else {
-            this.saveCollaboratorsToDOM();
-            this.dismissModal();
+            my.saveCollaboratorsToDOM();
+            my.dismissModal();
         }
     },
 
