@@ -14,11 +14,11 @@
   margin-bottom: 20px;
 
   @include transition(0.2s);
-  
+
   &:hover {
     border-color: #bcc3d4;
     box-shadow: 0 1px 5px rgba(0,0,0,.1);
-    
+
     .tombstone-image {
       opacity: .95;
     }
@@ -45,9 +45,9 @@
 }
 
 .tombstone-active {
-  border: 2px solid #a7cdff;
+  border-color: #a7cdff;
   background: #f1f3fa;
-  
+
   &:hover {
     border-color: #a7cdff;
   }
