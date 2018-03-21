@@ -25,6 +25,14 @@ class OnboardingController extends Controller
         return view('onboarding.signup', compact('user', 'avatarUrl'));
     }
 
+    public function signup2()
+    {
+        $user = new User;
+        $avatarUrl = session('avatar_temp_url');
+
+        return view('onboarding.signup2', compact('user', 'avatarUrl'));
+    }
+
     public function signupPhotoUpload(Request $request)
     {
         $response = response()->json([ 'error' => true, 'message' => 'File not sent correctly' ], 400);

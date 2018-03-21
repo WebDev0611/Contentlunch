@@ -60,7 +60,8 @@
                             </div>
                             <div class="input-form-group">
                                 <label class="toggle clearfix">
-                                    <input type="checkbox" class="toggle-input" />
+                                    <input type="hidden" name="account_type" value="1" class="toggle-input" />
+                                    <input type="checkbox" name="account_type_checkbox" class="toggle-input" />
                                     <div class="toggle-switch"></div>
                                     <span class="toggle-label">Will this be an agency account?</span>
                                 </label>

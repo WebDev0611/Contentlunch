@@ -7,6 +7,10 @@
 // Workspace Variables
 $onboarding-container-background: #ffffff;
 
+body.minimal, body.minimal .landing {
+  background: #2154A7;
+}
+
 // Workspace Classes
 .onboarding-container {
   background: $onboarding-container-background;
@@ -43,9 +47,7 @@ $onboarding-container-background: #ffffff;
     padding-top: 0;
   }
 }
-body, .landing {
-  background: #2154A7;
-}
+
 .landing-header {
   text-align: center;
   color: #fff;
@@ -58,7 +60,6 @@ body, .landing {
   }
 }
 .onboarding-container {
-  padding: 0 40px;
   .landing-logo {
     width: 240px;
     padding: 30px 0;
