@@ -68,7 +68,7 @@
         </div>
 
         <fieldset class="form-fieldset" id="invite-guests">
-            <legend class="form-legend">Invite Guests</legend>
+            <legend class="form-legend">Invite Clients</legend>
             <div class="form-group">
                 <input type="text" class="input input-secondary email-invites" placeholder="Enter one of more addresses separated by commas">
             </div>
@@ -109,7 +109,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-//-- code here
-</script>

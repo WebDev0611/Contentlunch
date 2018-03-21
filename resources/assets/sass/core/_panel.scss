@@ -59,10 +59,10 @@ $panel-border-radius: 4px;
       display: block;
       height: 47px;
       line-height: 45px;
-      padding: 0 15px;
+      padding: 0 13px;
       font-weight: bold;
       font-family: $source-sans-pro;
-      font-size: 16px;
+      font-size: 14px;
       color: #adacb3;
       border-left: 1px solid transparent;
       border-right: 1px solid transparent;
@@ -170,9 +170,12 @@ $panel-border-radius: 4px;
       }
 
     }
-
-
-
+  }
+  &.reduced-padding {
+    li > a {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 
   &.fullwidth {
@@ -211,7 +214,7 @@ $panel-border-radius: 4px;
     text-decoration: underline;
     color: $base-color-blue;
   }
-  
+
   .icon-arrow-right {
     font-size: .7em;
     margin-left: 4px;
@@ -266,7 +269,7 @@ $panel-border-radius: 4px;
   margin-bottom: 20px;
   border-top: 1px solid #dadfeb;
   padding: 15px 15px 0 15px;
-  
+
   &.noline {
     border-top: none;
   }

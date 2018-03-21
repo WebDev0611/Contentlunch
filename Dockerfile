@@ -68,7 +68,7 @@ RUN { \
         echo 'xdebug.profiler_enable=off'; \
         echo 'xdebug.profiler_output_dir="/var/www/html"'; \
         echo 'xdebug.remote_port=9000'; \
-        echo 'xdebug.remote_port=$XDEBUG_HOST_IP'; \
+        #echo 'xdebug.remote_port=$XDEBUG_HOST_IP'; \ # Now setting this with ENV VAR instead.
     } > /usr/local/etc/php/conf.d/xdebug.ini
 
 #copy source files and run composer

@@ -3,17 +3,15 @@
 @section('content')
 
     <div class="landing" xmlns:v-on="http://www.w3.org/1999/xhtml">
-        <a href="#" class="landing-logo">
-            <img src="/images/logo-full.svg" alt="#">
-        </a>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="onboarding-container" id="prelimContentScoreApp" >
-
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
-
+                                <a href="#" class="landing-logo">
+                                    <img src="/images/logo-full.svg" alt="#">
+                                </a>
                                 <h5 class="onboarding-step-text text-center">
                                     Preliminary Content Score
                                 </h5>

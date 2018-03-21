@@ -1,6 +1,6 @@
 <template>
     <li>
-        <a @click='toggleBookmark' class="btn btn-fav" :class="{ 'active': bookmarked }">
+        <a @click='toggleBookmark' class="btn btn-fav" :class="{ 'active': data.bookmarked }">
             <i class="icon-star-outline"></i>
             <i class="icon-star"></i>
         </a>
@@ -32,21 +32,11 @@
 
         props: ['data'],
 
-        data() {
-            return {
-                bookmarked: false,
-            }
-        },
-
-        created() {
-            if (this.data.bookmarked) {
-                this.bookmarked = true;
-            }
-        },
-
         methods: {
             toggleBookmark() {
-                this.bookmarked = !this.bookmarked;
+                this.data.bookmarked = !this.data.bookmarked;
+                this.$emit('toggled', this);
+
 
                 $.ajax({
                     method: 'post',

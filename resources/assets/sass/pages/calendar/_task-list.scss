@@ -255,7 +255,9 @@
 
   .popover-user-image {
     border-radius: 50%;
-    height: 50px;
+    display: block;
+    max-height: 50px;
+    width: auto;
   }
 }
 

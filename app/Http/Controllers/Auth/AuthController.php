@@ -78,7 +78,12 @@ class AuthController extends Controller
                 "max:255",
                 "unique:users",
             ],
-            'password' => 'required|min:8|confirmed',
+            'password' => [
+                'regex:/^.*(?=.{4,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\!\@\#\$\%\^\&\*\(\)]).*$/',
+                "required",
+                "min:8",
+                //"confirmed",
+            ],
             'company_name' => 'required',
             'account_type' => 'required',
         ]);

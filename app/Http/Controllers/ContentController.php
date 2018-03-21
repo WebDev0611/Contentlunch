@@ -8,6 +8,7 @@ use App\BuyingStage;
 use App\Calendar;
 use App\Campaign;
 use App\Connection;
+use Carbon\Carbon;
 use App\Content;
 use App\ContentType;
 use App\CustomContentType;
@@ -80,15 +81,15 @@ class ContentController extends Controller
     public function published()
     {
         $contents = $this->content->publishedQuery($this->filters)->paginate(5);
-        $total = $this->content->publishedQuery($this->filters)->count();
+        $total = $contents->total();
 
         return $this->fractalCollection($contents, $total);
     }
 
     public function ready()
     {
-        $contents = $this->content->readyQuery($this->filters)->paginate(5);
-        $total = $this->content->readyQuery($this->filters)->count();
+        $contents = $this->content->readyQuery($this->filters)->paginate(5);;
+        $total = $contents->total();
 
         return $this->fractalCollection($contents, $total);
     }
@@ -96,7 +97,7 @@ class ContentController extends Controller
     public function written()
     {
         $contents = $this->content->writtenQuery($this->filters)->paginate(5);
-        $total = $this->content->writtenQuery($this->filters)->count();
+        $total = $contents->total();
 
         return $this->fractalCollection($contents, $total);
     }
@@ -425,11 +426,14 @@ class ContentController extends Controller
         return view('content.editor', $data);
     }
 
-    // - edit content on page
+    // - review content on page
     public function reviewContent(Content $content)
     {
         $this->ensureCollaboratorsExists($content);
-
+        $end = Carbon::parse($content->due_date);
+        $now = Carbon::now();
+        $length = $end->diffInDays($now);
+        $content->dueInDays = $length;
         $data = [
             'content' => $content,
             'tagsJson' => $this->selectedAccount->present()->tagsJson,
@@ -452,7 +456,7 @@ class ContentController extends Controller
             'guidelines' => $this->selectedAccount->guidelines,
             'customContentType' => isset($content->customContentType) ? $content->customContentType->name : ''
         ];
-
+// dd($content);
         return view('content.review', $data);
     }
 

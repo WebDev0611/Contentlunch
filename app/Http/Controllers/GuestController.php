@@ -15,7 +15,7 @@ class GuestController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function index()
     {
@@ -60,22 +60,35 @@ class GuestController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param InvitedAccountRequest $request
+     * @param AccountInvite $guestInvite
      * @return \Illuminate\Http\Response
      */
     public function store(InvitedAccountRequest $request, AccountInvite $guestInvite)
     {
-        $account = $guestInvite->account;
 
-        $user = $this->createInvitedGuest($guestInvite, $request);
+         $account = $guestInvite->account;
 
-        $this->createNewUserSession($user);
+         $user = $this->createInvitedGuest($guestInvite, $request);
 
-        return redirect('/')->with([
-            'flash_message' => "Welcome to ContentLaunch! You're now part of the {$guestInvite->account->name} account!",
-            'flash_message_type' => 'success',
-            'flash_message_important' => true
-        ]);
+         $this->createNewUserSession($user);
+         if($guestInvite->getAttribute("inviteable_type") == "App\Content"){
+            $content_id = $guestInvite->getAttribute("inviteable_id");
+
+            return redirect('/review/'.$content_id)->with([
+                'flash_message' => "Welcome to ContentLaunch! You're now part of the {$guestInvite->account->name} account!",
+                'flash_message_type' => 'success',
+                'flash_message_important' => true
+            ]);
+
+         }else{
+            return redirect('/content/')->with([
+                'flash_message' => "Welcome to ContentLaunch! You're now part of the {$guestInvite->account->name} account!",
+                'flash_message_type' => 'success',
+                'flash_message_important' => true
+            ]);
+         }
+
     }
 
     protected function createNewUserSession($user)

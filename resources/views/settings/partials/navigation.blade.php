@@ -1,4 +1,4 @@
-<ul class="panel-tabs text-center">
+<ul class="panel-tabs text-center reduced-padding">
     <li class="{{ (Request::is('settings') ? 'active' : '') }} panel-settings">
         <a href="{{ route('settings.index') }}">User Settings</a>
     </li>

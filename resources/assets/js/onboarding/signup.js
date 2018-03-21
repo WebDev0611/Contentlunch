@@ -70,3 +70,12 @@ $(document).ready(function() {
     });
     updatePasswordStrengthIndicator($("#password").val());
 });
+
+$("input[type='checkbox'][name='account_type_checkbox']").on("change",function(){
+    if (this.checked){
+        $("input[type='hidden'][name='account_type']").attr("value", "2");
+    }else{
+        $("input[type='hidden'][name='account_type']").attr("value", "1");
+    }
+});
+

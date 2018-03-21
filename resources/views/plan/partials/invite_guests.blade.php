@@ -1,5 +1,5 @@
 <fieldset class="form-fieldset">
-    <legend class="form-legend">Invite Guests</legend>
+    <legend class="form-legend">Invite Clients</legend>
     <div class="form-group">
         <input type="text" class="input input-secondary" placeholder="Enter one of more addresses">
     </div>

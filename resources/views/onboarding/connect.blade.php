@@ -3,15 +3,15 @@
 @section('content')
 
 <div class="landing">
-    <a href="#" class="landing-logo">
-        <img src="/images/logo-full.svg" alt="#">
-    </a>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="onboarding-container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
+                            <a href="#" class="landing-logo">
+                                <img src="/images/logo-full.svg" alt="#">
+                            </a>
                             <h5 class="onboarding-step-text text-center">
                                 Configure your content connections
                             </h5>

@@ -2,7 +2,7 @@
 <div class="panel">
     <div class="panel-header">
         <h4 class="panel-sidebar-title-secondary">
-        Invited Guests
+        Invited Clients
         </h4>
     </div>
     <div class="panel-container nopadding height-double">

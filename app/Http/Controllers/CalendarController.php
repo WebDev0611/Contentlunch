@@ -149,7 +149,7 @@ class CalendarController extends Controller {
             $calendar_layout = draw_calendar(date('n'), date('Y'));
         }
 
-        $number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $number_of_days = date('t', mktime(0, 0, 0, $month, 1, $year));
 
         $campaigns_start_date = false;
         $campaigns_end_date = false;

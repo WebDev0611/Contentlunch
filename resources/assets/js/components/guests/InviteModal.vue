@@ -14,7 +14,7 @@
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Invite Team Member</h4>
+                    <h4 class="modal-title" id="myModalLabel">Invite Client</h4>
                 </div>
                 <div class="modal-body">
 
@@ -104,10 +104,10 @@
             showModalFeedback() {
                 let plural = this.emails.split(',').length > 1;
                 let message = plural
-                    ? 'The invites were sent. The users will be able to join this piece of content as a guest'
-                    : 'The invite was sent. The user will be able to join this piece of content as a guest';
+                    ? 'The invites were sent. The users will be able to join this piece of content as a client'
+                    : 'The invite was sent. The user will be able to join this piece of content as a client';
 
-                let header = plural ? 'Guests invited!' : 'Guest invited!';
+                let header = plural ? 'Clients invited!' : 'Client invited!';
 
                 swal(header, message, 'success');
                 this.emails = '';

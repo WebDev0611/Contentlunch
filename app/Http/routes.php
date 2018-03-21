@@ -50,7 +50,8 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
     Route::post('signup/photo_upload', 'OnboardingController@signupPhotoUpload');
 
     Route::group(['middleware' => 'guest'], function () {
-        Route::get('signup', 'OnboardingController@signup');
+        Route::get('signup', 'OnboardingController@signup2');
+        Route::get('signup2', 'OnboardingController@signup2');
         Route::post('signup', 'OnboardingController@process_signup');
         Route::get('/api/qebot/users/create', function(){
             return response()
@@ -236,7 +237,7 @@ Route::group(['middleware' => ['fw-block-bl' ]], function () {
         Route::post('/edit/attachments', 'ContentController@attachments')->name('attachmentContent');
 
         // Review page for client review and approval
-        Route::get('/review/{content}', 'ContentController@editContent')->name('editContent');
+        Route::get('/review/{content}', 'ContentController@reviewContent')->name('content.review');
 
         // - editing content form page
         Route::get('/edit/{content}', 'ContentController@editContent')->name('editContent');

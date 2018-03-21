@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ elixir('css/main.css', null) }}">
 
 </head>
-<body>
+<body class="minimal">
 
 @include('partials.flash')
 @yield('content')

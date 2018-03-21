@@ -34,6 +34,9 @@
                 <div class="col-md-3">
                     <content-orders-counter></content-orders-counter>
                 </div>
+                <div class="col-md-3">
+                    <content-feedback-counter></content-feedback-counter>
+                </div>
                 <div class="col-md-3 text-right">
                     <!--
                         <div class="dashboard-layout-container">

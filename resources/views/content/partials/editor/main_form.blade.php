@@ -80,10 +80,10 @@
             </div>
         </div>
 
-        <div class="row" >
+        <div class="row">
             <div class="col-sm-6">
                 <div class="input-form-group hidden">
-                    <label for="#">CUSTOM CONTENT TYPE</label>
+                    <label for="customContentType">CUSTOM CONTENT TYPE</label>
 
                     {!! Form::text(
                     'custom_content_type',
@@ -114,7 +114,7 @@
             !!}
         </div>
 
-        <div class="input-form-group flexible-fields flexible-fields-email">
+        <div class="input-form-group flexible-fields-email">
             <label>SUBJECT</label>
             @php
                 $emailSubjectOptions = [
@@ -468,13 +468,13 @@
 
         <!-- SEO Information -->
 
-        <div class="form-delimiter flexible-fields-hide flexible-fields-hide-email">
+        <div class="form-delimiter flexible-fields-seo">
             <span>
                 <em>SEO Information</em>
             </span>
         </div>
 
-        <div class="row flexible-fields-hide flexible-fields-hide-email">
+        <div class="row flexible-fields-seo">
             <div class="col-sm-4">
                 <div class="input-form-group">
                     <label for="metaTitle">META TITLE TAG</label>

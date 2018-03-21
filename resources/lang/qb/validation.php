@@ -98,8 +98,11 @@ return [
             'rule-name' => 'custom-message',
         ],
         'email' => [
-            'regex' => 'Please use your corporate email address to sign up for an account. 
+            'regex' => 'Please use your corporate email address to sign up for an account.
             No Gmail, Yahoo or other email addresses. Use "______@companyname.com"',
+        ],
+        'password' => [
+            'regex' => 'Password should contain an uppercase and lowercase letter, number and special character',
         ],
     ],
 

@@ -3,18 +3,18 @@
 @section('content')
 
     <div class="landing">
-        <a href="#" class="landing-logo">
-            <img src="/images/logo-full.svg" alt="#">
-        </a>
         <div class="container-fluid">
 
             <!-- Onboarding pane -->
             <div class="onboarding-container narrow">
 
                 <div class="inner supernarrow">
-                    <h3 class="onboarding-step-text text-center">
+                    <a href="#" class="landing-logo">
+                        <img src="/images/logo-full.svg" alt="#">
+                    </a>
+                  {{--  <h3 class="onboarding-step-text text-center">
                         Login
-                    </h3>
+                    </h3>--}}
 
                     <!-- Onboarding content -->
                     <div class="body">

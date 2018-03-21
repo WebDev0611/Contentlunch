@@ -84,15 +84,21 @@ class ContentService
         });
     }
 
-    protected function sendGuestInvite(Content $content, $email)
-    {
+    protected function sendGuestInvite(Content $content, $email){
+
+        $link = $this->createInviteUrl($content, $email);
+        $user = Auth::user();
+        $first_name = explode(" ", $user->name)[0];
+
         $data = [
-            'link' => $this->createInviteUrl($content, $email),
-            'user' => Auth::user(),
+            'link' => $link,
+            'user' => $user,
+            'first_name' => $first_name,
             'account' => $this->selectedAccount->proxyToParent(),
+            'content' => $content
         ];
 
-        Mail::send('emails.invite.guest', $data, function($message) use ($email) {
+        Mail::send('emails.review_document', $data, function($message) use ($email) {
             $message->from("invites@contentlaunch.com", "Content Launch")
                 ->to($email)
                 ->subject('You\'ve been invited to Content Launch');
