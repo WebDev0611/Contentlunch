@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="landing">
-    <a href="#" class="landing-logo">
-        <img src="/images/logo-full.svg" alt="#">
-    </a>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="onboarding-container">
+                    <a href="#" class="landing-logo">
+                        <img src="/images/logo-full.svg" alt="#">
+                    </a>
                     @if($errors->count()>0)
                         <div class="alert alert-danger">
                             <p>{{ $errors->first('name') }}</p>

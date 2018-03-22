@@ -8,7 +8,9 @@
                 <div class="onboarding-container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
-
+                            <a href="#" class="landing-logo bottom">
+                                <img src="/images/logo-full.svg" alt="#">
+                            </a>
                             <h3 class="onboarding-heading text-center">
                                 This account has reached its maximum user limit
                             </h3>
@@ -18,14 +20,6 @@
                             <p>&nbsp;</p>
                         </div>
                     </div>
-
-                    <p>&nbsp;</p>
-                    <div class="row">
-                        <a href="#" class="landing-logo bottom">
-                            <img src="/images/logo-full.svg" alt="#">
-                        </a>
-                    </div>
-
                 </div>
             </div>
         </div>

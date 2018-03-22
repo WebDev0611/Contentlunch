@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
-                    <a href="#" class="landing-logo">
-                        <img src="/images/logo-full.svg" alt="#">
-                    </a>
                     <div class="onboarding-container">
                         <div class="row">
                             <div class="col-sm-10 col-sm-offset-1">
+                                <a href="#" class="landing-logo">
+                                    <img src="/images/logo-full.svg" alt="#">
+                                </a>
                                 {{ Form::open(['url' => 'login']) }}
                                 <h1>Login</h1>
 
