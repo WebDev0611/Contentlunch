@@ -2,10 +2,7 @@
 
 @section('content')
 <div class="landing">
-    <div class="landing-header">
-        <h1>Try us for free</h1>
-        <h2>No credit card required. All features included.</h2>
-    </div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -69,8 +66,13 @@
                             <div class="input-form-group">
                                 {{ Form::submit('Create My Account', ['class' => 'button button-extend text-uppercase']) }}
                             </div>
+                            <p class="text-center">Already have an account? <a href="/login">Login here.</a></p>
                         </div>
                         <div class="col-md-6">
+                            <div class="landing-header signup-form">
+                                <h1>Try us for free</h1>
+                                <h2>No credit card required. All features included.</h2>
+                            </div>
                             <div class="onboarding-testimonial">
                                 <blockquote>
                                     <p>&ldquo;Content Launch gives us everything we need to produce awesome content and manage the workflow.&rdquo;</p>

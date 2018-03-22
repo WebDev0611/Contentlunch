@@ -25,6 +25,7 @@
     "fastselect": "^0.7.2",
     "jquery-sticky": "^1.0.4",
     "jquery.cookie": "jquery-cookie#^1.4.1",
-    "vue": "^2.4.2"
+    "vue": "^2.4.2",
+    "tether-shepherd": "^1.8.1"
   }
 }

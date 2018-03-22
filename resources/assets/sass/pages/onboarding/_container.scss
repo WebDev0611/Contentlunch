@@ -58,6 +58,17 @@ body.minimal, body.minimal .landing {
     margin: 0 auto 70px;
     font-weight: 300;
   }
+  &.signup-form{
+    h1 {
+      margin: 20px auto 10px;
+      color: #000;
+    }
+    h2 {
+      margin: 0 auto 30px;
+      font-weight: 300;
+      color: #000;
+    }
+  }
 }
 .onboarding-container {
   .landing-logo {
