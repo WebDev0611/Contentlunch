@@ -435,7 +435,9 @@ class ContentController extends Controller
         $length = $end->diffInDays($now);
         $content->dueInDays = $length;
         $data = [
+            'creator' => $content->user,
             'content' => $content,
+            'account' => $content->account,
             'tagsJson' => $this->selectedAccount->present()->tagsJson,
             'connectionsDetails' => $this->selectedAccount->getActiveConnections(),
             'mailchimpSettings' => json_decode($content->mailchimp_settings),
@@ -456,7 +458,7 @@ class ContentController extends Controller
             'guidelines' => $this->selectedAccount->guidelines,
             'customContentType' => isset($content->customContentType) ? $content->customContentType->name : ''
         ];
-// dd($content);
+
         return view('content.review', $data);
     }
 

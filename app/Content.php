@@ -61,6 +61,11 @@ class Content extends Model
         return $this->belongsTo('App\Account');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function adjustments()
     {
         return $this->belongsToMany('App\User', 'adjustments')

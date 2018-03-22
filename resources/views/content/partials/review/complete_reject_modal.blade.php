@@ -8,7 +8,7 @@
       <div class="modal-body">
         <div class="inner text-center">
           <img class="modal-picto modal-picto-small" src="/images/picto-checkmark.png" alt="Confirmation"/>
-          <p class="medium"><strong>The content needs more edits.</strong> Your feedback is submitted and it will soon be visible to Jenny Hurley.</p>
+          <p class="medium"><strong>The content needs more edits.</strong> Your feedback is submitted and it will soon be visible to {{ $account->name }}.</p>
         </div>
       </div>
       <div class="modal-footer centered widebuttons">

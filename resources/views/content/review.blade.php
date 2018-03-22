@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
+    <script>
+        window.orderId = "{{ $content->id }}";
+    </script>
     <div class="workspace workspace-review">
         <!-- Pannel Container -->
         <div class="panel clearfix">
@@ -12,8 +15,8 @@
                         <article class="article article-review">
                             <header class="article-header">
                                 <h1 id="content-title">{{$content->title}}</h1>
-                                <p class="article-date">Potter Co.  <span class="article-spacer">·</span>
-{{ \Carbon\Carbon::parse($content->created_at)->format('d/m/Y')}}</p>
+                                <p class="article-date">{{ $creator->name }} <span class="article-spacer">·</span>
+                                {{ \Carbon\Carbon::parse($content->created_at)->format('d/m/Y')}}</p>
                             </header>
                             <div class="article-body">
                                 <i class="icon-article article-picto"></i>
@@ -56,9 +59,9 @@
                         <dt>Shared by</dt>
                         <dd>
                             <div class="user-avatar">
-                                <img src="/images/avatar.jpg" alt="#">
+                                <img src="{{ $account->account_image }}" alt="#">
                             </div>
-                            Jenny Hurley
+                            {{ $account->name }}
                         </dd>
                     </dl>
                     <dl class="list-unstyled">
@@ -117,6 +120,8 @@
 
 @section('scripts')
 <script>
+    window.orderId = "{{ $content->id }}";
+
     // Welcome 
     $('#modal-welcome').modal('show');
     $('#start-tour').on('click', function(){
