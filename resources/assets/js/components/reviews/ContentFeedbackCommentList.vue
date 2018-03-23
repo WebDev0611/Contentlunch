@@ -66,13 +66,13 @@
 </template>
 
 <script>
-    import contentFeedbackCommentList from './contentFeedbackCommentList.vue'
+    import ContentFeedbackCommentList from './ContentFeedbackCommentList.vue'
 
     export default {
         name: 'content-feedback-comment-list',
 
         components: {
-            contentFeedbackCommentList,
+            ContentFeedbackCommentList,
         },
 
         data() {
