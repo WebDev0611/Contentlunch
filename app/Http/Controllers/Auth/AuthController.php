@@ -106,7 +106,8 @@ class AuthController extends Controller
 
         Auth::guard($this->getGuard())->login($this->create($request->all()));
 
-        return redirect($this->redirectPath());
+        //return redirect($this->redirectPath());
+        return redirect("/");
     }
 
     private function saveFileUrlToSession($file)
