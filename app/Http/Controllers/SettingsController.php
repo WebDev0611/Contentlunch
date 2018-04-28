@@ -58,6 +58,7 @@ class SettingsController extends Controller
 
         $this->changeUserEmail($request);
         $user->name = $request->input('name');
+        $user->title = $request->input('title');
         $user->city = $request->input('city');
         $user->country_code = $request->input('country_code');
         $user->address = $request->input('address');

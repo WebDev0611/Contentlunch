@@ -26,6 +26,8 @@ class AccountSettingsRequest extends Request
     {
         return [
             'name' => 'required',
+            'title' => 'required',
+            'phone' => 'required',
             'email' => 'required|email|unique:users,email,' . Auth::user()->id
         ];
     }

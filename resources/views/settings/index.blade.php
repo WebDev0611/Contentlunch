@@ -24,7 +24,7 @@
 
             <div class="panel-container">
                 @if ($errors->any())
-                    <div class="alert alert-danger" id="formError">
+                    <div class="alert alert-danger" id="formError" style="margin-bottom:20px;">
                         <p><strong>Oops! We had some errors:</strong>
                             <ul>
                             @foreach($errors->all() as $error)
@@ -56,6 +56,19 @@
                                             [
                                                 'class' => 'input',
                                                 'placeholder' => 'Name Surname'
+                                            ]
+                                        )
+                                    !!}
+                                </div>
+                                <div class="input-form-group">
+                                    <label for="#">Title</label>
+                                    {!!
+                                        Form::text(
+                                            'title',
+                                            @isset($user) ? $user->title : '',
+                                            [
+                                                'class' => 'input',
+                                                'placeholder' => 'Company Title'
                                             ]
                                         )
                                     !!}
