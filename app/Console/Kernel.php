@@ -43,5 +43,9 @@ class Kernel extends ConsoleKernel
 
         // Check for Pending Content Orders
         $schedule->call('App\Tasks\OrderReports@sendPendingOrdersNotification')->daily();
+
+
+        // Monthly Billing for Qebot Users
+        //$schedule->call('App\Tasks\QebotBilling@init')->monthly();
     }
 }

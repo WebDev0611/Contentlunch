@@ -11,6 +11,16 @@
 |
 */
 
+
+    Route::get('_qebot', function(Request $request){
+         return App::call('App\Tasks\QebotBilling@init');
+    })->name('_qebot');
+
+    Route::get('_qebot/verify/{one}/{two}', function($one, $two){
+         return App::call('App\Tasks\QebotBilling@verify', ['one' => $one, 'two' => $two ]);
+    })->name('_qebotverify');
+
+
 Route::group(['middleware' => ['fw-block-bl' ]], function () {
 
     /**
