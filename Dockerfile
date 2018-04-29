@@ -75,8 +75,8 @@ RUN { \
 #COPY . $APP_HOME
 
 # install all PHP dependencies
-#ENV COMPOSER_ALLOW_SUPERUSER 1
-#RUN composer install --no-interaction
+ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN composer install --no-interaction
 
 #change ownership of our applications
-#RUN chown -R www-data:www-data $APP_HOME
+RUN chown -R www-data:www-data $APP_HOME
