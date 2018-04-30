@@ -66,7 +66,7 @@
 </template>
 
 <script>
-    import ContentFeedbackCommentList from './ContentFeedbackCommentList.vue'
+    import ContentFeedbackCommentList from './contentFeedbackCommentList.vue'
 
     export default {
         name: 'content-feedback-comment-list',
