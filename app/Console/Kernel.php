@@ -46,6 +46,6 @@ class Kernel extends ConsoleKernel
 
 
         // Monthly Billing for Qebot Users
-        //$schedule->call('App\Tasks\QebotBilling@init')->monthly();
+        $schedule->call('App\Tasks\QebotBilling@init')->monthly();
     }
 }
