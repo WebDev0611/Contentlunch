@@ -243,9 +243,10 @@ class IdeaController extends Controller
         $newContent = Content::create([
             'title' => $idea->name,
             'text' => $idea->text,
+            // 'user_id' => Auth::id()
         ]);
-
-        $newContent->authors()->attach(Auth::user());
+        Auth::user()->content()->save($newContent);
+        // $newContent->authors()->attach(Auth::user());
         $idea->contents()->attach($newContent);
 
         Account::selectedAccount()->contents()->save($newContent);
