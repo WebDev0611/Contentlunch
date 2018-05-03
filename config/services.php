@@ -40,8 +40,8 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => env('FACEBOOK_APP_ID'),
-        'client_secret' => env('FACEBOOK_APP_SECRET'),
+        'client_id' => (Session::get('qebotUser') ? env('FACEBOOK_APP_ID_QEBOT') : env('FACEBOOK_APP_ID') ),
+        'client_secret' => (Session::get('qebotUser') ? env('FACEBOOK_APP_SECRET_QEBOT') : env('FACEBOOK_APP_SECRET') ),
         'redirect' => env('FACEBOOK_REDIRECT')
     ],
 
