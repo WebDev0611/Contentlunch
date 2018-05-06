@@ -29,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
                     ->subject('Queued job failed!');
             });
         });
+
+        $this->app['request']->server->set('HTTPS', $this->app->environment() != 'local');
     }
 
     /**
