@@ -42,7 +42,7 @@ Vue.component('ideas', require('./components/plan/Ideas.vue'));
 
 // Review Module
 Vue.component('content-feedback-counter',       require('./components/reviews/ContentFeedbackCounter.vue'));
-Vue.component('content-feedback-comment-list',  require('./components/reviews/ContentFeedbackCommentList.vue'));
+Vue.component('content-feedback-comment-list',  require('./components/reviews/contentFeedbackCommentList.vue'));
 Vue.component('content-feedback-comment',       require('./components/reviews/ContentFeedbackComment.vue'));
 
 new Vue({
