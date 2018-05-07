@@ -12,6 +12,6 @@ return [
     |
     */
 
-    'company' => 'Qebot',
+    'company' => 'content marketing module',
 
 ];

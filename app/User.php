@@ -76,6 +76,11 @@ class User extends Authenticatable
        return $this->hasMany('App\Connection');
     }
 
+    public function content()
+    {
+       return $this->hasOne('App\Content');
+    }
+
     public function country()
     {
         return $this->belongsTo('App\Country', 'country_code', 'country_code');

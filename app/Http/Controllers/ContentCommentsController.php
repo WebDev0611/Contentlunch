@@ -100,13 +100,7 @@ class ContentCommentsController extends Controller
 
         $comment = ContentComment::create($data);
         $comment->save();
-
-        $responsArr = [
-            "comment" => $comment,
-            "user" => Auth::user()
-        ];
-
-        return response()->json($responsArr);
+        return response()->json($comment);
     }
 
     private function commentValidator($input)
