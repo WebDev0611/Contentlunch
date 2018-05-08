@@ -38,10 +38,10 @@ class QebotBilling {
 
         foreach($users as $u) {
             // should only ever have 1 account because its a qebot account
-            $a = $u->accounts()->first();
-
+            $a = $u->accounts()->where('enabled',1)->count();
+            
             // - If the account is enabled lets add to the total
-            if($a->enabled == 1) {
+            if($a >= 1) {
               $totalCount++;
             }
         }
