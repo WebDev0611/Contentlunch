@@ -3,6 +3,7 @@
 namespace App\Tasks;
 
 use DB;
+use App\User;
 use Stripe\Stripe;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -31,11 +32,21 @@ class QebotBilling {
     }
 
     private static function _getActiveUsers ()
-    {
-        $db  = DB::table('users')->where('users.qebot_user', 1)->join('accounts', function($query) {
-                    $query->on('users.account_id', '=', 'accounts.id');
-                })->where('accounts.enabled',1)->count();
-        return $db;
+    { 
+        $totalCount =  0;
+        $users =  User::where('users.qebot_user', 1)->with('accounts')->get();
+
+        foreach($users as $u) {
+            // should only ever have 1 account because its a qebot account
+            $a = $u->accounts()->first();
+
+            // - If the account is enabled lets add to the total
+            if($a->enabled == 1) {
+              $totalCount++;
+            }
+        }
+
+        return $totalCount;
     }
     private static function _billStripe ($user, $bank, $amount) 
     {

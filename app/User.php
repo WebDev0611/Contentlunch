@@ -51,14 +51,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Account');
     }*/
 
-    // - backwards compatible 
     public function accounts()
     {
-        return self::account();
-    }
-    public function account()
-    {
-        return $this->belongsTo('App\Account');
+        return $this->belongsToMany('App\Account');
     }
 
     public function accountConnections()
