@@ -5,11 +5,11 @@ namespace Connections\API;
 use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Connections\Models\Dropbox;
+
 
 class DropboxAPI {
 
-    protected $base_url = 'https://api.dropboxapi.com/1';
-    protected $put_url = 'https://content.dropboxapi.com/1';
     protected $dropbox;
 
     public function __construct ($content = null, $connection = null)
@@ -20,11 +20,7 @@ class DropboxAPI {
 
         $settings = json_decode($this->connection->settings);
 
-        $this->dropbox = App::make('\Connections\Models\Dropbox');
-        $this->dropbox->setConfig([
-            'token' => $settings->access_token,
-            'app'   => 'Content Launch App',
-        ]);
+        $this->dropbox = new Dropbox($settings->access_token);
     }
 
     public function createPost ()
