@@ -146,6 +146,7 @@ class OnboardingController extends Controller
             'name' => $request->name,
             'password' => $request->password,
             'email' => $request->email,
+            'qebot_user' => Session::get('qebotUser')
         ]);
     }
 }
