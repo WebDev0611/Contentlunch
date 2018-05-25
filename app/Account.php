@@ -30,7 +30,8 @@ class Account extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User', 'account_user', 'account_id', 'user_id');
+        //return $this->belongsToMany('App\User', 'account_user', 'account_id', 'user_id');
+        return $this->hasOne('App\User');
     }
 
     public function invites()
