@@ -58,7 +58,7 @@ class QebotBilling {
               "amount" => ($amount * 100),
               "customer" => $user,
               "currency" => "usd",
-              "description" => "Monthly Active User Bill"
+              "description" => "Qebot Monthly Active User Bill"
             ));
 
             return $charge;   
