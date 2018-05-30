@@ -13,5 +13,4 @@ return [
     */
 
     'company' => 'content marketing module',
-
 ];
