@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
-        $this->app['request']->server->set('HTTPS', $this->app->environment() != 'local');
+        $this->app['request']->server->set('HTTPS', $this->app->environment() != 'local' && $this->app->environment() != 'development');
     }
 
     /**
