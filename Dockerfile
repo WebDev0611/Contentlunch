@@ -72,7 +72,7 @@ RUN { \
     } > /usr/local/etc/php/conf.d/xdebug.ini
 
 #copy source files and run composer
-#COPY . $APP_HOME
+COPY . $APP_HOME
 
 # install all PHP dependencies
 ENV COMPOSER_ALLOW_SUPERUSER 1
