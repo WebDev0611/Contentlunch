@@ -6,6 +6,7 @@
 /public/fonts
 /public/images
 /public/tmp
+/public/rev-manifest.json
 /bower_components
 /.vagrant
 Homestead.yaml
