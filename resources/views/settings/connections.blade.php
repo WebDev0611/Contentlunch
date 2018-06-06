@@ -53,7 +53,7 @@
                     <div class="col-md-2">
                         <i class="icon-notification"></i>
                         <p>
-                            Content items produced inside Content Launch are published (or launched) to your Content Connections and include Wordpress, Hubspot, Facebook and Twitter.
+                            Content items produced inside {{ trans('messages.company') }} are published (or launched) to your Content Connections and include Wordpress, Hubspot, Facebook and Twitter.
                             Many more will be added in the coming weeks. Use the list on the left to manage your connections.
                         </p>
                     </div>

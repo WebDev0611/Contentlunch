@@ -5,7 +5,7 @@
         </li>
 
         <li class="active">
-            <a href="#sidetab-activity" data-toggle='tab'>Activity</a>
+            <a href="#sidetab-activity" data-toggle='tab'>Communication</a>
         </li>
 
         <li>

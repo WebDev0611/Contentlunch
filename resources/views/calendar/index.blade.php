@@ -6,7 +6,7 @@
     <div class="calendar-container">
 
         @include('elements.freemium-alert', ['restriction' => 'create only one calendar'])
-
+        <p class="text-center">To add a task, idea or content piece to the calendar, click on a specific date. You'll see the <i class="icon-add-circle"></i> icon populate</p>
         <div class="calendar-navigation">
             <ul class="calendar-navigation-menu">
                 <li class="active">

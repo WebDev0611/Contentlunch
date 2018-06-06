@@ -1,9 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <script>
-        window.orderId = "{{ $content->id }}";
-    </script>
+    <input type="hidden" value="{{ $content->id }}" id="orderId" />
     <div class="workspace workspace-review">
         <!-- Pannel Container -->
         <div class="panel clearfix">
@@ -95,7 +93,7 @@
                 <div class="tab-content">
                     <!-- Content Task Panel -->
                     <div role="tabpanel" class="sidepanel tab-pane active" id="sidetab-comments">
-                        <content-feedback-comment-list></content-feedback-comment-list>
+                        <content-feedback-comment-list :orderid="{{ $content->id }}"></content-feedback-comment-list>
                     </div>
                 </div>
             </aside>
@@ -110,7 +108,6 @@
 
     @include('content.partials.editor.launch_modals')
 
-
     @include('content.partials.review.approve_modal')
     @include('content.partials.review.reject_modal')
     @include('content.partials.review.complete_approve_modal')
@@ -122,13 +119,13 @@
 <script>
     window.orderId = "{{ $content->id }}";
 
-    // Welcome 
+    // Welcome
     $('#modal-welcome').modal('show');
     $('#start-tour').on('click', function(){
       tour.start();
     });
 
-    // Tour 
+    // Tour
 
     var tour;
 

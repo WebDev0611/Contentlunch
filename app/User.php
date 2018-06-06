@@ -46,6 +46,11 @@ class User extends Authenticatable
     /**
      * User model relationships
      */
+ /*   public function accounts()
+    {
+        return $this->belongsToMany('App\Account');
+    }*/
+
     public function accounts()
     {
         return $this->belongsToMany('App\Account');
@@ -74,6 +79,11 @@ class User extends Authenticatable
     public function connections()
     {
        return $this->hasMany('App\Connection');
+    }
+
+    public function content()
+    {
+       return $this->hasOne('App\Content');
     }
 
     public function country()
@@ -214,6 +224,11 @@ class User extends Authenticatable
     public function isGuest()
     {
         return $this->is_guest == 1;
+    }    
+
+    public static function isQebot()
+    {
+        return $this->qebot_user == 1;
     }
 
     public function conversationWith(User $user)

@@ -12,6 +12,5 @@ return [
     |
     */
 
-    'company' => 'Content Marketing',
-
+    'company' => 'content marketing module',
 ];

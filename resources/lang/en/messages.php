@@ -12,6 +12,6 @@ return [
     |
     */
 
-    'company' => 'ContentLaunch',
+    'company' => 'Content Launch',
 
 ];

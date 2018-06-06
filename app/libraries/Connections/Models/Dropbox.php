@@ -1,26 +1,28 @@
-<?php
-
+<?php 
 namespace Connections\Models;
-use Dropbox\WriteMode;
+
+use Spatie\Dropbox\Client;
+use Spatie\FlysystemDropbox\DropboxAdapter;
+use League\Flysystem\Filesystem;
 
 class Dropbox {
 
     protected $dropbox;
 
-    public function __construct(DropboxManager $dropbox)
+    public function __construct($token)
     {
-        $this->dropbox = $dropbox;
+        $client = new Client($token);
+        $adapter = new DropboxAdapter($client);
+
+        $this->dropbox = new Filesystem($adapter);
     }
 
-    public function setConfig (array $config)
-    {
-        $this->dropbox->configuration = $config;
-    }
 
     public function uploadFile($filePath, $fileName, $mimeType = null)
     {
-        $stream = fopen($filePath,'r');
+        // - Get Raw Data to send to uploader
+        $data = fopen($filePath,'r');
 
-        return  $this->dropbox->uploadFile('/' . $fileName, WriteMode::add(), $stream, filesize($filePath));
+        return $this->dropbox->put('/'.$fileName , $data);
     }
 }

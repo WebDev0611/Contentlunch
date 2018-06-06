@@ -79,7 +79,7 @@ class AuthController extends Controller
                 "unique:users",
             ],
             'password' => [
-                'regex:/^.*(?=.{4,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\!\@\#\$\%\^\&\*\(\)]).*$/',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-\/:-@\[-`{-~]).{8,}$/',
                 "required",
                 "min:8",
                 //"confirmed",

@@ -29,7 +29,7 @@
                         <div class="col-md-12 text-center">
 
                             <p class="result-heading">
-                                Thanks for completing the form! <br> The Content Launch Team believes this would be the best Content Prescription for your company:
+                                Thanks for completing the form! <br> The {{ trans('messages.company') }} Team believes this would be the best Content Prescription for your company:
                             </p>
                             <h3>{{$contentPackage}}</h3>
 
