@@ -8,9 +8,6 @@
 
 3. Install nodejs/npm (https://nodejs.org/en/download/)
 
-4. Install bower `npm install -g bower`
-
-5. Install gulp `npm isntall -g bower`
 
 ## Local Environment Setup
 
